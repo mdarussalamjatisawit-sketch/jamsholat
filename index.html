@@ -9,58 +9,64 @@
         
         body {
             height: 100vh; width: 100vw;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg-masjid.jpg');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('bg-masjid.jpg');
             background-size: cover; background-position: center; color: white;
             display: flex; flex-direction: column; overflow: hidden;
-            padding: 20px 40px; 
+            padding: 10px 20px; 
         }
 
         /* HEADER */
         .header-center {
             text-align: center;
-            background: rgba(0, 0, 0, 0.75);
-            padding: 10px 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            border: 2px solid #2e7d32;
+            background: rgba(0, 100, 0, 0.8);
+            padding: 8px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ffd700;
         }
-        .header-center h1 { font-size: 3.2rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-        .header-center p { font-size: 1.2rem; color: #fff; text-transform: uppercase; }
+        .header-center h1 { font-size: 2.2rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .header-center p { font-size: 1rem; color: #fff; text-transform: uppercase; font-weight: bold; }
 
         .main-content {
-            flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 25px; min-height: 0;
+            flex: 1; display: flex; justify-content: space-between; align-items: stretch; gap: 15px; min-height: 0;
         }
 
         /* SIDEBAR KIRI */
-        .sidebar-left { width: 42%; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: rgba(0, 0, 0, 0.8); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
-        .card-header { background: #2e7d32; padding: 10px; text-align: center; font-weight: bold; font-size: 1.6rem; color: #ffd700; }
-        .card-body { padding: 15px; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
-        .total { border-top: 3px solid #ffd700; padding-top: 10px; color: #ffd700; font-weight: bold; font-size: 2.1rem; border-bottom: none; }
+        .sidebar-left { width: 35%; display: flex; flex-direction: column; gap: 10px; }
+        .card { background: rgba(0, 0, 0, 0.85); border-radius: 10px; border: 2px solid #2e7d32; overflow: hidden; flex: 1; }
+        .card-header { background: #2e7d32; padding: 6px; text-align: center; font-weight: bold; font-size: 1.2rem; color: #ffd700; }
+        .card-body { padding: 10px; display: flex; flex-direction: column; justify-content: space-around; height: calc(100% - 40px); }
+        .row { display: flex; justify-content: space-between; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0; }
+        .total { color: #ffd700; font-weight: bold; font-size: 1.3rem; border-bottom: none; border-top: 2px solid #ffd700; margin-top: 5px; padding-top: 8px; }
 
         /* JAM TENGAH */
-        .clock-section { background: rgba(0, 0, 0, 0.75); padding: 35px; border-radius: 25px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); width: 55%; }
-        #jam { font-size: 8.5rem; font-weight: bold; color: white; line-height: 1; }
-        #tanggal-masehi { font-size: 1.8rem; color: #ffd700; margin-top: 15px; }
-        #tanggal-hijriah { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
+        .clock-section { 
+            background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 20px; 
+            text-align: center; border: 2px solid rgba(255, 255, 255, 0.2); 
+            width: 63%; display: flex; flex-direction: column; justify-content: center;
+        }
+        #jam { font-size: 7rem; font-weight: bold; color: white; line-height: 1; margin-bottom: 10px; }
+        #tanggal-masehi { font-size: 1.6rem; color: #ffd700; }
+        #tanggal-hijriah { font-size: 1.6rem; color: #00ff00; font-weight: bold; }
 
         /* JADWAL SHOLAT BAWAH */
-        .footer-jadwal { background: rgba(0, 0, 0, 0.85); display: grid; grid-template-columns: repeat(6, 1fr); padding: 12px 0; border-top: 5px solid #2e7d32; margin-top: 15px; border-radius: 15px; }
+        .footer-jadwal { 
+            background: rgba(0, 40, 0, 0.9); display: grid; grid-template-columns: repeat(6, 1fr); 
+            padding: 8px 0; border: 2px solid #2e7d32; margin-top: 10px; border-radius: 10px; 
+        }
         .sholat-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.2); }
         .sholat-item:last-child { border-right: none; }
-        .sholat-name { font-size: 1.4rem; color: #ffd700; font-weight: bold; }
-        .sholat-time { font-size: 3rem; font-weight: bold; display: block; color: white; }
+        .sholat-name { font-size: 1rem; color: #ffd700; font-weight: bold; text-transform: uppercase; }
+        .sholat-time { font-size: 2.2rem; font-weight: bold; display: block; color: white; }
 
-        .running-text { background: #2e7d32; padding: 10px 0; font-size: 1.7rem; margin-top: 10px; border-radius: 5px; font-weight: bold; }
+        .running-text { background: #2e7d32; padding: 5px 0; font-size: 1.2rem; margin-top: 8px; border-radius: 5px; overflow: hidden; }
 
-        /* LAYAR IQOMAH */
         #layar-iqomah {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 10000; display: none;
             flex-direction: column; align-items: center; justify-content: center;
         }
-        #countdown { font-size: 15rem; color: #ffd700; font-weight: bold; }
+        #countdown { font-size: 12rem; color: #ffd700; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -75,9 +81,9 @@
             <div class="card">
                 <div class="card-header">INFO KAS MASJID</div>
                 <div class="card-body">
-                    <div class="row"><span>Pemasukan</span><span id="kas-masuk">0</span></div>
-                    <div class="row"><span>Pengeluaran</span><span id="kas-keluar">0</span></div>
-                    <div class="row total"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
+                    <div class="row"><span>Pemasukan</span><span id="kas-masuk">Rp0</span></div>
+                    <div class="row"><span>Pengeluaran</span><span id="kas-keluar">Rp0</span></div>
+                    <div class="row total"><span>SALDO AKHIR</span><span id="kas-saldo">Rp0</span></div>
                 </div>
             </div>
             <div class="card">
@@ -98,27 +104,26 @@
     </div>
 
     <div class="footer-jadwal">
-        <div class="sholat-item"><span class="sholat-name">SUBUH</span><span class="sholat-time" id="sh-Fajr">--:--</span></div>
-        <div class="sholat-item"><span class="sholat-name">DZUHUR</span><span class="sholat-time" id="sh-Dhuhr">--:--</span></div>
-        <div class="sholat-item"><span class="sholat-name">ASHAR</span><span class="sholat-time" id="sh-Asr">--:--</span></div>
-        <div class="sholat-item"><span class="sholat-name">MAGHRIB</span><span class="sholat-time" id="sh-Maghrib">--:--</span></div>
-        <div class="sholat-item"><span class="sholat-name">ISYA</span><span class="sholat-time" id="sh-Isha">--:--</span></div>
-        <div class="sholat-item"><span class="sholat-name">SYURUQ</span><span class="sholat-time" id="sh-Sunrise">--:--</span></div>
+        <div class="sholat-item"><span class="sholat-name">SUBUH</span><span class="sholat-time" id="sh-Fajr">00:00</span></div>
+        <div class="sholat-item"><span class="sholat-name">DZUHUR</span><span class="sholat-time" id="sh-Dhuhr">00:00</span></div>
+        <div class="sholat-item"><span class="sholat-name">ASHAR</span><span class="sholat-time" id="sh-Asr">00:00</span></div>
+        <div class="sholat-item"><span class="sholat-name">MAGHRIB</span><span class="sholat-time" id="sh-Maghrib">00:00</span></div>
+        <div class="sholat-item"><span class="sholat-name">ISYA</span><span class="sholat-time" id="sh-Isha">00:00</span></div>
+        <div class="sholat-item"><span class="sholat-name">SYURUQ</span><span class="sholat-time" id="sh-Sunrise">00:00</span></div>
     </div>
 
     <div class="running-text">
-        <marquee scrollamount="6">"Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga." — Luruskan Shaf — Matikan HP.</marquee>
+        <marquee scrollamount="5">"Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga." — Luruskan Shaf — Matikan HP — Jaga Kebersihan Masjid.</marquee>
     </div>
 
     <div id="layar-iqomah">
-        <div style="font-size: 4rem; color: #ffd700;">MENUJU IQOMAH</div>
+        <div style="font-size: 3rem; color: #ffd700;">MENUJU IQOMAH</div>
         <div id="countdown">10:00</div>
     </div>
 
     <script>
         let jadwalGlobal = {};
         let isIqomah = false;
-        
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
 
         async function updateDataSheets() {
@@ -126,30 +131,21 @@
                 const res = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await res.text();
                 const rows = text.split('\n');
-                
-                // Mengambil baris kedua (data) dan memisahkan kolomnya
-                // Karena CSV seringkali menggunakan tanda petik untuk nominal uang, 
-                // kita gunakan regex agar pemisahan koma lebih akurat
-                const data = rows[1].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                
-                // Menghilangkan tanda petik jika ada (misal "Rp 10.000")
-                const clean = (val) => val ? val.replace(/"/g, "") : "-";
+                const data = rows[1].split(',');
 
-                // Mapping Berdasarkan Request Anda:
-                document.getElementById('kas-masuk').innerText  = clean(data[1]); // Kolom B
-                document.getElementById('kas-keluar').innerText = clean(data[2]); // Kolom C
-                document.getElementById('kas-saldo').innerText  = clean(data[3]); // Kolom D
-                
-                document.getElementById('imam-isya').innerText  = clean(data[4]); // Kolom E
-                document.getElementById('imam-subuh').innerText = clean(data[5]); // Kolom F
-                document.getElementById('imam-jumat').innerText = clean(data[6]); // Kolom G
-
-            } catch (e) { console.error("Gagal ambil data Sheets"); }
+                // Pemetaan Kolom Berdasarkan Input Anda:
+                // B=1(Masuk), C=2(Keluar), D=3(Saldo Akhir), E=4(Isya), F=5(Subuh), G=6(Jumat)
+                document.getElementById('kas-masuk').innerText  = data[1] || '0';
+                document.getElementById('kas-keluar').innerText = data[2] || '0';
+                document.getElementById('kas-saldo').innerText  = data[3] || '0';
+                document.getElementById('imam-isya').innerText  = data[4] || '-';
+                document.getElementById('imam-subuh').innerText = data[5] || '-';
+                document.getElementById('imam-jumat').innerText = data[6] || '-';
+            } catch (e) { console.error("Gagal update data"); }
         }
 
         function updateClock() {
             const now = new Date();
-            const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             if (jadwalGlobal.date) {
@@ -159,11 +155,10 @@
 
         async function getJadwalSholat() {
             const lat = -7.8014; const lng = 110.3060;
-            const now = new Date();
             try {
-                const res = await fetch(`https://api.aladhan.com/v1/timings/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=20`);
-                const data = await res.json();
-                jadwalGlobal = data.data;
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=20`);
+                const json = await res.json();
+                jadwalGlobal = json.data;
                 const t = jadwalGlobal.timings;
                 document.getElementById('sh-Fajr').innerText = t.Fajr;
                 document.getElementById('sh-Dhuhr').innerText = t.Dhuhr;
@@ -171,7 +166,7 @@
                 document.getElementById('sh-Maghrib').innerText = t.Maghrib;
                 document.getElementById('sh-Isha').innerText = t.Isha;
                 document.getElementById('sh-Sunrise').innerText = t.Sunrise;
-            } catch (err) { console.log("Gagal muat jadwal"); }
+            } catch (e) { console.log("Gagal muat jadwal"); }
         }
 
         window.addEventListener('load', () => { 
