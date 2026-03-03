@@ -31,7 +31,7 @@
             flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 30px; min-height: 0;
         }
 
-        /* KAS & PETUGAS */
+        /* KAS & PETUGAS (DIPERBAIKI & DIRAPIKAN) */
         .sidebar-left { width: 42%; display: flex; flex-direction: column; gap: 15px; }
         .card { background: rgba(0, 0, 0, 0.8); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .card-header { background: #2e7d32; padding: 10px; text-align: center; font-weight: bold; font-size: 1.8rem; color: #ffd700; }
@@ -78,16 +78,17 @@
             <div class="card">
                 <div class="card-header">INFO KAS MASJID</div>
                 <div class="card-body">
-                    <div class="row"><span>Pemasukan</span><span id="kas-masuk">0</span></div>
-                    <div class="row"><span>Pengeluaran</span><span id="kas-keluar">0</span></div>
-                    <div class="row total"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
+                    <div class="row"><span>Pemasukan</span><span>1.000.000</span></div>
+                    <div class="row"><span>Pengeluaran</span><span>500.000</span></div>
+                    <div class="row total"><span>SALDO AKHIR</span><span>15.500.000</span></div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header">PETUGAS & IMAM</div>
+                <div class="card-header">IMAM DAN PENCERAMAH</div>
                 <div class="card-body">
-                    <div class="row"><span>IMAM ISYA</span><span id="petugas-imam">-</span></div>
-                    <div class="row"><span>KHATIB JUMAT</span><span id="petugas-khatib">-</span></div>
+                    <div class="row"><span>IMAM SUBUH</span><span>UST. AHMAD FAIZ</span></div>
+                    <div class="row"><span>IMAM ISYA</span><span>UST. LUKMAN JOHAN</span></div>
+                    <div class="row"><span>KHATIB JUM'AT</span><span>UST. K.H. MA'RUF</span></div>
                 </div>
             </div>
         </div>
@@ -122,34 +123,17 @@
     <script>
         let jadwalGlobal = {};
         let isIqomah = false;
-        
-        // LINK CSV GOOGLE SHEETS ANDA
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
-
-        async function updateDataDariSheet() {
-            try {
-                const res = await fetch(csvUrl);
-                const text = await res.text();
-                const rows = text.split('\n');
-                const data = rows[1].split(','); 
-
-                // Mapping Data (Sesuaikan nomor kolom jika meleset)
-                document.getElementById('kas-masuk').innerText = data[2] || '0'; 
-                document.getElementById('kas-keluar').innerText = data[3] || '0'; 
-                document.getElementById('kas-saldo').innerText = data[1] || '0'; 
-                document.getElementById('petugas-imam').innerText = data[5] || '-'; 
-                document.getElementById('petugas-khatib').innerText = data[4] || '-';
-            } catch (e) { console.log("Gagal ambil data Sheets"); }
-        }
 
         function updateClock() {
             const now = new Date();
             const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+            
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             
             if (jadwalGlobal.date) {
-                document.getElementById('tanggal-hijriah').innerText = `${jadwalGlobal.date.hijri.day} ${jadwalGlobal.date.hijri.month.en} ${jadwalGlobal.date.hijri.year} H`;
+                document.getElementById('tanggal-hijriah').innerText = 
+                    `${jadwalGlobal.date.hijri.day} ${jadwalGlobal.date.hijri.month.en} ${jadwalGlobal.date.hijri.year} H`;
             }
 
             const daftarSholat = { 'Fajr': 'SUBUH', 'Dhuhr': 'DZUHUR', 'Asr': 'ASHAR', 'Maghrib': 'MAGHRIB', 'Isha': 'ISYA' };
@@ -162,6 +146,7 @@
         }
 
         async function getJadwalSholat() {
+            // Koordinat Gamping, Sleman
             const lat = -7.8014; const lng = 110.3060;
             const now = new Date();
             try {
@@ -175,6 +160,7 @@
                 document.getElementById('sh-Maghrib').innerText = t.Maghrib;
                 document.getElementById('sh-Isha').innerText = t.Isha;
                 document.getElementById('sh-Sunrise').innerText = t.Sunrise;
+                updateClock();
             } catch (err) { console.log("Gagal muat jadwal"); }
         }
 
@@ -194,13 +180,7 @@
             }, 1000);
         }
 
-        // Jalankan Fungsi
-        window.addEventListener('load', () => { 
-            getJadwalSholat(); 
-            updateDataDariSheet();
-            setInterval(updateClock, 1000); 
-            setInterval(updateDataDariSheet, 300000); // Update data kas tiap 5 menit
-        });
+        window.addEventListener('load', () => { getJadwalSholat(); setInterval(updateClock, 1000); });
     </script>
 </body>
 </html>
