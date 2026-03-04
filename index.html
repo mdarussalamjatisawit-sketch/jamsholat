@@ -46,19 +46,52 @@
         .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; }
         .running-text { background: #2e7d32; padding: 6px; font-size: 1.3rem; margin-top: 10px; font-weight: bold; }
 
-        /* --- CSS LAYAR KHUSUS (DIREVISI) --- */
+        /* --- CSS LAYAR KHUSUS (DIREVISI UKURAN MAKSIMAL) --- */
         #layar-khusus {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Background dibuat lebih transparan (0.6) agar masjid lebih terlihat */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('bg-masjid.jpg');
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg-masjid.jpg');
             background-size: cover; background-position: center;
             z-index: 99999; display: none; 
             flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        #status-teks { font-size: 4.5rem; color: #ffd700; text-transform: uppercase; margin-bottom: 10px; font-weight: bold; }
-        #nama-waktu-besar { font-size: 16rem; font-weight: bold; color: white; line-height: 0.9; text-transform: uppercase; }
-        #timer-iqomah { font-size: 12rem; font-weight: bold; color: #00ff00; display: none; }
-        .pesan-shaf { font-size: 2.5rem; margin-top: 30px; color: #fff; font-style: italic; }
+        
+        #status-teks { 
+            font-size: 6rem; /* Ukuran teks SAAT IQOMAH diperbesar */
+            color: #ffd700; 
+            text-transform: uppercase; 
+            font-weight: bold; 
+            margin-bottom: -20px; /* Menempelkan teks dengan angka di bawahnya */
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+        }
+        
+        #nama-waktu-besar { 
+            font-size: 22rem; /* Ukuran Nama Sholat saat Adzan diperbesar */
+            font-weight: bold; 
+            color: white; 
+            line-height: 0.8; 
+            text-transform: uppercase;
+            text-shadow: 10px 10px 20px rgba(0,0,0,0.8);
+        }
+        
+        #timer-iqomah { 
+            font-size: 32rem; /* UKURAN ANGKA HITUNG MUNDUR SANGAT BESAR */
+            font-weight: bold; 
+            color: #00ff00; 
+            display: none; 
+            line-height: 0.7;
+            letter-spacing: -10px; /* Merapatkan angka agar memenuhi lebar layar */
+            text-shadow: 10px 10px 30px rgba(0,0,0,1);
+        }
+        
+        .pesan-shaf { 
+            font-size: 3.5rem; /* Ukuran pesan bawah diperbesar */
+            margin-top: 40px; 
+            color: #fff; 
+            font-weight: bold;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 40px;
+            border-radius: 50px;
+        }
     </style>
 </head>
 <body>
@@ -142,12 +175,9 @@
         function updateClock() {
             const now = new Date();
             const jamMenitSekarang = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
-            
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
             if (isSpecialMode) return;
-
             if (jadwalGlobal.timings) {
                 const daftarSholat = { "Fajr": "SUBUH", "Dhuhr": "DZUHUR", "Asr": "ASHAR", "Maghrib": "MAGHRIB", "Isha": "ISYA" };
                 for (let key in daftarSholat) {
@@ -172,10 +202,9 @@
             namaBesar.style.display = 'block';
             timerIqomah.style.display = 'none';
 
-            // 1. Tampilan Adzan (1 Menit)
             setTimeout(() => {
                 status.innerText = "SAAT IQOMAH";
-                namaBesar.style.display = 'none'; // Sembunyikan nama sholat saat countdown
+                namaBesar.style.display = 'none';
                 timerIqomah.style.display = 'block';
                 
                 let sisaWaktu = 14 * 60; 
@@ -183,7 +212,6 @@
                     let m = Math.floor(sisaWaktu / 60);
                     let s = sisaWaktu % 60;
                     timerIqomah.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                    
                     if (sisaWaktu <= 0) {
                         clearInterval(hitungMundur);
                         status.innerText = "SHAF RAPAT & LURUS";
@@ -195,7 +223,6 @@
                     }
                     sisaWaktu--;
                 }, 1000);
-
             }, 60000); 
         }
 
