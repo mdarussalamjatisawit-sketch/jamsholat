@@ -15,7 +15,6 @@
             display: flex; flex-direction: column; overflow: hidden; padding: 10px 15px; 
         }
 
-        /* Kotak Judul Atas */
         .header-center {
             text-align: center; background: rgba(0, 80, 0, 0.8); 
             padding: 10px; border-radius: 10px; margin-bottom: 10px; border: 2px solid #ffd700;
@@ -24,27 +23,16 @@
 
         .main-content { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 
-        /* Sidebar Kiri (Kas & Imam) */
         .sidebar-left { width: 42%; display: flex; flex-direction: column; gap: 12px; }
         
         .card { background: rgba(0, 0, 0, 0.6); border-radius: 12px; border: 2px solid #2e7d32; }
         .card-header { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; }
         .card-body { padding: 10px 15px; }
 
-        /* Perbaikan Baris Nama Agar Tidak Terpotong */
-        .row { 
-            display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); 
-            padding: 8px 0; align-items: flex-start; 
-        }
+        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; align-items: flex-start; }
         .row span:first-child { width: 35%; font-weight: bold; color: #ffd700; font-size: 0.9rem; }
-        
-        /* Nama Imam (Kanan) - Bisa turun baris jika panjang */
-        .row span:last-child { 
-            width: 65%; text-align: left; white-space: normal; 
-            word-wrap: break-word; line-height: 1.2; font-size: 1.2rem;
-        }
+        .row span:last-child { width: 65%; text-align: left; white-space: normal; word-wrap: break-word; line-height: 1.2; font-size: 1.2rem; }
 
-        /* Jam Tengah */
         .clock-section { 
             background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 30px; 
             text-align: center; border: 2px solid rgba(255, 255, 255, 0.3);
@@ -53,7 +41,6 @@
         #tanggal-masehi { font-size: 1.8rem; color: #ffd700; }
         #tanggal-hijriah { font-size: 1.8rem; color: #00ff00; }
 
-        /* Jadwal Bawah */
         .footer-jadwal { 
             background: rgba(0, 40, 0, 0.8); display: grid; grid-template-columns: repeat(6, 1fr); 
             padding: 10px 0; border: 2px solid #ffd700; border-radius: 12px; margin-top: 10px;
@@ -62,9 +49,25 @@
         .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; }
 
         .running-text { background: #2e7d32; padding: 6px; font-size: 1.3rem; margin-top: 10px; font-weight: bold; }
+
+        /* --- CSS BARU: LAYAR FULL ADZAN & IQOMAH --- */
+        #layar-khusus {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('bg-masjid.jpg');
+            background-size: cover; background-position: center;
+            z-index: 9999; display: none; /* Sembunyi secara default */
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        #status-teks { font-size: 4rem; color: #ffd700; text-transform: uppercase; margin-bottom: 20px; font-weight: bold; }
+        #timer-besar { font-size: 20rem; font-weight: bold; color: white; line-height: 1; }
     </style>
 </head>
 <body>
+
+    <div id="layar-khusus">
+        <div id="status-teks">WAKTU ADZAN</div>
+        <div id="timer-besar">00:00</div>
+    </div>
 
     <div class="header-center">
         <h1>MASJID DARUSSALAM</h1>
@@ -114,9 +117,9 @@
     <script>
         /* --- JAVASCRIPT: LOGIKA DATA --- */
         let jadwalGlobal = {};
+        let isSpecialMode = false;
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
 
-        // FUNGSI INI MEMASTIKAN NAMA "UST SUKRON" TIDAK TERPOTONG
         function parseCSVLine(line) {
             const result = [];
             let current = '';
@@ -141,26 +144,74 @@
                 const text = await res.text();
                 const rows = text.split(/\r?\n/);
                 if (rows.length > 1) {
-                    const data = parseCSVLine(rows[1]); // Baris 2
-                    // Update Kas
+                    const data = parseCSVLine(rows[1]);
                     document.getElementById('kas-masuk').innerText = data[1] || '0';
                     document.getElementById('kas-keluar').innerText = data[2] || '0';
                     document.getElementById('kas-saldo').innerText = data[3] || '0';
-                    // Update Imam (Sekarang akan muncul Lengkap)
                     document.getElementById('imam-isya').innerText = data[4] || '-';
                     document.getElementById('imam-subuh').innerText = data[5] || '-';
                     document.getElementById('imam-jumat').innerText = data[6] || '-';
                 }
-            } catch (e) { console.error("Gagal ambil data"); }
+            } catch (e) { console.error("Gagal ambil data Sheets"); }
         }
 
         function updateClock() {
             const now = new Date();
+            const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+            const detik = now.getSeconds();
+
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            
             if (jadwalGlobal.date) {
                 document.getElementById('tanggal-hijriah').innerText = `${jadwalGlobal.date.hijri.day} ${jadwalGlobal.date.hijri.month.en} ${jadwalGlobal.date.hijri.year} H`;
             }
+
+            // CEK WAKTU ADZAN
+            if (!isSpecialMode && jadwalGlobal.timings) {
+                const listSholat = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+                listSholat.forEach(sholat => {
+                    if (jadwalGlobal.timings[sholat] === jamMenit && detik === 0) {
+                        mulaiSiklusAdzanIqomah(sholat);
+                    }
+                });
+            }
+        }
+
+        function mulaiSiklusAdzanIqomah(namaSholat) {
+            isSpecialMode = true;
+            const layar = document.getElementById('layar-khusus');
+            const status = document.getElementById('status-teks');
+            const timer = document.getElementById('timer-besar');
+            
+            layar.style.display = 'flex';
+            status.innerText = "WAKTU ADZAN " + namaSholat;
+            timer.innerText = "ADZAN";
+
+            // 1. Fase Adzan (Tampilkan Tulisan Adzan selama 60 detik)
+            setTimeout(() => {
+                // 2. Fase Iqomah (Hitung Mundur 14 Menit)
+                status.innerText = "MENUJU IQOMAH";
+                let waktuIqomah = 14 * 60; // 14 Menit dalam detik
+
+                const hitungMundur = setInterval(() => {
+                    let menit = Math.floor(waktuIqomah / 60);
+                    let detik = waktuIqomah % 60;
+                    timer.innerText = `${menit.toString().padStart(2, '0')}:${detik.toString().padStart(2, '0')}`;
+                    
+                    if (waktuIqomah <= 0) {
+                        clearInterval(hitungMundur);
+                        timer.innerText = "SHOLAT";
+                        // Tampilkan tulisan SHOLAT sebentar lalu tutup
+                        setTimeout(() => {
+                            layar.style.display = 'none';
+                            isSpecialMode = false;
+                        }, 10000); // Tampilan "SHOLAT" muncul 10 detik
+                    }
+                    waktuIqomah--;
+                }, 1000);
+
+            }, 60000); // Adzan berlangsung 1 menit (60000 ms)
         }
 
         async function getJadwalSholat() {
@@ -175,11 +226,12 @@
                 document.getElementById('sh-Maghrib').innerText = t.Maghrib;
                 document.getElementById('sh-Isha').innerText = t.Isha;
                 document.getElementById('sh-Sunrise').innerText = t.Sunrise;
-            } catch (e) { console.log("Gagal jadwal"); }
+            } catch (e) { console.log("Gagal ambil jadwal API"); }
         }
 
         window.onload = () => {
-            getJadwalSholat(); updateDataSheets();
+            getJadwalSholat(); 
+            updateDataSheets();
             setInterval(updateClock, 1000);
             setInterval(updateDataSheets, 60000);
         };
