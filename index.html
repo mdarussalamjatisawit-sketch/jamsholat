@@ -242,7 +242,7 @@
     status.classList.remove('blink');
     status.innerText = "SHAF RAPAT & LURUS";
     timerIqomah.innerText = "SHOLAT"; // Tulisan ini
-    timerIqomah.style.fontSize = "20vw"; // TAMBAHKAN BARIS INI untuk mengatur ukuran khusus tulisan SHOLAT
+    timerIqomah.style.fontSize = "20vw"; // ukuran khusus tulisan SHOLAT
                         
                         setTimeout(() => {
                             layar.style.display = 'none';
@@ -251,7 +251,7 @@
                     }
                     sisaWaktu--;
                 }, 1000);
-            }, 30000); // 30 Detik untuk Tes sesuaikan dengan durasi adzan
+            }, 240000); // sesuaikan durasi adzan 60.000=1menit
         }
 
         async function getJadwalSholat() {
