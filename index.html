@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Shalat Masjid Darussalam</title>
     <style>
-        /* --- CSS: DASAR & LAYAR NORMAL --- */
+        /* --- CSS DASAR --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         
         body {
             height: 100vh; width: 100vw;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg-masjid.jpg');
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('bg-masjid.jpg');
             background-size: cover; background-position: center; color: white;
             display: flex; flex-direction: column; overflow: hidden; padding: 10px 15px; 
         }
@@ -46,24 +46,28 @@
         .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; }
         .running-text { background: #2e7d32; padding: 6px; font-size: 1.3rem; margin-top: 10px; font-weight: bold; }
 
-        /* --- CSS: LAYAR FULL ADZAN & IQOMAH (OVERLAY) --- */
+        /* --- CSS LAYAR KHUSUS (DIREVISI) --- */
         #layar-khusus {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('bg-masjid.jpg');
+            /* Background dibuat lebih transparan (0.6) agar masjid lebih terlihat */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('bg-masjid.jpg');
             background-size: cover; background-position: center;
-            z-index: 99999; display: none; /* Sembunyi jika tidak adzan */
+            z-index: 99999; display: none; 
             flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        #status-teks { font-size: 5rem; color: #ffd700; text-transform: uppercase; margin-bottom: 20px; font-weight: bold; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
-        #timer-besar { font-size: 22rem; font-weight: bold; color: white; line-height: 0.8; font-variant-numeric: tabular-nums; }
+        #status-teks { font-size: 4.5rem; color: #ffd700; text-transform: uppercase; margin-bottom: 10px; font-weight: bold; }
+        #nama-waktu-besar { font-size: 16rem; font-weight: bold; color: white; line-height: 0.9; text-transform: uppercase; }
+        #timer-iqomah { font-size: 12rem; font-weight: bold; color: #00ff00; display: none; }
+        .pesan-shaf { font-size: 2.5rem; margin-top: 30px; color: #fff; font-style: italic; }
     </style>
 </head>
 <body>
 
     <div id="layar-khusus">
         <div id="status-teks">WAKTU ADZAN</div>
-        <div id="timer-besar">--:--</div>
-        <p style="font-size: 2rem; margin-top: 20px;">Luruskan Shaf & Matikan HP</p>
+        <div id="nama-waktu-besar">MAGHRIB</div>
+        <div id="timer-iqomah">00:00</div>
+        <p class="pesan-shaf">Luruskan Shaf & Matikan HP</p>
     </div>
 
     <div class="header-center">
@@ -111,14 +115,13 @@
         <marquee>Luruskan Shaf — Matikan HP — "Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga."</marquee>
     </div>
 
-    <button onclick="mulaiSiklusAdzanIqomah('TEST')" style="position:fixed; bottom:0; right:0; opacity:0.2;">Test Layar</button>
+    <div onclick="mulaiSiklusAdzanIqomah('MAGHRIB')" style="position:fixed; bottom:0; right:0; width:50px; height:50px; cursor:pointer; z-index:100;"></div>
 
     <script>
         let jadwalGlobal = {};
         let isSpecialMode = false;
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
 
-        // --- 1. AMBIL DATA CSV ---
         async function updateDataSheets() {
             try {
                 const res = await fetch(csvUrl + '&t=' + new Date().getTime());
@@ -136,68 +139,66 @@
             } catch (e) { console.log("CSV Error"); }
         }
 
-        // --- 2. UPDATE JAM & CEK ADZAN ---
         function updateClock() {
             const now = new Date();
-            // Format jam "HH:mm" untuk dicocokkan dengan API (Contoh: "12:05")
             const jamMenitSekarang = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
             
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
-            if (isSpecialMode) return; // Jika sedang layar adzan, jangan cek lagi
+            if (isSpecialMode) return;
 
-            // Cek kecocokan waktu
             if (jadwalGlobal.timings) {
-                const daftarSholat = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
-                daftarSholat.forEach(sholat => {
-                    // Hilangkan detik dari waktu API jika ada (Contoh "12:05 (WIB)" -> "12:05")
-                    const waktuTarget = jadwalGlobal.timings[sholat].substring(0, 5);
-                    
+                const daftarSholat = { "Fajr": "SUBUH", "Dhuhr": "DZUHUR", "Asr": "ASHAR", "Maghrib": "MAGHRIB", "Isha": "ISYA" };
+                for (let key in daftarSholat) {
+                    const waktuTarget = jadwalGlobal.timings[key].substring(0, 5);
                     if (jamMenitSekarang === waktuTarget && now.getSeconds() < 2) {
-                        mulaiSiklusAdzanIqomah(sholat);
+                        mulaiSiklusAdzanIqomah(daftarSholat[key]);
                     }
-                });
+                }
             }
         }
 
-        // --- 3. LOGIKA LAYAR ADZAN & IQOMAH ---
         function mulaiSiklusAdzanIqomah(namaSholat) {
             isSpecialMode = true;
             const layar = document.getElementById('layar-khusus');
             const status = document.getElementById('status-teks');
-            const timer = document.getElementById('timer-besar');
+            const namaBesar = document.getElementById('nama-waktu-besar');
+            const timerIqomah = document.getElementById('timer-iqomah');
             
             layar.style.display = 'flex';
-            status.innerText = "WAKTU ADZAN " + namaSholat;
-            timer.innerText = "ADZAN";
+            status.innerText = "WAKTU ADZAN";
+            namaBesar.innerText = namaSholat;
+            namaBesar.style.display = 'block';
+            timerIqomah.style.display = 'none';
 
-            // A. Tampilan Adzan selama 1 Menit (60 detik)
+            // 1. Tampilan Adzan (1 Menit)
             setTimeout(() => {
-                status.innerText = "HITUNG MUNDUR IQOMAH";
-                let sisaWaktu = 14 * 60; // 14 Menit
-
+                status.innerText = "SAAT IQOMAH";
+                namaBesar.style.display = 'none'; // Sembunyikan nama sholat saat countdown
+                timerIqomah.style.display = 'block';
+                
+                let sisaWaktu = 14 * 60; 
                 const hitungMundur = setInterval(() => {
                     let m = Math.floor(sisaWaktu / 60);
                     let s = sisaWaktu % 60;
-                    timer.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    timerIqomah.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                     
                     if (sisaWaktu <= 0) {
                         clearInterval(hitungMundur);
                         status.innerText = "SHAF RAPAT & LURUS";
-                        timer.innerText = "SHOLAT";
+                        timerIqomah.innerText = "SHOLAT";
                         setTimeout(() => {
                             layar.style.display = 'none';
                             isSpecialMode = false;
-                        }, 15000); // 15 detik tulisan sholat muncul
+                        }, 20000); 
                     }
                     sisaWaktu--;
                 }, 1000);
 
-            }, 60000); // Tunggu 1 menit baru masuk iqomah
+            }, 60000); 
         }
 
-        // --- 4. AMBIL JADWAL API ---
         async function getJadwalSholat() {
             try {
                 const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=-7.8014&longitude=110.3060&method=20`);
@@ -210,7 +211,6 @@
                 document.getElementById('sh-Maghrib').innerText = t.Maghrib;
                 document.getElementById('sh-Isha').innerText = t.Isha;
                 document.getElementById('sh-Sunrise').innerText = t.Sunrise;
-                
                 document.getElementById('tanggal-hijriah').innerText = `${json.data.date.hijri.day} ${json.data.date.hijri.month.en} ${json.data.date.hijri.year} H`;
             } catch (e) { console.log("API Error"); }
         }
@@ -219,7 +219,7 @@
             getJadwalSholat(); 
             updateDataSheets();
             setInterval(updateClock, 1000);
-            setInterval(updateDataSheets, 60000 * 5); // Update kas tiap 5 menit
+            setInterval(updateDataSheets, 300000); 
         };
     </script>
 </body>
