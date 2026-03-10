@@ -1,65 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Cek Kolom CSV Masjid</title>
+    <meta charset="UTF-8">
+    <title>TV Masjid Darussalam</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; padding: 20px; }
-        .baris { border: 2px solid #444; margin-bottom: 25px; padding: 15px; background: #111; border-radius: 10px; }
-        .info-baris { color: #ffd700; font-size: 1.2rem; font-weight: bold; border-bottom: 1px solid #444; margin-bottom: 10px; padding-bottom: 5px; }
-        .item-kolom { display: flex; padding: 4px 0; border-bottom: 1px solid #222; }
-        .nomor { color: #00ff00; width: 100px; flex-shrink: 0; }
-        .isi { color: #ffffff; word-break: break-all; }
-        #loading { color: cyan; font-size: 1.5rem; text-align: center; margin-top: 50px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #121212; color: white; padding: 20px; height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Header */
+        .header { background: #004d00; border: 3px solid #ffd700; border-radius: 15px; text-align: center; padding: 15px; margin-bottom: 20px; }
+        .header h1 { color: #ffd700; font-size: 2.5rem; }
+
+        /* Area Utama */
+        .main-container { display: flex; flex: 1; gap: 20px; }
+        
+        /* Kolom Kiri (Kas & Imam) */
+        .side-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .info-card { background: #000; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
+        .card-header { background: #2e7d32; color: #ffd700; padding: 10px; font-weight: bold; text-align: center; }
+        .card-body { padding: 15px; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; font-size: 1.2rem; }
+
+        /* Area Tengah (Jam Besar) */
+        .clock-panel { flex: 1.5; background: rgba(255,255,255,0.05); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #333; }
+        #big-clock { font-size: 8rem; font-weight: bold; }
+        #date-masehi { font-size: 1.8rem; color: #ffd700; }
+        #date-hijriah { font-size: 2rem; color: #00ff00; font-weight: bold; }
+
+        /* Kolom Bawah (Jadwal Sholat) */
+        .prayer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 20px; }
+        .prayer-box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 15px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
+        .p-time { font-size: 2.5rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h2 style="text-align:center; color:#ffd700;">DEBUG DATA PER KOLOM (PEMISAH KOMA)</h2>
-    <div id="loading">Sedang Membaca CSV...</div>
-    <div id="kontainer"></div>
+    <div class="header">
+        <h1>MASJID DARUSSALAM</h1>
+        <p>Jadwal KHGT Muhammadiyah - Sleman</p>
+    </div>
+
+    <div class="main-container">
+        <div class="side-panel">
+            <div class="info-card">
+                <div class="card-header">KEUANGAN MASJID</div>
+                <div class="card-body">
+                    <div class="info-row"><span>Pemasukan</span><span id="kas-masuk">Rp0</span></div>
+                    <div class="info-row"><span>Pengeluaran</span><span id="kas-keluar">Rp0</span></div>
+                    <div class="info-row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">Rp0</span></div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="card-header">PETUGAS HARI INI</div>
+                <div class="card-body">
+                    <div class="info-row"><span>Tarawih</span><span id="imam-t">-</span></div>
+                    <div class="info-row"><span>Subuh</span><span id="imam-s">-</span></div>
+                    <div class="info-row"><span>Jum'at</span><span id="imam-j">-</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clock-panel">
+            <div id="big-clock">00:00:00</div>
+            <div id="date-masehi">Memuat...</div>
+            <div id="date-hijriah">--</div>
+        </div>
+    </div>
+
+    <div class="prayer-grid">
+        <div class="prayer-box"><div class="p-name">SUBUH</div><div class="p-time" id="sh-subuh">--:--</div></div>
+        <div class="prayer-box"><div class="p-name">SYURUQ</div><div class="p-time" id="sh-terbit">--:--</div></div>
+        <div class="prayer-box"><div class="p-name">ZUHUR</div><div class="p-time" id="sh-zuhur">--:--</div></div>
+        <div class="prayer-box"><div class="p-name">ASHAR</div><div class="p-time" id="sh-ashar">--:--</div></div>
+        <div class="prayer-box"><div class="p-name">MAGHRIB</div><div class="p-time" id="sh-maghrib">--:--</div></div>
+        <div class="prayer-box"><div class="p-name">ISYA</div><div class="p-time" id="sh-isya">--:--</div></div>
+    </div>
 
     <script>
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        async function ambilData() {
+        async function muatData() {
             try {
-                const response = await fetch(urlCSV + '&t=' + Date.now());
-                const csvText = await response.text();
-                const rows = csvText.split(/\r?\n/);
-                
-                const kontainer = document.getElementById('kontainer');
-                const loading = document.getElementById('loading');
-                loading.style.display = 'none';
+                const res = await fetch(urlCSV + '&t=' + Date.now());
+                const text = await res.text();
+                const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
 
-                rows.forEach((row, index) => {
-                    if (row.trim() === "") return; // Lewati jika baris kosong
+                // Berdasarkan screenshot "DEBUG DATA SPREADSHEET":
+                // Baris 1 berisi: [0]Selasa, [1]10 Maret 2026, [2]21 Ramadan
+                const b1 = rows[1]; 
+                // Baris 2 berisi: [0]1447 H, [1]04:35 (Subuh), [2]05:40 (Terbit), dst.
+                const b2 = rows[2];
 
-                    // INI INTI PERBAIKANNYA: Memisahkan dengan Koma
-                    const kolom = row.split(',').map(item => item.replace(/"/g, '').trim());
+                // Update Tanggal & Hijriah (Gabungan Baris 1 & 2)
+                document.getElementById('date-hijriah').innerText = b1[2] + " " + b2[0]; // "21 Ramadan 1447 H"
 
-                    const divBaris = document.createElement('div');
-                    divBaris.className = 'baris';
+                // Update Jadwal Sholat (Dari Baris 2)
+                document.getElementById('sh-subuh').innerText   = b2[1];
+                document.getElementById('sh-terbit').innerText  = b2[2];
+                document.getElementById('sh-zuhur').innerText   = b2[3];
+                document.getElementById('sh-ashar').innerText   = b2[4];
+                document.getElementById('sh-maghrib').innerText = b2[5];
+                document.getElementById('sh-isya').innerText    = b2[6];
 
-                    let htmlBaris = `<div class="info-baris">BARIS KE-${index}</div>`;
-                    
-                    kolom.forEach((isi, idx) => {
-                        htmlBaris += `
-                            <div class="item-kolom">
-                                <span class="nomor">[Kolom ${idx}]</span>
-                                <span class="isi">: ${isi || '<span style="color:red">KOSONG</span>'}</span>
-                            </div>`;
-                    });
+                // Update Keuangan (Dari Baris 2)
+                document.getElementById('kas-masuk').innerText  = b2[8] || "0";
+                document.getElementById('kas-keluar').innerText = b2[10] || "0";
+                document.getElementById('kas-saldo').innerText  = b2[12] || "0";
 
-                    divBaris.innerHTML = htmlBaris;
-                    kontainer.appendChild(divBaris);
-                });
+                // Update Petugas (Dari Baris 2)
+                document.getElementById('imam-t').innerText = b2[13] || "-";
+                document.getElementById('imam-s').innerText = b2[14] || "-";
+                document.getElementById('imam-j').innerText = b2[15] || "-";
 
-            } catch (err) {
-                document.getElementById('loading').innerHTML = "Gagal: " + err.message;
-            }
+            } catch (err) { console.error("Gagal ambil data:", err); }
         }
 
-        ambilData();
+        function jamDigital() {
+            const n = new Date();
+            document.getElementById('big-clock').innerText = n.toLocaleTimeString('id-ID');
+            document.getElementById('date-masehi').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        setInterval(jamDigital, 1000);
+        setInterval(muatData, 60000); // Update data setiap menit
+        window.onload = muatData;
     </script>
 </body>
 </html>
