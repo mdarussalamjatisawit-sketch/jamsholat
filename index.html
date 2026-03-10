@@ -3,97 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Shalat Masjid Darussalam</title>
+    <title>Jadwal Shalat KHGT - Masjid Darussalam</title>
     <style>
-        /* --- CSS DASAR --- */
+        /* --- CSS TETAP RESPONSIVE (TV & HP) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        
         body {
             min-height: 100vh; width: 100vw;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg-masjid.jpg');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('bg-masjid.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: white; display: flex; flex-direction: column; padding: 10px; overflow-x: hidden;
         }
-
-        /* --- HEADER --- */
         .header-center {
             text-align: center; background: rgba(0, 80, 0, 0.8); 
             padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #ffd700;
         }
         .header-center h1 { font-size: 1.8rem; color: #ffd700; }
-
-        /* --- TATA LETAK UTAMA (RESPONSIVE) --- */
-        .main-content { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: row; /* Default sampingan (TV) */
-            flex-wrap: wrap; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 20px; 
-        }
-
-        .sidebar-left { 
-            flex: 1; 
-            min-width: 320px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-        }
-
-        .clock-section { 
-            flex: 1.2; 
-            min-width: 320px;
-            background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 30px; 
-            text-align: center; border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        /* --- CARD STYLING --- */
+        .main-content { flex: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; }
+        .sidebar-left { flex: 1; min-width: 320px; display: flex; flex-direction: column; gap: 12px; }
+        .clock-section { flex: 1.2; min-width: 320px; background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 30px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.3); }
         .card { background: rgba(0, 0, 0, 0.6); border-radius: 12px; border: 2px solid #2e7d32; overflow: hidden; }
         .card-header { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; }
         .card-body { padding: 10px 15px; }
         .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; }
         .row span:first-child { font-weight: bold; color: #ffd700; font-size: 0.9rem; }
-        .row span:last-child { font-size: 1.2rem; text-align: right; }
-
-        /* --- JAM --- */
         #jam { font-size: 7rem; font-weight: bold; line-height: 1; }
         #tanggal-masehi { font-size: 1.6rem; color: #ffd700; }
         #tanggal-hijriah { font-size: 1.6rem; color: #00ff00; }
-
-        /* --- FOOTER (RESPONSIVE GRID) --- */
-        .footer-jadwal { 
-            background: rgba(0, 40, 0, 0.8); 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
-            gap: 10px;
-            padding: 10px; border: 2px solid #ffd700; border-radius: 12px; margin-top: 15px;
-        }
+        .footer-jadwal { background: rgba(0, 40, 0, 0.8); display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; padding: 10px; border: 2px solid #ffd700; border-radius: 12px; margin-top: 15px; }
         .sholat-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.2); padding: 5px; }
         .sholat-time { font-size: 2.2rem; font-weight: bold; display: block; }
-
         .running-text { background: #2e7d32; padding: 6px; font-size: 1.1rem; margin-top: 10px; font-weight: bold; }
 
-        /* --- MEDIA QUERY UNTUK HP (PORTRAIT) --- */
         @media (max-width: 768px) {
-            .main-content { flex-direction: column-reverse; } /* Jam di atas, Kas di bawah di HP */
+            .main-content { flex-direction: column-reverse; }
             #jam { font-size: 4.5rem; }
-            #tanggal-masehi, #tanggal-hijriah { font-size: 1.2rem; }
-            .sholat-time { font-size: 1.8rem; }
-            .header-center h1 { font-size: 1.4rem; }
-            .sidebar-left, .clock-section { width: 100%; }
             .sholat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
         }
 
-        /* --- CSS LAYAR KHUSUS (ADZAN/IQOMAH) --- */
-        #layar-khusus {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: black; z-index: 99999; display: none; 
-            flex-direction: column; justify-content: center; align-items: center; text-align: center;
-        }
-        .blink { animation: blinker 3s linear infinite; }
-        @keyframes blinker { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
-        #status-teks { font-size: 4rem; color: #ffd700; font-weight: bold; margin-bottom: 20px; }
+        /* LAYAR KHUSUS ADZAN */
+        #layar-khusus { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 99999; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        #status-teks { font-size: 4rem; color: #ffd700; font-weight: bold; }
         #nama-waktu-besar { font-size: 18vw; font-weight: bold; color: white; }
         #timer-iqomah { font-size: 25vw; font-weight: bold; color: #00ff00; }
     </style>
@@ -109,7 +58,7 @@
 
     <div class="header-center">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jatisawit Asri, Balecatur, Gamping, Sleman</p>
+        <p>Standar KHGT Muhammadiyah - Sleman, DIY</p>
     </div>
 
     <div class="main-content">
@@ -136,6 +85,7 @@
             <div id="jam">00:00:00</div>
             <div id="tanggal-masehi">--</div>
             <div id="tanggal-hijriah">--</div>
+            <p style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">Sumber: khgt.muhammadiyah.or.id</p>
         </div>
     </div>
 
@@ -149,16 +99,40 @@
     </div>
 
     <div class="running-text">
-        <marquee>Diriwayatkan dari Abdullah bin Umar RA, bahwa Rasulullah SAW bersabda, "Sholat berjamaah itu lebih utama daripada sholat sendiri sebanyak 27 derajat." (HR. Bukhari)</marquee>
+        <marquee>Sesuai Keputusan Musyawarah Nasional Tarjih ke-31, waktu Subuh ditambah 8 menit dari kriteria lama. Gunakan KHGT sebagai pemersatu umat.</marquee>
     </div>
 
     <script>
         let jadwalGlobal = {};
         let isSpecialMode = false;
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
+        // Penyesuaian Tanggal Hijriah jika ada selisih dengan KHGT Muhammadiyah (default 0)
+        const ADJ_HIJRIAH = 0; 
+
+        async function getJadwalSholat() {
+            try {
+                // Method 11 adalah Majelis Tarjih Muhammadiyah
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=-7.8014&longitude=110.3060&method=11`);
+                const json = await res.json();
+                jadwalGlobal = json.data;
+                const t = jadwalGlobal.timings;
+                
+                document.getElementById('sh-Fajr').innerText = t.Fajr;
+                document.getElementById('sh-Dhuhr').innerText = t.Dhuhr;
+                document.getElementById('sh-Asr').innerText = t.Asr;
+                document.getElementById('sh-Maghrib').innerText = t.Maghrib;
+                document.getElementById('sh-Isha').innerText = t.Isha;
+                document.getElementById('sh-Sunrise').innerText = t.Sunrise;
+                
+                // Menampilkan Kalender Hijriah KHGT
+                const h = json.data.date.hijri;
+                let dayHijri = parseInt(h.day) + ADJ_HIJRIAH;
+                document.getElementById('tanggal-hijriah').innerText = `${dayHijri} ${h.month.en} ${h.year} H`;
+            } catch (e) { console.log("API Error"); }
+        }
 
         async function updateDataSheets() {
             try {
+                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
                 const res = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await res.text();
                 const rows = text.split(/\r?\n/);
@@ -184,8 +158,7 @@
             if (jadwalGlobal.timings) {
                 const daftarSholat = { "Fajr": "SUBUH", "Dhuhr": "DZUHUR", "Asr": "ASHAR", "Maghrib": "MAGHRIB", "Isha": "ISYA" };
                 for (let key in daftarSholat) {
-                    const waktuTarget = jadwalGlobal.timings[key].substring(0, 5);
-                    if (jamMenitSekarang === waktuTarget && now.getSeconds() < 2) {
+                    if (jamMenitSekarang === jadwalGlobal.timings[key].substring(0, 5) && now.getSeconds() < 2) {
                         mulaiSiklusAdzanIqomah(daftarSholat[key]);
                     }
                 }
@@ -195,57 +168,29 @@
         function mulaiSiklusAdzanIqomah(namaSholat) {
             isSpecialMode = true;
             const layar = document.getElementById('layar-khusus');
-            const status = document.getElementById('status-teks');
-            const namaBesar = document.getElementById('nama-waktu-besar');
-            const timerIqomah = document.getElementById('timer-iqomah');
-            
             layar.style.display = 'flex';
-            status.innerText = "WAKTU ADZAN";
-            namaBesar.innerText = namaSholat;
-            namaBesar.style.display = 'block';
-            namaBesar.classList.add('blink');
-            timerIqomah.style.display = 'none';
+            document.getElementById('status-teks').innerText = "WAKTU ADZAN";
+            document.getElementById('nama-waktu-besar').innerText = namaSholat;
+            document.getElementById('timer-iqomah').style.display = 'none';
 
             setTimeout(() => {
-                status.innerText = "MENUJU IQOMAH";
-                status.classList.add('blink');
-                namaBesar.style.display = 'none';
-                timerIqomah.style.display = 'block';
+                document.getElementById('status-teks').innerText = "MENUJU IQOMAH";
+                document.getElementById('nama-waktu-besar').style.display = 'none';
+                document.getElementById('timer-iqomah').style.display = 'block';
                 
                 let sisaWaktu = 14 * 60;
                 const hitungMundur = setInterval(() => {
                     let m = Math.floor(sisaWaktu / 60);
                     let s = sisaWaktu % 60;
-                    timerIqomah.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                    
+                    document.getElementById('timer-iqomah').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                     if (sisaWaktu <= 0) {
                         clearInterval(hitungMundur);
-                        status.innerText = "SHAF RAPAT & LURUS";
-                        timerIqomah.innerText = "SHOLAT";
-                        setTimeout(() => {
-                            layar.style.display = 'none';
-                            isSpecialMode = false;
-                        }, 20000); 
+                        document.getElementById('timer-iqomah').innerText = "SHOLAT";
+                        setTimeout(() => { layar.style.display = 'none'; isSpecialMode = false; }, 20000);
                     }
                     sisaWaktu--;
                 }, 1000);
             }, 240000); 
-        }
-
-        async function getJadwalSholat() {
-            try {
-                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=-7.8014&longitude=110.3060&method=20`);
-                const json = await res.json();
-                jadwalGlobal = json.data;
-                const t = jadwalGlobal.timings;
-                document.getElementById('sh-Fajr').innerText = t.Fajr;
-                document.getElementById('sh-Dhuhr').innerText = t.Dhuhr;
-                document.getElementById('sh-Asr').innerText = t.Asr;
-                document.getElementById('sh-Maghrib').innerText = t.Maghrib;
-                document.getElementById('sh-Isha').innerText = t.Isha;
-                document.getElementById('sh-Sunrise').innerText = t.Sunrise;
-                document.getElementById('tanggal-hijriah').innerText = `${json.data.date.hijri.day} ${json.data.date.hijri.month.en} ${json.data.date.hijri.year} H`;
-            } catch (e) { console.log("API Error"); }
         }
 
         window.onload = () => {
@@ -253,6 +198,7 @@
             updateDataSheets();
             setInterval(updateClock, 1000);
             setInterval(updateDataSheets, 300000); 
+            setInterval(getJadwalSholat, 3600000); // Update jadwal tiap jam
         };
     </script>
 </body>
