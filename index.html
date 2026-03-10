@@ -1,69 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pembaca Data Lengkap</title>
+    <title>Cek Kolom CSV Masjid</title>
     <style>
-        body { background: #000; color: #0f0; font-family: monospace; padding: 20px; font-size: 1.1rem; line-height: 1.5; }
-        .section { border: 2px solid #333; padding: 15px; margin-bottom: 20px; background: #111; border-radius: 8px; }
-        .judul { color: yellow; font-size: 1.3rem; margin-bottom: 10px; border-bottom: 1px solid yellow; display: inline-block; }
-        .kolom-item { margin-left: 20px; }
-        .label { color: #888; }
-        .isi { color: #fff; font-weight: bold; }
-        #status { color: cyan; margin-bottom: 10px; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; padding: 20px; }
+        .baris { border: 2px solid #444; margin-bottom: 25px; padding: 15px; background: #111; border-radius: 10px; }
+        .info-baris { color: #ffd700; font-size: 1.2rem; font-weight: bold; border-bottom: 1px solid #444; margin-bottom: 10px; padding-bottom: 5px; }
+        .item-kolom { display: flex; padding: 4px 0; border-bottom: 1px solid #222; }
+        .nomor { color: #00ff00; width: 100px; flex-shrink: 0; }
+        .isi { color: #ffffff; word-break: break-all; }
+        #loading { color: cyan; font-size: 1.5rem; text-align: center; margin-top: 50px; }
     </style>
 </head>
 <body>
 
-    <h2>DEBUG DATA SPREADSHEET</h2>
-    <div id="status">Menghubungkan ke Google Sheets...</div>
-    <div id="debug-output"></div>
+    <h2 style="text-align:center; color:#ffd700;">DEBUG DATA PER KOLOM (PEMISAH KOMA)</h2>
+    <div id="loading">Sedang Membaca CSV...</div>
+    <div id="kontainer"></div>
 
     <script>
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        async function bacaDataLengkap() {
-            const output = document.getElementById('debug-output');
-            const status = document.getElementById('status');
-            
+        async function ambilData() {
             try {
-                const response = await fetch(urlCSV + '&cache=' + Date.now());
-                const text = await response.text();
-                const rows = text.split(/\r?\n/);
+                const response = await fetch(urlCSV + '&t=' + Date.now());
+                const csvText = await response.text();
+                const rows = csvText.split(/\r?\n/);
                 
-                let htmlKonten = "";
-                
-                // Ambil Header (Baris 0) untuk label
-                let header = rows[0].split(',').map(v => v.replace(/"/g, '').trim());
+                const kontainer = document.getElementById('kontainer');
+                const loading = document.getElementById('loading');
+                loading.style.display = 'none';
 
                 rows.forEach((row, index) => {
-                    if (row.trim() === "") return; // Lewati baris kosong
+                    if (row.trim() === "") return; // Lewati jika baris kosong
 
-                    let cols = row.split(',').map(v => v.replace(/"/g, '').trim());
+                    // INI INTI PERBAIKANNYA: Memisahkan dengan Koma
+                    const kolom = row.split(',').map(item => item.replace(/"/g, '').trim());
+
+                    const divBaris = document.createElement('div');
+                    divBaris.className = 'baris';
+
+                    let htmlBaris = `<div class="info-baris">BARIS KE-${index}</div>`;
                     
-                    htmlKonten += `<div class="section">`;
-                    htmlKonten += `<div class="judul">BARIS KE-${index} ${index === 0 ? '(HEADER)' : '(DATA)'}</div><br>`;
-                    
-                    cols.forEach((isi, colIdx) => {
-                        let namaLabel = header[colIdx] || "Kolom Luar Jangkauan";
-                        htmlKonten += `
-                            <div class="kolom-item">
-                                <span class="label">[${colIdx}] ${namaLabel}:</span> 
-                                <span class="isi">${isi || '---'}</span>
+                    kolom.forEach((isi, idx) => {
+                        htmlBaris += `
+                            <div class="item-kolom">
+                                <span class="nomor">[Kolom ${idx}]</span>
+                                <span class="isi">: ${isi || '<span style="color:red">KOSONG</span>'}</span>
                             </div>`;
                     });
-                    
-                    htmlKonten += `</div>`;
+
+                    divBaris.innerHTML = htmlBaris;
+                    kontainer.appendChild(divBaris);
                 });
 
-                output.innerHTML = htmlKonten;
-                status.innerText = "Berhasil membaca " + rows.length + " baris.";
-
             } catch (err) {
-                status.innerHTML = "<span style='color:red'>Gagal: " + err.message + "</span>";
+                document.getElementById('loading').innerHTML = "Gagal: " + err.message;
             }
         }
 
-        bacaDataLengkap();
+        ambilData();
     </script>
 </body>
 </html>
