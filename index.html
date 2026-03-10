@@ -3,158 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - KHGT</title>
+    <title>TV Masjid Darussalam - KHGT Final</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         body {
             min-height: 100vh; width: 100vw;
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1590076215667-875d45308666?q=80&w=2000') no-repeat center center fixed;
             background-size: cover; color: white; display: flex; flex-direction: column; padding: 15px; overflow: hidden;
         }
-        .header-center { text-align: center; background: rgba(0, 80, 0, 0.9); padding: 10px; border-radius: 15px; margin-bottom: 20px; border: 3px solid #ffd700; }
-        .header-center h1 { font-size: 2.5rem; color: #ffd700; }
-        .main-content { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 30px; }
-        .sidebar-left { flex: 0.8; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: rgba(0, 0, 0, 0.7); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
-        .card-header { background: #2e7d32; padding: 10px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.3rem; }
-        .card-body { padding: 10px 20px; }
-        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 10px 0; justify-content: space-between; font-size: 1.1rem; }
-        .clock-section { flex: 1.5; background: rgba(0, 0, 0, 0.4); padding: 30px; border-radius: 50px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.2); }
-        #jam { font-size: 8rem; font-weight: bold; line-height: 1; margin-bottom: 10px; text-shadow: 3px 3px 5px #000; }
-        #tanggal-masehi { font-size: 1.8rem; color: #ffd700; }
-        #tanggal-hijriah { font-size: 2rem; color: #00ff00; font-weight: bold; margin-top: 10px; }
-        .footer-jadwal { background: rgba(0, 40, 0, 0.9); display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; padding: 15px; border: 3px solid #ffd700; border-radius: 20px; margin-top: 20px; }
-        .sholat-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.2); }
-        .sholat-name { font-size: 1.1rem; color: #ffd700; font-weight: bold; }
-        .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; }
-        #layar-khusus { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .header { text-align: center; background: rgba(0, 100, 0, 0.9); padding: 15px; border-radius: 15px; border: 3px solid #ffd700; margin-bottom: 15px; }
+        .header h1 { font-size: 2.8rem; color: #ffd700; text-shadow: 2px 2px 5px #000; }
+        
+        .main { flex: 1; display: flex; gap: 20px; align-items: stretch; }
+        .side { flex: 0.7; display: flex; flex-direction: column; gap: 15px; }
+        .card { background: rgba(0, 0, 0, 0.75); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; flex: 1; }
+        .card-h { background: #2e7d32; padding: 10px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.4rem; }
+        .card-b { padding: 15px 25px; display: flex; flex-direction: column; justify-content: space-around; height: 80%; }
+        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1.3rem; }
+        
+        .center { flex: 1.3; background: rgba(0, 0, 0, 0.4); border-radius: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid rgba(255,255,255,0.1); }
+        #jam { font-size: 10rem; font-weight: bold; color: #fff; text-shadow: 5px 5px 15px #000; line-height: 1; }
+        #tgl-m { font-size: 2rem; color: #ffd700; margin-top: 10px; }
+        #tgl-h { font-size: 2.3rem; color: #00ff00; font-weight: bold; }
+
+        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; }
+        .box { background: rgba(0, 60, 0, 0.9); padding: 15px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .box-n { font-size: 1.2rem; color: #ffd700; font-weight: bold; margin-bottom: 5px; }
+        .box-t { font-size: 3.2rem; font-weight: bold; color: #fff; }
+
+        #adzan-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-    <div id="layar-khusus">
-        <h1 style="font-size: 4rem; color: #ffd700;">WAKTU ADZAN</h1>
-        <div id="nama-waktu-besar" style="font-size: 15vw; font-weight: bold;">-</div>
+    <div id="adzan-layer">
+        <h1 style="font-size: 5rem; color: #ffd700;">WAKTU ADZAN</h1>
+        <div id="adzan-nama" style="font-size: 15vw; font-weight: bold;">-</div>
     </div>
 
-    <div class="header-center">
+    <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal Sholat KHGT Muhammadiyah</p>
+        <p>Kalender Hijriah Global Tunggal (KHGT) Muhammadiyah</p>
     </div>
 
-    <div class="main-content">
-        <div class="sidebar-left">
+    <div class="main">
+        <div class="side">
             <div class="card">
-                <div class="card-header">INFO KEUANGAN</div>
-                <div class="card-body">
-                    <div class="row"><span>Pemasukan</span><span id="kas-masuk">0</span></div>
-                    <div class="row"><span>Pengeluaran</span><span id="kas-keluar">0</span></div>
-                    <div class="row" style="color:#ffd700; border:none;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                <div class="card-h">KAS MASJID</div>
+                <div class="card-b">
+                    <div class="row"><span>Pemasukan</span><span id="k-in">0</span></div>
+                    <div class="row"><span>Pengeluaran</span><span id="k-out">0</span></div>
+                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="k-s">0</span></div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header">PETUGAS HARI INI</div>
-                <div class="card-body">
-                    <div class="row"><span>ISYA/TARAWIH</span><span id="imam-isya">-</span></div>
-                    <div class="row"><span>IMAM SUBUH</span><span id="imam-subuh">-</span></div>
-                    <div class="row"><span>IMAM JUM'AT</span><span id="imam-jumat">-</span></div>
+                <div class="card-h">PETUGAS HARI INI</div>
+                <div class="card-b">
+                    <div class="row"><span>IMAM TARAWIH</span><span id="i-t">-</span></div>
+                    <div class="row"><span>IMAM SUBUH</span><span id="i-s">-</span></div>
+                    <div class="row"><span>IMAM JUM'AT</span><span id="i-j">-</span></div>
                 </div>
             </div>
         </div>
-        <div class="clock-section">
+        <div class="center">
             <div id="jam">00:00:00</div>
-            <div id="tanggal-masehi">--</div>
-            <div id="tanggal-hijriah">--</div>
+            <div id="tgl-m">--</div>
+            <div id="tgl-h">--</div>
         </div>
     </div>
 
-    <div class="footer-jadwal">
-        <div class="sholat-item"><div class="sholat-name">SUBUH</div><span class="sholat-time" id="sh-Fajr">--:--</span></div>
-        <div class="sholat-item"><div class="sholat-name">SYURUQ</div><span class="sholat-time" id="sh-Sunrise">--:--</span></div>
-        <div class="sholat-item"><div class="sholat-name">ZUHUR</div><span class="sholat-time" id="sh-Dhuhr">--:--</span></div>
-        <div class="sholat-item"><div class="sholat-name">ASHAR</div><span class="sholat-time" id="sh-Asr">--:--</span></div>
-        <div class="sholat-item"><div class="sholat-name">MAGHRIB</div><span class="sholat-time" id="sh-Maghrib">--:--</span></div>
-        <div class="sholat-item" style="border:none;"><div class="sholat-name">ISYA</div><span class="sholat-time" id="sh-Isha">--:--</span></div>
+    <div class="footer">
+        <div class="box"><div class="box-n">SUBUH</div><div class="box-t" id="s-fajr">--:--</div></div>
+        <div class="box"><div class="box-n">SYURUQ</div><div class="box-t" id="s-sunr">--:--</div></div>
+        <div class="box"><div class="box-n">ZUHUR</div><div class="box-t" id="s-dhuhr">--:--</div></div>
+        <div class="box"><div class="box-n">ASHAR</div><div class="box-t" id="s-asr">--:--</div></div>
+        <div class="box"><div class="box-n">MAGHRIB</div><div class="box-t" id="s-magh">--:--</div></div>
+        <div class="box"><div class="box-n">ISYA</div><div class="box-t" id="s-isha">--:--</div></div>
     </div>
 
     <script>
-        let jadwalGlobal = {};
-        let isSpecialMode = false;
+        let jadwal = {};
+        const urlTampilan = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
+        const urlJadwal = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        const urlSheetTampilan = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
-        const urlSheetJadwal = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
-
-        async function updateData() {
+        async function muatData() {
             try {
-                // UPDATE KEUANGAN & IMAM
-                const resT = await fetch(urlSheetTampilan + '&t=' + Date.now());
+                // Ambil Data Tampilan (Kas/Imam)
+                const resT = await fetch(urlTampilan + '&cache=' + Date.now());
                 const rowsT = (await resT.text()).split(/\r?\n/);
                 if (rowsT.length > 1) {
                     const d = rowsT[1].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    document.getElementById('kas-masuk').innerText = d[1]?.replace(/"/g, '') || '0';
-                    document.getElementById('kas-keluar').innerText = d[2]?.replace(/"/g, '') || '0';
-                    document.getElementById('kas-saldo').innerText = d[3]?.replace(/"/g, '') || '0';
-                    document.getElementById('imam-isya').innerText = d[4]?.replace(/"/g, '') || '-';
-                    document.getElementById('imam-subuh').innerText = d[5]?.replace(/"/g, '') || '-';
-                    document.getElementById('imam-jumat').innerText = d[6]?.replace(/"/g, '') || '-';
+                    document.getElementById('k-in').innerText = d[1]?.replace(/"/g,'') || '0';
+                    document.getElementById('k-out').innerText = d[2]?.replace(/"/g,'') || '0';
+                    document.getElementById('k-s').innerText = d[3]?.replace(/"/g,'') || '0';
+                    document.getElementById('i-t').innerText = d[4]?.replace(/"/g,'') || '-';
+                    document.getElementById('i-s').innerText = d[5]?.replace(/"/g,'') || '-';
+                    document.getElementById('i-j').innerText = d[6]?.replace(/"/g,'') || '-';
                 }
 
-                // UPDATE JADWAL SHOLAT
-                const resJ = await fetch(urlSheetJadwal + '&t=' + Date.now());
+                // Ambil Jadwal Sholat
+                const resJ = await fetch(urlJadwal + '&cache=' + Date.now());
                 const rowsJ = (await resJ.text()).split(/\r?\n/);
-
-                const now = new Date();
-                const tglSaja = now.getDate(); // Contoh: 10
                 
-                let found = false;
+                const hariIni = new Date();
+                const tglSaja = hariIni.getDate().toString(); // Angka "10"
+
                 for (let i = 1; i < rowsJ.length; i++) {
                     const col = rowsJ[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    let teksTanggal = col[0]?.replace(/"/g, '').toLowerCase();
-
-                    // LOGIKA PINTAR: Cek apakah angka tanggal hari ini ada di kolom A
-                    // Ini menghindari masalah salah format "Selasa," atau "Selasa ,"
-                    if (teksTanggal && teksTanggal.includes(tglSaja.toString())) {
-                        document.getElementById('tanggal-hijriah').innerText = col[1]?.replace(/"/g, '') || '--';
-                        jadwalGlobal = {
-                            Fajr: col[2]?.trim(), Sunrise: col[3]?.trim(), Dhuhr: col[4]?.trim(),
-                            Asr: col[5]?.trim(), Maghrib: col[6]?.trim(), Isha: col[7]?.trim()
+                    let teksTgl = col[0]?.replace(/"/g, '') || "";
+                    
+                    // JIKA di kolom A ada angka tanggal hari ini (misal "10")
+                    if (teksTgl.includes(tglSaja)) {
+                        document.getElementById('tgl-h').innerText = col[1]?.replace(/"/g,'') || '--';
+                        jadwal = {
+                            fajr: col[2]?.trim(), sunr: col[3]?.trim(), dhuhr: col[4]?.trim(),
+                            asr: col[5]?.trim(), magh: col[6]?.trim(), isha: col[7]?.trim()
                         };
                         
-                        document.getElementById('sh-Fajr').innerText = jadwalGlobal.Fajr;
-                        document.getElementById('sh-Sunrise').innerText = jadwalGlobal.Sunrise;
-                        document.getElementById('sh-Dhuhr').innerText = jadwalGlobal.Dhuhr;
-                        document.getElementById('sh-Asr').innerText = jadwalGlobal.Asr;
-                        document.getElementById('sh-Maghrib').innerText = jadwalGlobal.Maghrib;
-                        document.getElementById('sh-Isha').innerText = jadwalGlobal.Isha;
-                        found = true;
+                        document.getElementById('s-fajr').innerText = jadwal.fajr;
+                        document.getElementById('s-sunr').innerText = jadwal.sunr;
+                        document.getElementById('s-dhuhr').innerText = jadwal.dhuhr;
+                        document.getElementById('s-asr').innerText = jadwal.asr;
+                        document.getElementById('s-magh').innerText = jadwal.magh;
+                        document.getElementById('s-isha').innerText = jadwal.isha;
+                        console.log("Jadwal ditemukan untuk tanggal: " + tglSaja);
                         break;
                     }
                 }
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("Gagal muat data: ", e); }
         }
 
-        function clock() {
-            const now = new Date();
-            document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
-            document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        function updateJam() {
+            const n = new Date();
+            document.getElementById('jam').innerText = n.toLocaleTimeString('id-ID');
+            document.getElementById('tgl-m').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             
-            if (isSpecialMode) return;
-            const hm = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-            const d = { "Fajr": "SUBUH", "Dhuhr": "ZUHUR", "Asr": "ASHAR", "Maghrib": "MAGHRIB", "Isha": "ISYA" };
-            for (let k in d) {
-                if (hm === (jadwalGlobal[k] || "").substring(0,5) && now.getSeconds() < 2) {
-                    isSpecialMode = true;
-                    document.getElementById('layar-khusus').style.display = 'flex';
-                    document.getElementById('nama-waktu-besar').innerText = d[k];
-                    setTimeout(() => { document.getElementById('layar-khusus').style.display = 'none'; isSpecialMode = false; }, 300000);
+            const skrg = n.getHours().toString().padStart(2,'0') + ":" + n.getMinutes().toString().padStart(2,'0');
+            const list = { "fajr":"SUBUH", "dhuhr":"ZUHUR", "asr":"ASHAR", "magh":"MAGHRIB", "isha":"ISYA" };
+            
+            for (let k in list) {
+                if (skrg === (jadwal[k] || "").substring(0,5) && n.getSeconds() < 2) {
+                    const l = document.getElementById('adzan-layer');
+                    l.style.display = 'flex';
+                    document.getElementById('adzan-nama').innerText = list[k];
+                    setTimeout(() => { l.style.display = 'none'; }, 300000); // 5 menit
                 }
             }
         }
 
         window.onload = () => {
-            updateData();
-            setInterval(clock, 1000);
-            setInterval(updateData, 300000); 
+            muatData();
+            setInterval(updateJam, 1000);
+            setInterval(muatData, 300000); // Refresh data tiap 5 menit
         };
     </script>
 </body>
