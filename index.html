@@ -166,7 +166,7 @@
                 msgUtama.innerText = namaSholat;
                 msgUtama.classList.add('blink-custom'); // Hanya teks sholat yang berkedip
                 msgBawah.innerText = "Matikan HP & Sholat Sunah";
-                iqomahTimer = 180; 
+                iqomahTimer = 60; 
             } 
             else if (modeAktif && iqomahTimer > 0) {
                 // FASE 2: MENUJU IQOMAH
@@ -178,14 +178,14 @@
                 msgAtas.classList.add('blink-custom'); // Tulisan "Menuju Iqomah" berkedip
                 msgUtama.classList.remove('blink-custom'); // Jam tidak berkedip
                 msgUtama.innerText = `${m}:${d < 10 ? '0'+d : d}`;
-                msgBawah.innerText = "Matikan HP & Sholat Sunah";
+                msgBawah.innerText = "MATIKAN HP";
             }
             else if (modeAktif && iqomahTimer <= 0) {
                 // FASE 3: PERSYARATAN IQOMAH
-                msgAtas.innerText = "IQOMAH";
+                msgAtas.innerText = "DIRIKAN";
                 msgAtas.classList.remove('blink-custom');
-                msgUtama.innerText = "LURUSKAN SHAF";
-                msgBawah.innerText = "Matikan HP & Sholatlah Dengan Khusyuk";
+                msgUtama.innerText = "SHOLAT";
+                msgBawah.innerText ="NIAT SHOLAT DENGAN KHUSYU'";
                 
                 setTimeout(() => {
                     modeAktif = false;
