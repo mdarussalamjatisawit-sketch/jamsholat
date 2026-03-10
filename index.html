@@ -1,60 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Debug Data Mentah</title>
+    <title>Pembaca Data Lengkap</title>
     <style>
-        body { background: #000; color: #0f0; font-family: monospace; padding: 20px; font-size: 1.2rem; }
-        .baris-data { border: 1px solid #333; padding: 10px; margin-bottom: 20px; background: #111; }
-        .kolom-item { color: #fff; margin-left: 20px; border-bottom: 1px solid #222; }
-        h2 { color: yellow; }
+        body { background: #000; color: #0f0; font-family: monospace; padding: 20px; font-size: 1.1rem; line-height: 1.5; }
+        .section { border: 2px solid #333; padding: 15px; margin-bottom: 20px; background: #111; border-radius: 8px; }
+        .judul { color: yellow; font-size: 1.3rem; margin-bottom: 10px; border-bottom: 1px solid yellow; display: inline-block; }
+        .kolom-item { margin-left: 20px; }
+        .label { color: #888; }
+        .isi { color: #fff; font-weight: bold; }
+        #status { color: cyan; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <h2>HASIL BACA SPREADSHEET (TANGGAL HARI INI)</h2>
-    <div id="debug-output">Sedang menarik data dari Google Sheets...</div>
+    <h2>DEBUG DATA SPREADSHEET</h2>
+    <div id="status">Menghubungkan ke Google Sheets...</div>
+    <div id="debug-output"></div>
 
     <script>
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        async function bacaData() {
+        async function bacaDataLengkap() {
             const output = document.getElementById('debug-output');
+            const status = document.getElementById('status');
+            
             try {
                 const response = await fetch(urlCSV + '&cache=' + Date.now());
                 const text = await response.text();
                 const rows = text.split(/\r?\n/);
                 
-                // Ambil tanggal hari ini (angka 10)
-                const tglSkrg = new Date().getDate().toString();
                 let htmlKonten = "";
-                let ketemu = false;
+                
+                // Ambil Header (Baris 0) untuk label
+                let header = rows[0].split(',').map(v => v.replace(/"/g, '').trim());
 
-                for (let i = 0; i < rows.length; i++) {
-                    // Pecah kolom dengan koma
-                    let cols = rows[i].split(',').map(v => v.replace(/"/g, '').trim());
+                rows.forEach((row, index) => {
+                    if (row.trim() === "") return; // Lewati baris kosong
 
-                    // Cari baris yang mengandung angka 10 (tanggal hari ini)
-                    if (cols[0].includes(tglSkrg) || i === 0) {
-                        ketemu = true;
-                        htmlKonten += `<div class="baris-data">`;
-                        htmlKonten += `<strong>BARIS KE-${i} ${i===0 ? '(JUDUL)' : '(DATA HARI INI)'}:</strong><br>`;
-                        
-                        cols.forEach((isi, index) => {
-                            htmlKonten += `<div class="kolom-item">Kolom [${index}]: ${isi || '<span style="color:red">KOSONG</span>'}</div>`;
-                        });
-                        
-                        htmlKonten += `</div>`;
-                    }
-                }
+                    let cols = row.split(',').map(v => v.replace(/"/g, '').trim());
+                    
+                    htmlKonten += `<div class="section">`;
+                    htmlKonten += `<div class="judul">BARIS KE-${index} ${index === 0 ? '(HEADER)' : '(DATA)'}</div><br>`;
+                    
+                    cols.forEach((isi, colIdx) => {
+                        let namaLabel = header[colIdx] || "Kolom Luar Jangkauan";
+                        htmlKonten += `
+                            <div class="kolom-item">
+                                <span class="label">[${colIdx}] ${namaLabel}:</span> 
+                                <span class="isi">${isi || '---'}</span>
+                            </div>`;
+                    });
+                    
+                    htmlKonten += `</div>`;
+                });
 
-                output.innerHTML = ketemu ? htmlKonten : "Data tanggal " + tglSkrg + " tidak ditemukan di sheet.";
+                output.innerHTML = htmlKonten;
+                status.innerText = "Berhasil membaca " + rows.length + " baris.";
 
             } catch (err) {
-                output.innerHTML = "<span style='color:red'>Gagal koneksi: " + err.message + "</span>";
+                status.innerHTML = "<span style='color:red'>Gagal: " + err.message + "</span>";
             }
         }
 
-        bacaData();
+        bacaDataLengkap();
     </script>
 </body>
 </html>
