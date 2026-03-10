@@ -3,55 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - Final</title>
+    <title>TV Masjid Darussalam - Running Text</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { 
-            background: #0a0a0a; color: white; padding: 20px; 
+            background: #0a0a0a; color: white; padding: 15px; 
             height: 100vh; display: flex; flex-direction: column; overflow: hidden;
         }
         
-        /* Bagian Atas */
+        /* Header */
         .header { 
-            background: linear-gradient(to bottom, #004d00, #003300); 
+            background: linear-gradient(to bottom, #004d00, #002200); 
             border: 3px solid #ffd700; border-radius: 15px; 
-            text-align: center; padding: 15px; margin-bottom: 20px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            text-align: center; padding: 10px; margin-bottom: 10px; 
         }
-        .header h1 { color: #ffd700; font-size: 2.8rem; text-shadow: 2px 2px 4px #000; }
+        .header h1 { color: #ffd700; font-size: 2.5rem; text-shadow: 2px 2px 4px #000; }
+
+        /* Running Text Baru */
+        .running-text-container {
+            background: #000; color: #fff; padding: 8px 0;
+            border-bottom: 2px solid #2e7d32; margin-bottom: 15px;
+            font-size: 1.4rem; white-space: nowrap; overflow: hidden;
+        }
+        .marquee {
+            display: inline-block; padding-left: 100%;
+            animation: jalan 25s linear infinite;
+        }
+        @keyframes jalan {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
 
         /* Area Tengah */
-        .main-content { display: flex; flex: 1; gap: 20px; }
+        .main-content { display: flex; flex: 1; gap: 15px; }
         
-        /* Panel Kiri */
-        .side-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: #111; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
-        .card-h { background: #2e7d32; color: #ffd700; padding: 10px; font-weight: bold; text-align: center; font-size: 1.2rem; }
-        .card-b { padding: 15px; }
-        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; font-size: 1.3rem; }
+        .side-panel { flex: 0.9; display: flex; flex-direction: column; gap: 15px; }
+        .card { background: #111; border: 2px solid #2e7d32; border-radius: 12px; overflow: hidden; }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 8px; font-weight: bold; text-align: center; }
+        .card-b { padding: 10px 15px; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; font-size: 1.2rem; }
 
-        /* Panel Tengah (Jam) */
         .clock-panel { 
-            flex: 1.5; background: rgba(255,255,255,0.03); 
-            border-radius: 30px; display: flex; flex-direction: column; 
+            flex: 1.6; background: rgba(255,255,255,0.03); 
+            border-radius: 25px; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; border: 1px solid #444;
         }
-        #jam-digital { font-size: 8.5rem; font-weight: bold; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        #tgl-masehi { font-size: 1.8rem; color: #ffd700; margin-top: 10px; }
-        #tgl-hijriah { font-size: 2.2rem; color: #00ff00; font-weight: bold; }
+        #jam-digital { font-size: 8rem; font-weight: bold; line-height: 1; }
+        #tgl-masehi { font-size: 1.6rem; color: #ffd700; margin-top: 10px; }
+        #tgl-hijriah { font-size: 2rem; color: #00ff00; font-weight: bold; }
 
-        /* Panel Bawah (Jadwal) */
-        .prayer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 20px; }
-        .p-box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 15px 5px; text-align: center; }
-        .p-name { color: #ffd700; font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
-        .p-time { font-size: 2.8rem; font-weight: bold; }
+        /* Area Bawah */
+        .prayer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; }
+        .p-box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 12px 5px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; }
+        .p-time { font-size: 2.4rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah - Yogyakarta</p>
+    </div>
+
+    <div class="running-text-container">
+        <div class="marquee">
+            Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman dengan mengacu jadwal KHGT Muhammadiyah &bull; 
+            Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman dengan mengacu jadwal KHGT Muhammadiyah
+        </div>
     </div>
 
     <div class="main-content">
@@ -97,17 +115,13 @@
             try {
                 const res = await fetch(urlCSV + '&t=' + Date.now());
                 const text = await res.text();
-                // Pecah data dengan koma, hilangkan kutipan
                 const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
 
-                // SOLUSI LOMPAT: Ambil Baris 1 & Baris 2
                 const b1 = rows[1]; 
                 const b2 = rows[2]; 
 
-                // 1. Tanggal Hijriah (Gabung B1 & B2)
                 document.getElementById('tgl-hijriah').innerText = b1[2] + " " + b2[0]; 
 
-                // 2. Jadwal Sholat (Dari Baris 2)
                 document.getElementById('sh-subuh').innerText   = b2[1];
                 document.getElementById('sh-terbit').innerText  = b2[2];
                 document.getElementById('sh-zuhur').innerText   = b2[3];
@@ -115,12 +129,10 @@
                 document.getElementById('sh-maghrib').innerText = b2[5];
                 document.getElementById('sh-isya').innerText    = b2[6];
 
-                // 3. Keuangan (Dari Baris 2)
                 document.getElementById('kas-in').innerText    = b2[8] || "0";
                 document.getElementById('kas-out').innerText   = b2[10] || "0";
                 document.getElementById('kas-saldo').innerText = b2[12] || "0";
 
-                // 4. Petugas (Dari Baris 2)
                 document.getElementById('im-t').innerText = b2[13] || "-";
                 document.getElementById('im-s').innerText = b2[14] || "-";
                 document.getElementById('im-j').innerText = b2[15] || "-";
@@ -135,7 +147,7 @@
         }
 
         setInterval(jamAktif, 1000);
-        setInterval(muatData, 60000); // Cek data tiap menit
+        setInterval(muatData, 60000);
         window.onload = muatData;
     </script>
 </body>
