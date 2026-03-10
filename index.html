@@ -1,73 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tes Data Masjid</title>
+    <title>Tes Data Baris 2</title>
     <style>
         body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
-        .data-box { border: 1px solid #fff; padding: 10px; margin-top: 10px; line-height: 1.8; }
-        #status { color: yellow; font-weight: bold; }
+        .debug-box { background: #222; border: 1px solid yellow; padding: 15px; margin-top: 10px; white-space: pre-wrap; word-break: break-all; }
     </style>
 </head>
 <body>
 
-    <h2>Tes Koneksi Jadwal Sholat</h2>
-    <div id="status">Sedang mengambil data...</div>
+    <h2>Script Tes 2: Menampilkan Isi Baris 2</h2>
+    <div id="status">Menghubungkan...</div>
 
-    <div class="data-box">
-        <b>Tanggal:</b> <span id="tgl">?</span><br>
-        <b>Hijriah:</b> <span id="hijriah">?</span><br>
-        <hr>
-        <b>Subuh:</b> <span id="subuh">--:--</span><br>
-        <b>Zuhur:</b> <span id="zuhur">--:--</span><br>
-        <b>Ashar:</b> <span id="ashar">--:--</span><br>
-        <b>Maghrib:</b> <span id="maghrib">--:--</span><br>
-        <b>Isya:</b> <span id="isya">--:--</span>
+    <div class="debug-box" id="hasil">
+        Sedang memuat isi kolom...
     </div>
 
     <script>
-        // Link CSV Mas Aris
         const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
         async function ambilData() {
             try {
                 const response = await fetch(url + '&t=' + Date.now());
                 const csvText = await response.text();
-                
-                // Pecah jadi baris
                 const rows = csvText.split(/\r?\n/);
                 
-                // Ambil angka tanggal hari ini (10)
-                const hariIni = new Date().getDate().toString();
-                
-                let ditemukan = false;
+                if (rows.length > 1) {
+                    // Ambil baris ke-2 (index 1)
+                    let baris2 = rows[1];
+                    
+                    // Kita pecah untuk lihat ada berapa kolom
+                    let cols = baris2.split(';');
+                    if (cols.length < 5) cols = baris2.split(',');
 
-                for (let i = 1; i < rows.length; i++) {
-                    // Coba pecah pakai titik koma (;) dulu karena Sheets Indonesia sering pakai itu
-                    let cols = rows[i].split(';');
-                    if (cols.length < 5) cols = rows[i].split(','); // kalau gagal pakai koma (,)
+                    let tampilan = "ISI ASLI BARIS 2:\n" + baris2 + "\n\n";
+                    tampilan += "HASIL PECAHAN KOLOM:\n";
+                    
+                    cols.forEach((isi, index) => {
+                        tampilan += "Kolom [" + index + "]: " + isi + "\n";
+                    });
 
-                    // Cek jika kolom A mengandung angka tanggal hari ini
-                    if (cols[0] && cols[0].includes(hariIni)) {
-                        document.getElementById('tgl').innerText = cols[0];
-                        document.getElementById('hijriah').innerText = cols[1];
-                        document.getElementById('subuh').innerText = cols[2];
-                        document.getElementById('zuhur').innerText = cols[4];
-                        document.getElementById('ashar').innerText = cols[5];
-                        document.getElementById('maghrib').innerText = cols[6];
-                        document.getElementById('isya').innerText = cols[7];
-                        
-                        ditemukan = true;
-                        document.getElementById('status').innerText = "Koneksi BERHASIL!";
-                        break;
-                    }
+                    document.getElementById('hasil').innerText = tampilan;
+                    document.getElementById('status').innerText = "Berhasil Membaca!";
+                } else {
+                    document.getElementById('status').innerText = "Sheet Terbaca, tapi isinya kosong?";
                 }
-
-                if (!ditemukan) {
-                    document.getElementById('status').innerText = "Koneksi OK, tapi Tanggal " + hariIni + " tidak ada di sheet.";
-                }
-
             } catch (error) {
-                document.getElementById('status').innerText = "Gagal total: " + error.message;
+                document.getElementById('status').innerText = "Error: " + error.message;
             }
         }
 
