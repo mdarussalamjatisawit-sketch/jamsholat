@@ -3,87 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Black Screen Mode</title>
+    <title>TV Masjid DarUSSALAM - Full Optimized</title>
     <style>
+        /* CSS Dasar: Mengatur tampilan umum layar */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        
         body { 
             background: #000 url('masjid.jpg') no-repeat center center fixed; 
             background-size: cover; color: white; height: 100vh; 
-            display: flex; flex-direction: column; overflow: hidden;
+            display: flex; flex-direction: column; overflow: hidden; 
         }
 
-        /* --- TAMPILAN NORMAL --- */
-        .header-section { background: #000; text-align: center; padding: 10px; border-bottom: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; }
-        .header-text { font-size: clamp(1.2rem, 5vw, 3.5rem); font-weight: 900; color: #ffd700; text-shadow: 0 0 10px #ff00ff; text-transform: uppercase; }
+        /* HEADER: Bagian Nama Masjid */
+        .header-section { 
+            background: #000; text-align: center; padding: 10px 0 5px 0; 
+            border-bottom: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; z-index: 10;
+        }
+        .header-text { 
+            font-size: clamp(1.2rem, 5vw, 3.5rem); font-weight: 900; color: #ffd700; 
+            text-shadow: 0 0 10px #ff00ff; text-transform: uppercase; 
+        }
 
+        /* RUNNING TEXT: Muncul tepat di bawah nama masjid */
+        .marquee-container { background: rgba(255, 0, 255, 0.2); overflow: hidden; white-space: nowrap; padding: 5px 0; }
+        .marquee-text { 
+            display: inline-block; font-size: 1.2rem; color: #fff; 
+            animation: jalan 20s linear infinite; 
+        }
+        @keyframes jalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        /* AREA UTAMA: Jam, Tanggal, dan Kartu Info */
         .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px; }
         #jam-digital { font-size: clamp(3rem, 15vw, 8rem); font-weight: bold; line-height: 1; }
         .dates { display: flex; gap: 15px; font-size: clamp(0.9rem, 3vw, 1.8rem); margin-bottom: 20px; }
-        #tgl-masehi { color: #ffd700; } #tgl-hijriah { color: #00ff00; }
+        
+        /* KARTU INFO: Keuangan & Petugas */
+        .info-container { 
+            display: flex; gap: 30px; /* Spasi antar kartu keuangan dan petugas */
+            width: 100%; justify-content: center; margin-top: 10px;
+        }
+        .card { 
+            background: rgba(0, 0, 0, 0.8); border: 2px solid #2e7d32; 
+            border-radius: 10px; width: 42%; max-width: 450px; overflow: hidden; 
+        }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 8px; font-weight: bold; text-align: center; }
+        .card-b { padding: 10px 15px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.1rem; padding: 5px 0; }
 
-        .info-container { display: flex; gap: 15px; width: 100%; justify-content: center; margin-bottom: 10px; }
-        .card { background: rgba(0, 0, 0, 0.7); border: 2px solid #2e7d32; border-radius: 8px; width: 45%; max-width: 400px; overflow: hidden; }
-        .card-h { background: #2e7d32; color: #ffd700; padding: 5px; font-weight: bold; text-align: center; }
-        .card-b { padding: 8px 12px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1rem; padding: 3px 0; }
-
-        .prayer-section { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 15px 10px; background: rgba(0, 40, 0, 0.85); border-top: 4px solid #ffd700; }
+        /* JADWAL SHOLAT: Baris paling bawah */
+        .prayer-section { 
+            display: grid; grid-template-columns: repeat(6, 1fr); 
+            gap: 8px; padding: 15px 10px; background: rgba(0, 40, 0, 0.9); 
+            border-top: 4px solid #ffd700; 
+        }
         .p-box { background: rgba(0, 0, 0, 0.7); border: 2px solid #ffd700; border-radius: 8px; padding: 10px 5px; text-align: center; }
         .p-name { color: #ffd700; font-size: 0.8rem; font-weight: bold; }
         .p-time { font-size: clamp(1.2rem, 4vw, 2.2rem); font-weight: bold; }
 
+        /* HIGHLIGHT: Warna emas untuk waktu berikutnya */
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; transform: scale(1.05); border: 2px solid #fff; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* --- TAMPILAN FULL BLACK (SAAT ADZAN/IQOMAH) --- */
+        /* MODE ADZAN/IQOMAH: Layar Hitam Total */
         #mode-sholat { 
-            display: none; /* Sembunyi secara default */
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000 !important; /* Hitam pekat */
-            z-index: 99999; /* Pastikan di atas segalanya */
-            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            display: none; position: fixed; inset: 0; background: #000 !important; 
+            z-index: 99999; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
         }
-
-        .big-text { 
-            color: #fff; font-size: 18vw; font-weight: 900; 
-            text-transform: uppercase; line-height: 1;
-            margin: 20px 0;
-        }
-
-        /* Animasi Blink (Kedip) */
+        .big-text { color: #fff; font-size: 16vw; font-weight: 900; text-transform: uppercase; }
         .blink { animation: blinker 1s linear infinite; color: #ffd700; }
         @keyframes blinker { 50% { opacity: 0; } }
-
-        .sub-text { font-size: 5vw; color: #00ff00; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="ui-normal" style="height: 100%; display: flex; flex-direction: column;">
-        <div class="header-section"><div class="header-text">MASJID DARUSSALAM</div></div>
+        <div class="header-section">
+            <div class="header-text">MASJID DARUSSALAM</div>
+            <div class="marquee-container">
+                <div class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman | Mengacu KHGT Muhammadiyah</div>
+            </div>
+        </div>
+
         <div class="main-display">
             <div id="jam-digital">00:00:00</div>
             <div class="dates"><div id="tgl-masehi">--</div><div id="tgl-hijriah">--</div></div>
+            
             <div class="info-container">
                 <div class="card">
-                    <div class="card-h">KEUANGAN</div>
+                    <div class="card-h">LAPORAN KEUANGAN</div>
                     <div class="card-b">
-                        <div class="row"><span>Masuk</span><span id="kas-in">0</span></div>
-                        <div class="row"><span>Keluar</span><span id="kas-out">0</span></div>
-                        <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                        <div class="row"><span>Pemasukan</span><span id="kas-in">0</span></div>
+                        <div class="row"><span>Pengeluaran</span><span id="kas-out">0</span></div>
+                        <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-h">PETUGAS HARI INI</div>
                     <div class="card-b">
-                        <div class="row"><span>Tarawih</span><span id="im-t">-</span></div>
-                        <div class="row"><span>Subuh</span><span id="im-s">-</span></div>
-                        <div class="row"><span>Jum'at</span><span id="im-j">-</span></div>
+                        <div class="row"><span>Imam Tarawih</span><span id="im-t">-</span></div>
+                        <div class="row"><span>Imam Subuh</span><span id="im-s">-</span></div>
+                        <div class="row"><span>Khotib Jum'at</span><span id="im-j">-</span></div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="prayer-section">
             <div class="p-box" id="box-SUBUH"><div class="p-name">SUBUH</div><div class="p-time" id="sh-subuh">--:--</div></div>
             <div class="p-box" id="box-SYURUQ"><div class="p-name">SYURUQ</div><div class="p-time" id="sh-terbit">--:--</div></div>
@@ -95,54 +118,68 @@
     </div>
 
     <div id="mode-sholat">
-        <div id="msg-atas" class="sub-text"></div>
+        <div id="msg-atas" style="font-size: 4vw; color: #00ff00;"></div>
         <div id="msg-utama" class="big-text blink"></div>
-        <div id="msg-bawah" class="sub-text"></div>
+        <div id="msg-bawah" style="font-size: 3vw; color: #fff; margin-top: 20px;"></div>
     </div>
 
     <script>
-        // --- PENGATURAN DURASI (DETIK) ---
-        const DURASI_ADZAN  = 60;  // 1 Menit
-        const DURASI_IQOMAH = 60;  // 1 Menit
-        const DURASI_SHOLAT = 60;  // 1 Menit
-        // --------------------------------
+        // PENGATURAN DURASI (DETIK)
+        const DURASI_ADZAN  = 60;  // Lama fase Adzan
+        const DURASI_IQOMAH = 60;  // Lama hitung mundur Iqomah
+        const DURASI_SHOLAT = 60;  // Lama layar sholat (hitam)
 
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
         let jadwal = {}; let timer; let modeAktif = false;
 
+        // Fungsi mengambil data dari Google Sheets
         async function muatData() {
             try {
                 const res = await fetch(urlCSV + '&t=' + Date.now());
                 const text = await res.text();
                 const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
-                const b1 = rows[1]; const b2 = rows[2];
-                document.getElementById('tgl-hijriah').innerText = b1[2] + " " + b2[0];
-                jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
-                document.getElementById('sh-subuh').innerText = b2[1];
-                document.getElementById('sh-terbit').innerText = b2[2];
-                document.getElementById('sh-zuhur').innerText = b2[3];
-                document.getElementById('sh-ashar').innerText = b2[4];
-                document.getElementById('sh-maghrib').innerText = b2[5];
-                document.getElementById('sh-isya').innerText = b2[6];
-                document.getElementById('kas-in').innerText = b2[8] || "0";
-                document.getElementById('kas-out').innerText = b2[9] || "0";
-                document.getElementById('kas-saldo').innerText = b2[10] || "0";
-                document.getElementById('im-t').innerText = b2[11] || "-";
-                document.getElementById('im-s').innerText = b2[12] || "-";
-                document.getElementById('im-j').innerText = b2[13] || "-";
-            } catch (e) { console.log("Gagal muat data"); }
+                const b2 = rows[2]; // Data utama ada di baris ke-3 spreadsheet
+                
+                document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + b2[0];
+                
+                // Menyimpan jadwal sholat ke objek jadwal
+                jadwal = { 
+                    "SUBUH": b2[1].padStart(5, '0'), "SYURUQ": b2[2].padStart(5, '0'), 
+                    "ZUHUR": b2[3].padStart(5, '0'), "ASHAR": b2[4].padStart(5, '0'), 
+                    "MAGHRIB": b2[5].padStart(5, '0'), "ISYA": b2[6].padStart(5, '0') 
+                };
+
+                // Update teks jadwal di layar
+                document.getElementById('sh-subuh').innerText = jadwal.SUBUH;
+                document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
+                document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR;
+                document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
+                document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB;
+                document.getElementById('sh-isya').innerText = jadwal.ISYA;
+
+                // Update data keuangan dan imam
+                document.getElementById('kas-in').innerText = b2[8];
+                document.getElementById('kas-out').innerText = b2[9];
+                document.getElementById('kas-saldo').innerText = b2[10];
+                document.getElementById('im-t').innerText = b2[11];
+                document.getElementById('im-s').innerText = b2[12];
+                document.getElementById('im-j').innerText = b2[13];
+            } catch (e) { console.log("Gagal sinkronisasi Google Sheets"); }
         }
 
-        function jamAktif() {
+        // Fungsi menjalankan jam dan logika waktu sholat
+        function jalankanSistem() {
             const now = new Date();
             const jamStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':');
+            
+            // Update jam digital utama
             document.getElementById('jam-digital').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
-            // Warna Emas Next Sholat
+            // Logika Warna Emas: Menentukan kotak mana yang akan datang berikutnya
             let foundNext = false;
-            const listS = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
-            listS.forEach(s => {
+            const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
+            urutan.forEach(s => {
                 let box = document.getElementById('box-' + s);
                 box.classList.remove('next-sholat');
                 if (!foundNext && jamStr < jadwal[s]) {
@@ -152,53 +189,57 @@
             });
             if (!foundNext) document.getElementById('box-SUBUH').classList.add('next-sholat');
 
-            // Trigger Adzan
+            // Cek apakah sekarang masuk waktu adzan
             for (let s in jadwal) {
                 if (s !== "SYURUQ" && jamStr === jadwal[s] && !modeAktif) {
-                    jalankanFase("ADZAN", s, DURASI_ADZAN);
+                    mulaiModeSholat("ADZAN", s, DURASI_ADZAN);
                 }
             }
         }
 
-        function jalankanFase(tipe, nama, durasi) {
+        // Fungsi mengganti tampilan layar menjadi hitam penuh (Adzan/Iqomah/Sholat)
+        function mulaiModeSholat(tipe, nama, detik) {
             modeAktif = true;
             const ui = document.getElementById('mode-sholat');
-            const msgAtas = document.getElementById('msg-atas');
-            const msgUtama = document.getElementById('msg-utama');
-            const msgBawah = document.getElementById('msg-bawah');
-            
             ui.style.display = 'flex';
-            let sisa = durasi;
+            let sisa = detik;
 
             clearInterval(timer);
             timer = setInterval(() => {
+                const m_atas = document.getElementById('msg-atas');
+                const m_utama = document.getElementById('msg-utama');
+                const m_bawah = document.getElementById('msg-bawah');
+
                 if (tipe === "ADZAN") {
-                    msgAtas.innerText = "KUMANDANG ADZAN";
-                    msgUtama.innerText = nama;
-                    msgBawah.innerText = "Mendengarkan & Menjawab Adzan";
+                    m_atas.innerText = "WAKTU SHOLAT";
+                    m_utama.innerText = nama;
+                    m_bawah.innerText = "Tenang ,Mendengarkan & Menjawab Adzan";
                 } else if (tipe === "IQOMAH") {
-                    msgAtas.innerText = "MENUJU IQOMAH";
-                    let m = Math.floor(sisa / 60); let s = sisa % 60;
-                    msgUtama.innerText = `${m}:${s < 10 ? '0'+s : s}`;
-                    msgBawah.innerText = "Siapkan Diri & Shaf";
+                    m_atas.innerText = "MENUJU IQOMAH";
+                    let min = Math.floor(sisa / 60); let sec = sisa % 60;
+                    m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
+                    m_bawah.innerText = "Luruskan dan Rapatkan Shaf";
                 } else if (tipe === "SHOLAT") {
-                    msgAtas.innerText = "SAATNYA SHOLAT";
-                    msgUtama.innerText = "ALLAHU AKBAR";
-                    msgBawah.innerText = "Harap Matikan HP / Mode Diam";
+                    m_atas.innerText = "SAATNYA DIRIKAN";
+                    m_utama.innerText ="SHOLAT";
+                    m_bawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU'";
                 }
 
                 sisa--;
                 if (sisa < 0) {
                     clearInterval(timer);
-                    if (tipe === "ADZAN") jalankanFase("IQOMAH", nama, DURASI_IQOMAH);
-                    else if (tipe === "IQOMAH") jalankanFase("SHOLAT", nama, DURASI_SHOLAT);
+                    // Pindah fase otomatis: Adzan -> Iqomah -> Sholat -> Normal
+                    if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
+                    else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
                     else { ui.style.display = 'none'; modeAktif = false; }
                 }
             }, 1000);
         }
 
-        setInterval(jamAktif, 1000);
-        muatData(); setInterval(muatData, 600000);
+        // Interval update data dan jam
+        setInterval(jalankanSistem, 1000);
+        muatData(); 
+        setInterval(muatData, 600000); // Sinkronisasi ulang data setiap 10 menit
     </script>
 </body>
 </html>
