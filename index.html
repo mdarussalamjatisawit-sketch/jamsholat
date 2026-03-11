@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Full Screen Fix</title>
+    <title>TV Masjid DarUSSALAM - Shadow Effect</title>
     <style>
         /* CSS DASAR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -15,15 +15,35 @@
 
         /* HEADER & MARQUEE */
         .header-section { background: #000; text-align: center; padding: 10px 0; border-bottom: 3px solid #ff00ff; z-index: 10; }
-        .header-text { font-size: 3.5rem; font-weight: 900; color: #ffd700; text-transform: uppercase; }
+        
+        /* 1. EFEK SHADOW PINK PADA HEADER */
+        .header-text { 
+            font-size: 3.5rem; font-weight: 900; color: #ffd700; 
+            text-transform: uppercase;
+            text-shadow: 3px 3px 10px #ff00ff, -3px -3px 10px #ff00ff; /* Shadow Pink */
+        }
+
         .marquee-container { background: rgba(255, 0, 255, 0.2); overflow: hidden; white-space: nowrap; padding: 5px 0; }
         .marquee-text { display: inline-block; font-size: 1.2rem; color: #fff; animation: jalan 25s linear infinite; }
         @keyframes jalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
         /* AREA TENGAH */
         .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        #jam-digital { font-size: 8rem; font-weight: bold; }
-        .dates { display: flex; gap: 20px; font-size: 1.8rem; margin-bottom: 20px; }
+        
+        /* 2. EFEK SHADOW HITAM PADA JAM */
+        #jam-digital { 
+            font-size: 8rem; font-weight: bold; 
+            text-shadow: 5px 5px 15px #000; /* Shadow Hitam */
+        }
+
+        /* 3. JARAK DAN SHADOW PADA TANGGAL */
+        .dates { 
+            display: flex; 
+            gap: 40px; /* Jarak antara Masehi dan Hijriah diperlebar */
+            font-size: 1.8rem; 
+            margin-bottom: 20px; 
+            text-shadow: 3px 3px 8px #000; /* Shadow Hitam */
+        }
         
         /* KARTU KEUANGAN & PETUGAS */
         .info-container { display: flex; gap: 40px; width: 90%; justify-content: center; }
@@ -38,22 +58,14 @@
         .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; }
         .p-time { font-size: 2.5rem; font-weight: bold; }
 
-        /* WARNA EMAS UNTUK JADWAL BERIKUTNYA */
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; color: #000 !important; transform: scale(1.1); box-shadow: 0 0 15px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* --- PERBAIKAN LOGIKA FULL LAYAR HITAM --- */
+        /* LAYER PENUTUP TOTAL */
         #mode-sholat { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100vw; height: 100vh; 
-            background: #000 !important; 
-            z-index: 100000; /* Menutupi semua elemen termasuk header */
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: #000 !important; z-index: 100000; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
         }
         .big-text { color: #ffd700; font-size: 15vw; font-weight: 900; text-transform: uppercase; width: 100%; }
         .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; }
@@ -61,8 +73,8 @@
         /* ANIMASI BLINK SESUAI PERMINTAAN (Nyala 2s, Mati 1s) */
         .blink-custom { animation: blink-logic 3s linear infinite; }
         @keyframes blink-logic {
-            0%, 66% { opacity: 1; }   /* Nyala 2 detik (66% dari 3 detik) */
-            67%, 100% { opacity: 0; } /* Mati 1 detik */
+            0%, 66% { opacity: 1; }   
+            67%, 100% { opacity: 0; } 
         }
     </style>
 </head>
@@ -77,7 +89,10 @@
         </div>
         <div class="main-display">
             <div id="jam-digital">00:00:00</div>
-            <div class="dates"><div id="tgl-masehi">--</div><div id="tgl-hijriah">--</div></div>
+            <div class="dates">
+                <div id="tgl-masehi">--</div>
+                <div id="tgl-hijriah">--</div>
+            </div>
             <div class="info-container">
                 <div class="card">
                     <div class="card-h">KEUANGAN MASJID</div>
@@ -114,13 +129,10 @@
     </div>
 
     <script>
-        // ==========================================
-        // PENGATURAN DURASI (Ganti Angka Di Sini)
-        // ==========================================
-        const DURASI_ADZAN  = 60;   // Durasi tampilan Adzan (detik)
-        const DURASI_IQOMAH = 300;  // Durasi hitung mundur Iqomah (detik)
-        const DURASI_SHOLAT = 600;  // Durasi layar saat sholat (detik)
-        // ==========================================
+        // PENGATURAN DURASI (DETIK)
+        const DURASI_ADZAN  = 30;   
+        const DURASI_IQOMAH = 30;  
+        const DURASI_SHOLAT = 30;  
 
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
         let jadwal = {}; let timer; let modeAktif = false;
@@ -154,7 +166,6 @@
             document.getElementById('jam-digital').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
-            // LOGIKA WARNA EMAS (Jadwal Selanjutnya)
             let foundNext = false;
             const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
             urutan.forEach(s => {
@@ -167,7 +178,6 @@
             });
             if (!foundNext) document.getElementById('box-SUBUH').classList.add('next-sholat');
 
-            // LOGIKA TRIGGER ADZAN
             for (let s in jadwal) {
                 if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif) {
                     mulaiModeSholat("ADZAN", s, DURASI_ADZAN);
@@ -178,7 +188,7 @@
         function mulaiModeSholat(tipe, nama, detik) {
             modeAktif = true;
             const ui = document.getElementById('mode-sholat');
-            ui.style.display = 'flex'; // Munculkan layar hitam penuh
+            ui.style.display = 'flex';
             let sisa = detik;
 
             clearInterval(timer);
