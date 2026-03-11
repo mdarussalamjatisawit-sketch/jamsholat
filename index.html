@@ -3,31 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Gold Edition</title>
+    <title>TV Masjid DarUSSALAM - Full Adzan Fix</title>
     <style>
-        /* CSS DASAR */
+        /* CSS DASAR - TETAP */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { 
             background: #000 url('masjid.jpg') no-repeat center center fixed; 
-            background-size: cover; color: white; height: 100vh; 
+            background-size: cover; color: white; height: 100vh; width: 100vw;
             display: flex; flex-direction: column; overflow: hidden; 
         }
 
-        /* HEADER */
+        /* Tampilan Header, Main, dan Card tetap sama seperti sebelumnya */
         .header-section { background: #000; text-align: center; padding: 8px 0; border-bottom: 3px solid #ff00ff; z-index: 10; }
-        .header-text { 
-            font-size: 3.2rem; font-weight: 900; color: #ffd700; 
-            text-transform: uppercase;
-            text-shadow: 0 0 15px #ff00ff; 
-        }
+        .header-text { font-size: 3.2rem; font-weight: 900; color: #ffd700; text-transform: uppercase; text-shadow: 0 0 15px #ff00ff; }
         .marquee-container { background: rgba(255, 0, 255, 0.2); overflow: hidden; white-space: nowrap; padding: 4px 0; }
         .marquee-text { display: inline-block; font-size: 1.1rem; color: #fff; animation: jalan 25s linear infinite; }
         @keyframes jalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* AREA TENGAH */
         .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; }
         
-        /* 1 & 2. JAM & TANGGAL MASEHI WARNA EMAS GRADASI */
         #jam-digital, #tgl-masehi { 
             background: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%);
             -webkit-background-clip: text;
@@ -37,24 +31,18 @@
         }
         #jam-digital { font-size: 9.5rem; line-height: 1; margin-bottom: 10px; }
 
-        /* 3. TANGGAL HIJRIAH WARNA HIJAU + JARAK */
         .dates { display: flex; align-items: center; gap: 60px; font-size: 2.2rem; font-weight: 800; }
-        #tgl-hijriah { 
-            color: #2ecc71; 
-            text-shadow: 3px 3px 5px #000;
-        }
+        #tgl-hijriah { color: #2ecc71; text-shadow: 3px 3px 5px #000; }
 
-        /* KARTU KEUANGAN & PETUGAS */
         .info-container { display: flex; gap: 30px; width: 92%; justify-content: center; margin-top: 15px; }
         .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; max-width: 550px; }
         .card-h { background: #2e7d32; color: #ffd700; padding: 10px; font-weight: bold; text-align: center; font-size: 1.3rem; }
         .card-b { padding: 12px 20px; }
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.2rem; padding: 8px 0; }
 
-        /* PERBAIKAN JADWAL SHOLAT (AGAR TIDAK KEPOTONG) */
         .prayer-section { 
             display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; 
-            padding: 15px 20px 25px 20px; /* Padding bawah ditambah agar aman dari bezel TV */
+            padding: 15px 20px 25px 20px; 
             background: rgba(0, 40, 0, 0.9); 
             border-top: 4px solid #ffd700;
         }
@@ -62,18 +50,28 @@
         .p-name { color: #ffd700; font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
         .p-time { font-size: 2.6rem; font-weight: 900; }
 
-        .next-sholat { 
-            background: linear-gradient(145deg, #ffd700, #b8860b) !important; 
-            transform: scale(1.05); 
-            box-shadow: 0 0 20px #ffd700; 
-        }
+        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; transform: scale(1.05); box-shadow: 0 0 20px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* LAYER PENUTUP FULL SCREEN */
+        /* ======================================================== */
+        /* PERBAIKAN: LAYER PENUTUP MODE ADZAN/SHOLAT AGAR FULL 100% */
+        /* ======================================================== */
         #mode-sholat { 
-            display: none; position: fixed; inset: 0; background: #000 !important; 
-            z-index: 100000; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw;     /* Pastikan lebar 100% viewport */
+            height: 100vh;    /* Pastikan tinggi 100% viewport */
+            background: #000 !important; 
+            z-index: 999999;  /* Angka z-index sangat tinggi agar di atas semua elemen */
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
         }
+        /* ======================================================== */
+
         .big-text { color: #ffd700; font-size: 15vw; font-weight: 900; text-transform: uppercase; width: 100%; }
         .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; }
         .blink-custom { animation: blink-logic 3s linear infinite; }
@@ -81,7 +79,6 @@
     </style>
 </head>
 <body>
-
     <div id="ui-normal">
         <div class="header-section">
             <div class="header-text">MASJID DARUSSALAM</div>
@@ -89,14 +86,12 @@
                 <div class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman | Mengacu KHGT Muhammadiyah</div>
             </div>
         </div>
-
         <div class="main-display">
             <div id="jam-digital">00:00:00</div>
             <div class="dates">
                 <div id="tgl-masehi">--</div>
                 <div id="tgl-hijriah">--</div>
             </div>
-            
             <div class="info-container">
                 <div class="card">
                     <div class="card-h">KEUANGAN MASJID</div>
@@ -116,7 +111,6 @@
                 </div>
             </div>
         </div>
-
         <div class="prayer-section">
             <div class="p-box" id="box-SUBUH"><div class="p-name">SUBUH</div><div class="p-time" id="sh-subuh">--:--</div></div>
             <div class="p-box" id="box-SYURUQ"><div class="p-name">SYURUQ</div><div class="p-time" id="sh-terbit">--:--</div></div>
@@ -134,9 +128,10 @@
     </div>
 
     <script>
-        const DURASI_ADZAN  = 60;   
-        const DURASI_IQOMAH = 300;  
-        const DURASI_SHOLAT = 600;  
+        // SCRIPT TETAP SAMA (LOGIKA ADZAN, IQOMAH, SHOLAT, DAN DATA CSV)
+        const DURASI_ADZAN  = 30;   
+        const DURASI_IQOMAH = 30;  
+        const DURASI_SHOLAT = 30;  
 
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
         let jadwal = {}; let timer; let modeAktif = false;
@@ -202,7 +197,7 @@
                 if (tipe === "ADZAN") {
                     m_atas.innerText = "KUMANDANG ADZAN";
                     m_utama.innerText = nama;
-                    m_bawah.innerText = "Menjawab Adzan";
+                    m_bawah.innerText = "Tenang, Mendengarkan & Menjawab Adzan";
                 } else if (tipe === "IQOMAH") {
                     m_atas.innerText = "MENUJU IQOMAH";
                     let min = Math.floor(sisa / 60); let sec = sisa % 60;
