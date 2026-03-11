@@ -22,12 +22,19 @@
 
         .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; }
         
-        #jam-digital, #tgl-masehi { 
-            background: linear-gradient(to bottom, #fff 80%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            text-shadow:0 0 80px #000;
+        #jam-digital,#tgl-masehi { 
+    font-size: 2.2rem; /* Sesuaikan ukuran jika dirasa kurang besar */
+    color: #ffffff;    /* Warna Putih Bersih */
+    font-weight: 800;
+    /* Shadow Hitam berlapis agar tulisan "keluar" dari background */
+    text-shadow: 
+        2px 2px 4px #000, 
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+    background: none;
+    -webkit-text-fill-color: initial;
         }
         #jam-digital {
     /* Ukuran tetap besar */
