@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Shadow Effect</title>
+    <title>TV Masjid DarUSSALAM - High Contrast</title>
     <style>
         /* CSS DASAR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -15,67 +15,65 @@
 
         /* HEADER & MARQUEE */
         .header-section { background: #000; text-align: center; padding: 10px 0; border-bottom: 3px solid #ff00ff; z-index: 10; }
-        
-        /* 1. EFEK SHADOW PINK PADA HEADER */
         .header-text { 
             font-size: 3.5rem; font-weight: 900; color: #ffd700; 
             text-transform: uppercase;
-            text-shadow: 3px 3px 10px #ff00ff, -3px -3px 10px #ff00ff; /* Shadow Pink */
+            text-shadow: 0 0 15px #ff00ff, 0 0 5px #ff00ff; /* Shadow Pink diperkuat */
         }
 
         .marquee-container { background: rgba(255, 0, 255, 0.2); overflow: hidden; white-space: nowrap; padding: 5px 0; }
         .marquee-text { display: inline-block; font-size: 1.2rem; color: #fff; animation: jalan 25s linear infinite; }
         @keyframes jalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* AREA TENGAH */
+        /* AREA TENGAH (JAM & TANGGAL DENGAN OUTLINE TEBAL) */
         .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
-        /* 2. EFEK SHADOW HITAM PADA JAM */
         #jam-digital { 
-            font-size: 8rem; font-weight: bold; 
-            text-shadow: 5px 5px 15px #000; /* Shadow Hitam */
+            font-size: 9rem; font-weight: 900; 
+            color: #fff;
+            /* Efek Line/Outline Hitam */
+            -webkit-text-stroke: 3px #000; 
+            /* Shadow Hitam Pekat */
+            text-shadow: 8px 8px 10px #000; 
         }
 
-        /* 3. JARAK DAN SHADOW PADA TANGGAL */
         .dates { 
             display: flex; 
-            gap: 40px; /* Jarak antara Masehi dan Hijriah diperlebar */
-            font-size: 1.8rem; 
-            margin-bottom: 20px; 
-            text-shadow: 3px 3px 8px #000; /* Shadow Hitam */
+            gap: 50px; 
+            font-size: 2rem; font-weight: 700; 
+            margin-bottom: 25px;
+            /* Efek Line Hitam pada Tanggal */
+            -webkit-text-stroke: 1.5px #000;
+            text-shadow: 5px 5px 8px #000;
         }
         
         /* KARTU KEUANGAN & PETUGAS */
-        .info-container { display: flex; gap: 40px; width: 90%; justify-content: center; }
-        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 10px; flex: 1; max-width: 500px; }
-        .card-h { background: #2e7d32; color: #ffd700; padding: 10px; font-weight: bold; text-align: center; font-size: 1.2rem; }
-        .card-b { padding: 15px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.1rem; padding: 8px 0; }
+        .info-container { display: flex; gap: 45px; width: 90%; justify-content: center; }
+        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 12px; font-weight: bold; text-align: center; font-size: 1.3rem; }
+        .card-b { padding: 15px 20px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.2rem; padding: 10px 0; }
 
         /* JADWAL SHOLAT BAWAH */
-        .prayer-section { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; padding: 20px; background: rgba(0, 40, 0, 0.9); }
-        .p-box { background: rgba(0,0,0,0.7); border: 2px solid #ffd700; border-radius: 8px; padding: 15px 5px; text-align: center; }
-        .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; }
-        .p-time { font-size: 2.5rem; font-weight: bold; }
+        .prayer-section { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; padding: 25px; background: rgba(0, 40, 0, 0.9); border-top: 5px solid #ffd700; }
+        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 15px 5px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 1.1rem; font-weight: bold; }
+        .p-time { font-size: 2.8rem; font-weight: 900; }
 
-        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; color: #000 !important; transform: scale(1.1); box-shadow: 0 0 15px #ffd700; }
-        .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
+        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; color: #000 !important; transform: scale(1.1); box-shadow: 0 0 20px #ffd700; z-index: 5; }
+        .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; -webkit-text-stroke: 0px; }
 
         /* LAYER PENUTUP TOTAL */
         #mode-sholat { 
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000 !important; z-index: 100000; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center;
+            display: none; position: fixed; inset: 0; background: #000 !important; 
+            z-index: 100000; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
         .big-text { color: #ffd700; font-size: 15vw; font-weight: 900; text-transform: uppercase; width: 100%; }
         .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; }
 
         /* ANIMASI BLINK SESUAI PERMINTAAN (Nyala 2s, Mati 1s) */
         .blink-custom { animation: blink-logic 3s linear infinite; }
-        @keyframes blink-logic {
-            0%, 66% { opacity: 1; }   
-            67%, 100% { opacity: 0; } 
-        }
+        @keyframes blink-logic { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -129,7 +127,7 @@
     </div>
 
     <script>
-        // PENGATURAN DURASI (DETIK)
+        // PENGATURAN DURASI
         const DURASI_ADZAN  = 30;   
         const DURASI_IQOMAH = 30;  
         const DURASI_SHOLAT = 30;  
@@ -157,7 +155,7 @@
                 document.getElementById('im-t').innerText = b2[11];
                 document.getElementById('im-s').innerText = b2[12];
                 document.getElementById('im-j').innerText = b2[13];
-            } catch (e) { console.error("Error CSV"); }
+            } catch (e) { console.error("CSV Error"); }
         }
 
         function sistemWaktu() {
@@ -190,13 +188,11 @@
             const ui = document.getElementById('mode-sholat');
             ui.style.display = 'flex';
             let sisa = detik;
-
             clearInterval(timer);
             timer = setInterval(() => {
                 const m_atas = document.getElementById('msg-atas');
                 const m_utama = document.getElementById('msg-utama');
                 const m_bawah = document.getElementById('msg-bawah');
-
                 if (tipe === "ADZAN") {
                     m_atas.innerText = "KUMANDANG ADZAN";
                     m_utama.innerText = nama;
@@ -211,7 +207,6 @@
                     m_utama.innerText = "ALLAHU AKBAR";
                     m_bawah.innerText = "Matikan HP";
                 }
-
                 sisa--;
                 if (sisa < 0) {
                     clearInterval(timer);
