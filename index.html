@@ -3,49 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Optimized</title>
+    <title>TV Masjid DarUSSALAM - Full Fixed</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #000 url('masjid.jpg') no-repeat center center fixed; background-size: cover; color: white; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        body { 
+            background: #000 url('masjid.jpg') no-repeat center center fixed; 
+            background-size: cover; color: white; height: 100vh; 
+            display: flex; flex-direction: column; overflow: hidden;
+        }
 
         /* HEADER */
-        .header-section { background: #000; text-align: center; padding: 15px 5px; border-bottom: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; }
-        .header-text { font-size: clamp(1.5rem, 7vw, 4rem); font-weight: 900; color: #ffd700; text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; text-transform: uppercase; }
+        .header-section { 
+            background: #000; text-align: center; padding: 10px; 
+            border-bottom: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; z-index: 10;
+        }
+        .header-text { 
+            font-size: clamp(1.2rem, 5vw, 3.5rem); font-weight: 900; color: #ffd700; 
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; text-transform: uppercase; 
+        }
 
-        /* JAM & KAS */
-        .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px 0; }
-        #jam-digital { font-size: clamp(4rem, 18vw, 9rem); font-weight: bold; line-height: 1; }
-        .dates { display: flex; gap: 20px; font-size: clamp(1rem, 4vw, 2rem); margin-top: 10px; }
+        /* AREA TENGAH (JAM & INFO) */
+        .main-display { 
+            flex: 1; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; padding: 10px;
+        }
+        
+        #jam-digital { font-size: clamp(3rem, 15vw, 8rem); font-weight: bold; line-height: 1; }
+        .dates { display: flex; gap: 15px; font-size: clamp(0.9rem, 3vw, 1.8rem); margin-bottom: 20px; }
         #tgl-masehi { color: #ffd700; } #tgl-hijriah { color: #00ff00; }
 
-        /* JADWAL SHOLAT (DIPERBAIKI AGAR TIDAK TERLALU KE ATAS) */
-        .prayer-section { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); 
-            gap: 10px; padding: 30px 15px; /* Padding ditambah agar ada jarak dari info atas */
-            background: rgba(0, 40, 0, 0.85); border-top: 4px solid #ffd700;
-            margin-top: auto; /* Memaksa jadwal tetap berada di paling bawah layar */
+        /* KARTU KEUANGAN & PETUGAS (DIPERBAIKI) */
+        .info-container { 
+            display: flex; gap: 15px; width: 100%; justify-content: center; 
+            flex-wrap: nowrap; /* Tetap berdampingan di TV */
+            margin-bottom: 10px;
         }
-        .p-box { background: rgba(0, 0, 0, 0.7); border: 2px solid #ffd700; border-radius: 10px; padding: 12px; text-align: center; transition: 0.5s; }
-        .p-name { color: #ffd700; font-size: 0.9rem; font-weight: bold; }
-        .p-time { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: bold; }
+        .card { 
+            background: rgba(0, 0, 0, 0.7); border: 2px solid #2e7d32; 
+            border-radius: 8px; overflow: hidden; width: 45%; max-width: 400px;
+        }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 5px; font-weight: bold; text-align: center; font-size: 1rem; }
+        .card-b { padding: 8px 12px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1rem; padding: 3px 0; }
+
+        /* JADWAL SHOLAT (DI PALING BAWAH) */
+        .prayer-section { 
+            display: grid; grid-template-columns: repeat(6, 1fr); 
+            gap: 8px; padding: 15px 10px; background: rgba(0, 40, 0, 0.85); 
+            border-top: 4px solid #ffd700; width: 100%;
+        }
+        .p-box { background: rgba(0, 0, 0, 0.7); border: 2px solid #ffd700; border-radius: 8px; padding: 10px 5px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 0.8rem; font-weight: bold; }
+        .p-time { font-size: clamp(1.2rem, 4vw, 2.2rem); font-weight: bold; }
 
         /* HIGHLIGHT WAKTU BERIKUTNYA */
-        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; transform: scale(1.08); box-shadow: 0 0 25px #ffd700; border: 2px solid #fff; z-index: 5; }
+        .next-sholat { 
+            background: linear-gradient(145deg, #ffd700, #b8860b) !important; 
+            transform: scale(1.05); box-shadow: 0 0 20px #ffd700; border: 2px solid #fff; 
+        }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* MODE LAYAR PENUH (ADZAN/IQOMAH/SHOLAT) */
-        #mode-sholat { display: none; position: fixed; inset: 0; background: #000; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        /* MODE LAYAR PENUH */
+        #mode-sholat { display: none; position: fixed; inset: 0; background: #000; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; }
         .big-text { color: #fff; font-size: 15vw; font-weight: 900; text-shadow: 0 0 30px #ff00ff; text-transform: uppercase; }
         .sub-text { font-size: 4vw; color: #ffd700; margin-bottom: 20px; }
+
+        /* Penyesuaian HP */
+        @media (max-width: 600px) {
+            .info-container { flex-direction: column; align-items: center; }
+            .card { width: 95%; }
+            .prayer-section { grid-template-columns: repeat(3, 1fr); }
+        }
     </style>
 </head>
 <body>
-    <div id="ui-normal">
+    <div id="ui-normal" style="height: 100%; display: flex; flex-direction: column;">
         <div class="header-section"><div class="header-text">MASJID DARUSSALAM</div></div>
+        
         <div class="main-display">
             <div id="jam-digital">00:00:00</div>
             <div class="dates"><div id="tgl-masehi">--</div><div id="tgl-hijriah">--</div></div>
+            
+            <div class="info-container">
+                <div class="card">
+                    <div class="card-h">KEUANGAN</div>
+                    <div class="card-b">
+                        <div class="row"><span>Masuk</span><span id="kas-in">0</span></div>
+                        <div class="row"><span>Keluar</span><span id="kas-out">0</span></div>
+                        <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-h">PETUGAS HARI INI</div>
+                    <div class="card-b">
+                        <div class="row"><span>Tarawih</span><span id="im-t">-</span></div>
+                        <div class="row"><span>Subuh</span><span id="im-s">-</span></div>
+                        <div class="row"><span>Jum'at</span><span id="im-j">-</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="prayer-section">
             <div class="p-box" id="box-SUBUH"><div class="p-name">SUBUH</div><div class="p-time" id="sh-subuh">--:--</div></div>
             <div class="p-box" id="box-SYURUQ"><div class="p-name">SYURUQ</div><div class="p-time" id="sh-terbit">--:--</div></div>
@@ -63,9 +122,9 @@
 
     <script>
         // --- PENGATURAN DURASI (DALAM DETIK) ---
-        const DURASI_ADZAN  = 60;  // 1 Menit
-        const DURASI_IQOMAH = 60;  // 1 Menit 
-        const DURASI_SHOLAT = 60;  // 1 Menit (Layar hitam saat sholat berlangsung)
+        const DURASI_ADZAN  = 60;  // Ganti 60 menjadi lama menit adzan yang diinginkan
+        const DURASI_IQOMAH = 60;  // Ganti 60 menjadi lama jeda iqomah yang diinginkan
+        const DURASI_SHOLAT = 60;  // Ganti 60 menjadi lama layar hitam saat sholat
         // ---------------------------------------
 
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
@@ -76,13 +135,24 @@
                 const res = await fetch(urlCSV + '&t=' + Date.now());
                 const text = await res.text();
                 const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
-                const b2 = rows[2];
-                document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + rows[2][0];
+                const b1 = rows[1]; const b2 = rows[2];
+                
+                document.getElementById('tgl-hijriah').innerText = b1[2] + " " + b2[0];
                 jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
-                for (let s in jadwal) { 
-                    let id = s === 'SYURUQ' ? 'sh-terbit' : 'sh-' + s.toLowerCase();
-                    document.getElementById(id).innerText = jadwal[s]; 
-                }
+                
+                document.getElementById('sh-subuh').innerText = b2[1];
+                document.getElementById('sh-terbit').innerText = b2[2];
+                document.getElementById('sh-zuhur').innerText = b2[3];
+                document.getElementById('sh-ashar').innerText = b2[4];
+                document.getElementById('sh-maghrib').innerText = b2[5];
+                document.getElementById('sh-isya').innerText = b2[6];
+
+                document.getElementById('kas-in').innerText = b2[8] || "0";
+                document.getElementById('kas-out').innerText = b2[9] || "0";
+                document.getElementById('kas-saldo').innerText = b2[10] || "0";
+                document.getElementById('im-t').innerText = b2[11] || "-";
+                document.getElementById('im-s').innerText = b2[12] || "-";
+                document.getElementById('im-j').innerText = b2[13] || "-";
             } catch (e) { console.log("Gagal muat data"); }
         }
 
@@ -92,7 +162,7 @@
             document.getElementById('jam-digital').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
-            // LOGIKA WARNA EMAS (WAKTU BERIKUTNYA)
+            // LOGIKA WARNA EMAS (Next Sholat)
             let foundNext = false;
             const listS = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
             listS.forEach(s => {
@@ -105,7 +175,7 @@
             });
             if (!foundNext) document.getElementById('box-SUBUH').classList.add('next-sholat');
 
-            // LOGIKA ADZAN
+            // Cek Waktu Sholat
             for (let s in jadwal) {
                 if (s !== "SYURUQ" && jamStr === jadwal[s] && modeAktif === "") {
                     jalankanMode("ADZAN", s, DURASI_ADZAN);
