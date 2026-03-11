@@ -202,21 +202,21 @@
                 m_utama.classList.remove('blink-custom');
 
                 if (tipe === "ADZAN") {
-                    m_atas.innerText = "KUMANDANG ADZAN";
+                    m_atas.innerText = "SAAT ADZAN";
                     m_utama.innerText = nama;
                     m_utama.classList.add('blink-custom');
-                    m_bawah.innerText = "Tenang, Mendengarkan & Menjawab Adzan";
+                    m_bawah.innerText = "harap Tenang & Mendengarkan";
                 } else if (tipe === "IQOMAH") {
                     m_atas.innerText = "MENUJU IQOMAH";
                     m_atas.classList.add('blink-custom'); 
                     let min = Math.floor(sisa / 60); let sec = sisa % 60;
                     m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
-                    m_bawah.innerText = "Rapatkan Shaf";
+                    m_bawah.innerText = "MATIKAN HP & DITIKAN SHOLAT SUNAH";
                 } else if (tipe === "SHOLAT") {
-                    m_atas.innerText = "WAKTU SHOLAT";
-                    m_utama.innerText = "ALLAHU AKBAR";
+                    m_atas.innerText = "DIRIKAN";
+                    m_utama.innerText = "SHOLAT";
                     m_utama.classList.add('blink-custom');
-                    m_bawah.innerText = "Matikan HP";
+                    m_bawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU'";
                 }
 
                 sisa--;
