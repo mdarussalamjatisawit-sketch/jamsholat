@@ -30,19 +30,27 @@
             filter: drop-shadow(4px 4px 6px #000);
         }
         #jam-digital {
-    /* Ukuran besar kembali */
+    /* Ukuran tetap besar */
     font-size: 9.5rem; 
     line-height: 1;
     margin-bottom: 10px;
-    
-    /* Warna Merah Gradasi */
-    background: linear-gradient(to bottom, #ff4d4d 0%, #990000 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     font-weight: 900;
-    
-    /* Bayangan Hitam agar kontras */
-    filter: drop-shadow(4px 4px 4px #000);
+
+    /* Warna dasar putih (inti lampu neon) */
+    color: #fff; 
+
+    /* Efek Pendaran Neon Merah Berlapis */
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px #ff0000,
+        0 0 40px #ff0000,
+        0 0 60px #ff0000,
+        0 0 80px #ff0000;
+
+    /* Menghilangkan background gradasi agar efek neon maksimal */
+    background: none;
+    -webkit-text-fill-color: initial;
         }
 
         .dates { display: flex; align-items: center; gap: 60px; font-size: 2.2rem; font-weight: 800; }
