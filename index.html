@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Full Adzan Fix</title>
+    <title>TV Masjid DarUSSALAM - Final Version</title>
     <style>
         /* CSS DASAR - TETAP */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -13,7 +13,7 @@
             display: flex; flex-direction: column; overflow: hidden; 
         }
 
-        /* Tampilan Header, Main, dan Card tetap sama seperti sebelumnya */
+        /* HEADER & TAMPILAN UTAMA - TETAP */
         .header-section { background: #000; text-align: center; padding: 8px 0; border-bottom: 3px solid #ff00ff; z-index: 10; }
         .header-text { font-size: 3.2rem; font-weight: 900; color: #ffd700; text-transform: uppercase; text-shadow: 0 0 15px #ff00ff; }
         .marquee-container { background: rgba(255, 0, 255, 0.2); overflow: hidden; white-space: nowrap; padding: 4px 0; }
@@ -53,32 +53,21 @@
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; transform: scale(1.05); box-shadow: 0 0 20px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* ======================================================== */
-        /* PERBAIKAN: LAYER PENUTUP MODE ADZAN/SHOLAT AGAR FULL 100% */
-        /* ======================================================== */
+        /* LAYER PENUTUP FULL SCREEN */
         #mode-sholat { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw;     /* Pastikan lebar 100% viewport */
-            height: 100vh;    /* Pastikan tinggi 100% viewport */
-            background: #000 !important; 
-            z-index: 999999;  /* Angka z-index sangat tinggi agar di atas semua elemen */
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center;
+            display: none; position: fixed; inset: 0; background: #000 !important; 
+            z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        /* ======================================================== */
-
         .big-text { color: #ffd700; font-size: 15vw; font-weight: 900; text-transform: uppercase; width: 100%; }
         .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; }
+
+        /* ANIMASI BLINK SESUAI PERMINTAAN (Nyala 2s, Mati 1s) */
         .blink-custom { animation: blink-logic 3s linear infinite; }
         @keyframes blink-logic { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
     </style>
 </head>
 <body>
+
     <div id="ui-normal">
         <div class="header-section">
             <div class="header-text">MASJID DARUSSALAM</div>
@@ -123,12 +112,11 @@
 
     <div id="mode-sholat">
         <div id="msg-atas" class="sub-text"></div>
-        <div id="msg-utama" class="big-text blink-custom"></div>
+        <div id="msg-utama" class="big-text"></div>
         <div id="msg-bawah" class="sub-text"></div>
     </div>
 
     <script>
-        // SCRIPT TETAP SAMA (LOGIKA ADZAN, IQOMAH, SHOLAT, DAN DATA CSV)
         const DURASI_ADZAN  = 30;   
         const DURASI_IQOMAH = 30;  
         const DURASI_SHOLAT = 30;  
@@ -190,24 +178,34 @@
             ui.style.display = 'flex';
             let sisa = detik;
             clearInterval(timer);
+            
             timer = setInterval(() => {
                 const m_atas = document.getElementById('msg-atas');
                 const m_utama = document.getElementById('msg-utama');
                 const m_bawah = document.getElementById('msg-bawah');
+
+                // Reset semua animasi blink dulu
+                m_atas.classList.remove('blink-custom');
+                m_utama.classList.remove('blink-custom');
+
                 if (tipe === "ADZAN") {
                     m_atas.innerText = "KUMANDANG ADZAN";
                     m_utama.innerText = nama;
+                    m_utama.classList.add('blink-custom'); // Adzan: Nama Sholat berkedip
                     m_bawah.innerText = "Tenang, Mendengarkan & Menjawab Adzan";
                 } else if (tipe === "IQOMAH") {
                     m_atas.innerText = "MENUJU IQOMAH";
+                    m_atas.classList.add('blink-custom');  // Iqomah: Tulisan "Menuju Iqomah" berkedip
                     let min = Math.floor(sisa / 60); let sec = sisa % 60;
-                    m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
+                    m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`; // Jam (m_utama) diam
                     m_bawah.innerText = "Rapatkan Shaf";
                 } else if (tipe === "SHOLAT") {
                     m_atas.innerText = "WAKTU SHOLAT";
                     m_utama.innerText = "ALLAHU AKBAR";
+                    m_utama.classList.add('blink-custom'); // Sholat: Allahu Akbar berkedip
                     m_bawah.innerText = "Matikan HP";
                 }
+
                 sisa--;
                 if (sisa < 0) {
                     clearInterval(timer);
