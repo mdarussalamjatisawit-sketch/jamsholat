@@ -116,10 +116,15 @@
 
         /* ANGKA JAM WARNA EMAS (Persis Masjid Darussalam) */
         #jam-digital {
+            /* Gunakan font tebal agar warna emasnya kelihatan mengkilap */
             font-family: 'Arial Black', Gadget, sans-serif;
-            font-size: 11rem; /* Sesuaikan ukuran angkanya di sini */
+            font-size: 13rem; /* Sesuaikan besarnya di sini */
             font-weight: 900;
             line-height: 1;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+
+            /* EFEK EMAS METALIK (Persis Masjid Darussalam) */
             background: linear-gradient(
                 to bottom, 
                 #BF953F 0%, 
@@ -130,8 +135,9 @@
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(4px 4px 2px rgba(0,0,0,1));
-            display: block;
+
+            /* BAYANGAN HITAM TEGAS (Supaya tulisan emas terbaca jelas di atas gambar) */
+            filter: drop-shadow(5px 5px 5px rgba(0,0,0,1));
         }
 
         .dates { display: flex; align-items: center; gap: 30px; font-size: 1.8rem; font-weight: 800; }
