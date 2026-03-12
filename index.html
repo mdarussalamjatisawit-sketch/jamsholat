@@ -102,16 +102,36 @@
             overflow: hidden; /* Mencegah jam mengecil otomatis */
         }
 
+        /* CONTAINER/KOTAK HITAM UNTUK JAM */
+        .jam-wrapper {
+            background: #000000; /* Hitam Pekat */
+            padding: 10px 50px; /* Jarak ruang di dalam kotak */
+            border-radius: 30px; /* Bentuk Kapsul */
+            border: 3px solid #D4AF37; /* Outline Emas */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); /* Pijar Emas */
+            display: inline-block;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        /* ANGKA JAM WARNA EMAS (Persis Masjid Darussalam) */
         #jam-digital {
+            font-family: 'Arial Black', Gadget, sans-serif;
+            font-size: 11rem; /* Sesuaikan ukuran angkanya di sini */
             font-weight: 900;
-            font-size: 13rem; /* Ukuran jam digital */
             line-height: 1;
-            margin-bottom: 20px; /* Jarak jam ke tanggal di bawahnya */
-            background-image: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%);
+            background: linear-gradient(
+                to bottom, 
+                #BF953F 0%, 
+                #FCF6BA 25%, 
+                #B38728 50%, 
+                #FBF5B7 75%, 
+                #AA771C 100%
+            );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(4px 4px 6px #000);
-            flex-shrink: 0; /* KUNCI: Supaya jam TIDAK BISA mengecil */
+            filter: drop-shadow(4px 4px 2px rgba(0,0,0,1));
+            display: block;
         }
 
         .dates { display: flex; align-items: center; gap: 30px; font-size: 1.8rem; font-weight: 800; }
@@ -170,7 +190,9 @@
     </div>
 
     <div class="main-display">
-        <div id="jam-digital">00:00:00</div>
+      <div class="jam-wrapper">
+    <div id="jam-digital">00:00:00</div>
+      </div>
         <div class="dates">
             <div id="tgl-masehi">--</div>
             <div id="tgl-hijriah">--</div>
