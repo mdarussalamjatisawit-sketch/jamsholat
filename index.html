@@ -62,12 +62,24 @@ filter: drop-shadow(4px 4px 6px #000);
 #jam-digital { font-size: 9.5rem; line-height: 1; margin-bottom: 10px; }
 
 
+/*untuk tampilan tanggal hijriah dan masehi*/
+.dates { 
+    display: flex; 
+    align-items: center; 
+    gap: 40px; 
+    font-size: 2.2rem; 
+    font-weight: 800; 
+    margin-top: 15px; 
+}
 
-.dates { display: flex; align-items: center; gap: 60px; font-size: 2.2rem; font-weight: 800; }
+#tgl-masehi, #tgl-hijriah { 
+    background: rgba(0, 0, 0, 0.65); /* Ini background hitam transparannya */
+    padding: 8px 30px; 
+    border-radius: 50px; 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+}
 
-#tgl-hijriah { color: #B1FB17; text-shadow: 3px 3px 5px #000; }
-
-
+#tgl-hijriah { color: #B1FB17; text-shadow: 2px 2px 4px #000; }
 
 .info-container { display: flex; gap: 350px; width: 92%; justify-content: center; margin-top: 15px; }/*jarak antar kotak penceramah*/
 
