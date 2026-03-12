@@ -50,13 +50,31 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .marquee-container { 
-            margin-top: 10px; background: rgba(255, 0, 255, 0.3); 
-            overflow: hidden; white-space: nowrap; padding: 4px 0; 
-        }
-        .marquee-text { display: inline-block; font-size: 1.2rem; color: #fff; animation: jalan 30s linear infinite; }
-        @keyframes jalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        /* --- PERBAIKAN RUNNING TEXT (LEBIH MULUS) --- */
+.marquee-container { 
+    margin-top: 10px; 
+    /* GANTI WARNA BACKGROUND DI SINI (rgba: merah, hijau, biru, transparansi) */
+    background: rgba(255, 0, 255, 0.3); 
+    overflow: hidden; 
+    white-space: nowrap; 
+    padding: 6px 0; 
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.marquee-text { 
+    display: inline-block; 
+    font-size: 1.3rem; 
+    color: #fff; 
+    /* Gunakan translate3d agar gerakan diproses kartu grafis (mulus) */
+    animation: jalan-mulus 30s linear infinite;
+    will-change: transform;
+}
+
+@keyframes jalan-mulus { 
+    from { transform: translate3d(100%, 0, 0); } 
+    to { transform: translate3d(-100%, 0, 0); } 
+}
 
         /* AREA TENGAH */
         .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; }
