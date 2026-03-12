@@ -50,24 +50,25 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* --- PERBAIKAN RUNNING TEXT (LEBIH MULUS) --- */
+        /* --- PERBAIKAN RUNNING TEXT BENTUK KAPSUL --- */
 .marquee-container { 
-    margin-top: 10px; 
-    /* GANTI WARNA BACKGROUND DI SINI (rgba: merah, hijau, biru, transparansi) */
-    background: rgba(0, 0, 0, 0.8); 
+    margin: 10px auto; /* Memberi jarak atas-bawah dan rata tengah */
+    width: 90%; /* <--- ATUR LEBAR DI SINI (tidak full layar) */
+    background: rgba(0, 0, 0, 0.7); /* Hitam Transparan */
     overflow: hidden; 
     white-space: nowrap; 
-    padding: 6px 0; 
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 0; 
+    border-radius: 50px; /* Bentuk Kapsul */
+    border: 2px solid #ff00ff; /* Garis Tepi Pink */
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); /* Efek Pijar Tipis */
 }
 
 .marquee-text { 
     display: inline-block; 
-    font-size: 1.3rem; 
+    font-size: 1.25rem; 
     color: #fff; 
-    /* Gunakan translate3d agar gerakan diproses kartu grafis (mulus) */
-    animation: jalan-mulus 20s linear infinite;
+    /* Animasi Jalan Mulus */
+    animation: jalan-mulus 30s linear infinite;
     will-change: transform;
 }
 
