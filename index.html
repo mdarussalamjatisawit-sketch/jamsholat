@@ -10,86 +10,90 @@
         body {
             background: #000 url('masjid.jpg') no-repeat center center fixed;
             background-size: cover; color: white; height: 100vh; width: 100vw;
-            display: flex; flex-direction: column; overflow: hidden;
+            display: flex; flex-direction: column; overflow: hidden; /* Mencegah scrollbar */
         }
 
         /* HEADER & TAMPILAN UTAMA */
-        .header-section { background: #000; text-align: center; padding: 8px 0; border-bottom: 3px solid #ff00ff; z-index: 10; }
-        .header-text { font-size: 3.2rem; font-weight: 900; color: #ffd700; text-transform: uppercase; text-shadow: 0 0 15px #ff00ff; }
+        .header-section { background: #000; text-align: center; padding: 5px 0; border-bottom: 3px solid #ff00ff; z-index: 10; }
+        .header-text { font-size: 3rem; font-weight: 900; color: #ffd700; text-transform: uppercase; text-shadow: 0 0 15px #ff00ff; }
         .marquee-container { background: rgba(255, 0, 255, 0.2); overflow: hidden; white-space: nowrap; padding: 4px 0; }
         .marquee-text { display: inline-block; font-size: 1.1rem; color: #fff; animation: jalan 25s linear infinite; }
         @keyframes jalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        .main-display { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; }
+        /* AREA TENGAH (JAM, TANGGAL, KAS) */
+        .main-display { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-evenly; /* Mengatur spasi antar elemen secara otomatis agar tidak menumpuk */
+            align-items: center; 
+            padding: 10px 0;
+            overflow: hidden; 
+        }
 
-        /* JAM DIGITAL - Efek Gradasi Emas */
+        /* BOX JAM DIGITAL DENGAN BACKGROUND TRANSPARAN */
         #jam-digital {
-            background: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%);
+            background: rgba(0, 0, 0, 0.5); /* Background transparan hitam */
+            padding: 10px 50px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            font-weight: 900;
+            font-size: 9rem; /* Ukuran sedikit dikecilkan agar tidak makan tempat */
+            line-height: 1;
+            /* Efek Tulisan Emas */
+            background-image: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 900;
             filter: drop-shadow(4px 4px 6px #000);
-            font-size: 9.5rem; line-height: 1; margin-bottom: 10px;
         }
 
         /* CONTAINER TANGGAL */
-        .dates { 
-            display: flex; 
-            align-items: center; 
-            gap: 40px; 
-            font-size: 2.2rem; 
-            font-weight: 800; 
-            margin-top: 15px; 
-        }
+        .dates { display: flex; align-items: center; gap: 40px; font-size: 2rem; font-weight: 800; }
 
-        /* KOTAK BACKGROUND TANGGAL (MASEHI & HIJRIAH) */
         #tgl-masehi, #tgl-hijriah { 
             background: rgba(0, 0, 0, 0.65); 
             padding: 8px 30px; 
             border-radius: 50px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
-            -webkit-text-fill-color: #ffffff !important; /* Memaksa warna putih agar muncul */
+            -webkit-text-fill-color: #ffffff !important;
             color: #ffffff !important;
         }
 
-        /* WARNA KHUSUS HIJRIAH */
         #tgl-hijriah { 
             -webkit-text-fill-color: #B1FB17 !important; 
             color: #B1FB17 !important; 
             text-shadow: 2px 2px 4px #000; 
         }
 
-        .info-container { display: flex; gap: 350px; width: 92%; justify-content: center; margin-top: 15px; }
-        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; max-width: 550px; }
-        .card-h { background: #2e7d32; color: #ffd700; padding: 10px; font-weight: bold; text-align: center; font-size: 1.3rem; }
-        .card-b { padding: 12px 20px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.2rem; padding: 8px 0; }
+        /* INFO KAS & PENCERAMAH */
+        .info-container { display: flex; gap: 50px; width: 95%; justify-content: center; }
+        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; max-width: 500px; }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 8px; font-weight: bold; text-align: center; font-size: 1.2rem; }
+        .card-b { padding: 8px 20px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.1rem; padding: 5px 0; }
 
+        /* JADWAL SHOLAT (DIJAMIN TIDAK TERPOTONG) */
         .prayer-section {
-            display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
-            padding: 15px 20px 25px 20px;
-            background: rgba(0, 40, 0, 0.9);
+            display: grid; 
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 10px;
+            padding: 10px 20px 20px 20px; /* Padding bawah ditambah agar aman di TV */
+            background: rgba(0, 40, 0, 0.95);
             border-top: 4px solid #ffd700;
+            height: auto; /* Mengikuti isi */
         }
-        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 12px 5px; text-align: center; }
-        .p-name { color: #ffd700; font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
-        .p-time { font-size: 2.6rem; font-weight: 900; }
+        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 10px 5px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
+        .p-time { font-size: 2.4rem; font-weight: 900; }
 
-        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; transform: scale(1.05); box-shadow: 0 0 20px #ffd700; }
+        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; transform: scale(1.03); box-shadow: 0 0 20px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
+        /* MODE SHOLAT FULL SCREEN */
         #mode-sholat {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #000 !important;
-            z-index: 999999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            display: none; position: fixed; inset: 0; background: #000 !important; 
+            z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-
         .big-text { color: #ffd700; font-size: 25vw; font-weight: 900; text-transform: uppercase; width: 100%; }
         .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; }
         .blink-custom { animation: blink-logic 3s linear infinite; }
