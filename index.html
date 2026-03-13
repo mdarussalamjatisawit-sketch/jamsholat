@@ -14,7 +14,7 @@
             
             /* KUNCI: Ubah dari cover menjadi 100% 100% agar gambar dipaksa full */
             background-size: 100% 100%; 
-            
+
             color: white; 
             height: 100vh; 
             width: 100vw; 
@@ -79,7 +79,7 @@
             display: inline-block; 
             font-size: 1.2rem; 
             color: #fff; 
-            animation: jalan-mulus 30s linear infinite;
+            animation: jalan-mulus 40s linear infinite;
             will-change: transform;
         }
 
@@ -138,13 +138,58 @@
             /* translateX(300px) untuk menggeser ke kiri dan kanan translateY(15px) untuk menggeser kotak ke atas dan bawah*/
             transform: translateX(300px)translateY(15px);
         }
+.info-container { 
+            display: flex; 
+            gap: 30px; 
+            width: 96%; 
+            justify-content: center; 
+        }
 
-        .info-container { display: flex; flex-wrap: wrap; gap: 15px; width: 95%; justify-content: center; }
-        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; min-width: 280px; max-width: 450px; }
-        .card-h { background: #2e7d32; color: #ffd700; padding: 6px; font-weight: bold; text-align: center; font-size: 1rem; }
+        .card { 
+            background: rgba(0, 0, 0, 0.85); 
+            border: 2px solid #D4AF37; /* Warna Emas */
+            border-radius: 12px; 
+            flex: 1; 
+            max-width: 480px; 
+            overflow: hidden;
+        }
+
+        .card-h { 
+            background: #000; /* Header Hitam sesuai request sebelumnya */
+            color: #D4AF37; 
+            padding: 6px; 
+            font-weight: bold; 
+            text-align: center; 
+            font-size: 1.1rem; 
+            border-bottom: 2px solid #D4AF37;
+        }
+
         .card-b { padding: 5px 15px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1rem; padding: 4px 0; }
 
+        .row { 
+            display: flex; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #444; 
+            font-size: 1.05rem; 
+            padding: 4px 0; 
+        }
+
+        /* =========================================
+           KONTROL GESER BOX (MANUAL)
+           ========================================= */
+
+        /* BOX 1 (KEUANGAN - KIRI) */
+        .card:nth-child(1) {
+            /* translate(Kiri/Kanan , Atas/Bawah) */
+            /* Minus (-) pertama = Kiri | Minus (-) kedua = Atas */
+            transform: translate(-120px, 5px); 
+        }
+
+        /* BOX 2 (PENCERAMAH - KANAN) */
+        .card:nth-child(2) {
+            /* Positif (+) pertama = Kanan | Minus (-) kedua = Atas */
+            transform: translate(200px, 5px); 
+        }
         /* JADWAL SHOLAT */
         .prayer-section {
             display: grid; 
