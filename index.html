@@ -100,13 +100,28 @@
             font-size: 13rem; 
             font-weight: 900;
             line-height: 0.8;
-            background: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+            
+            /* WARNA EMAS 3D (Lebih Solid & Mengkilap) */
+            background: linear-gradient(to bottom, 
+                #f7e695 0%, 
+                #d4af37 40%, 
+                #b8860b 50%, 
+                #8a6d3b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            -webkit-text-stroke: 3px #000; /* 3px adalah tebal garisnya GARIS TEPI (OUTLINE) HIJAU STABILO */
-            filter: drop-shadow(5px 5px 5px rgba(0,0,0,1)) drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); /* EFEK GLOW EMAS (Agar tetap mewah) */
+
+            /* OUTLINE HIJAU STABILO */
+            -webkit-text-stroke: 3px #CCFF00;
+
+            /* EFEK TIMBUL 3D & GLOW */
+            filter: 
+                drop-shadow(4px 4px 0px rgba(0,0,0,0.8)) /* Bayangan sisi agar 3D */
+                drop-shadow(0 0 10px rgba(204, 255, 0, 0.5)); /* Pijar Hijau halus */
+            
             flex-shrink: 0;
+            display: inline-block;
         }
+        
 
        /* 1. Atur container utamanya dulu */
         .dates { 
