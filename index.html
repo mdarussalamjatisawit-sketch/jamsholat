@@ -76,14 +76,11 @@
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
 }
         .marquee-text { 
-    display: block; 
-    font-size: 1.5rem; /* Ukuran teks lebih besar agar jelas */
-    color: #fff; 
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    /* Animasi muncul halus */
-    transition: opacity 1s ease-in-out; 
+            display: inline-block; 
+            font-size: 1.2rem; 
+            color: #fff; 
+            animation: jalan-mulus 40s linear infinite;
+            will-change: transform;
         }
 
         /* AREA TENGAH */
@@ -259,7 +256,7 @@
             <div class="header-text">MASJID DARUSSALAM</div>
         </div>
         <div class="marquee-container">
-    <div id="text-berita" class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman</div>
+            <div class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman | Tanggal & jadwal SHOLAT Mengacu KHGT Muhammadiyah</div>
         </div>
     </div>
 
@@ -357,27 +354,9 @@
         for (let s in jadwal) {
             if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif) {
                 mulaiModeSholat("ADZAN", s, DURASI_ADZAN);
-                // --- KODE GANTI TEKS BERITA BERGANTIAN ---
-    const daftarTeks = [
-        "Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman",
-        "Tanggal & Jadwal Sholat Mengacu pada KHGT Muhammadiyah"
-    ];
-    let indeksTeks = 0;
-
-    function gantiTeksBerita() {
-        const elemenTeks = document.getElementById('text-berita');
-        if(elemenTeks) {
-            elemenTeks.style.opacity = 0;
-            setTimeout(() => {
-                indeksTeks = (indeksTeks + 1) % daftarTeks.length;
-                elemenTeks.innerText = daftarTeks[indeksTeks];
-                elemenTeks.style.opacity = 1;
-            }, 1000);
+            }
         }
     }
-    setInterval(gantiTeksBerita, 6000); // Ganti tiap 6 detik
-
-    // --- BARIS 359 MULAI MODE SHOLAT DI BAWAH INI ---
 
     function mulaiModeSholat(tipe, nama, detik) {
         modeAktif = true;
@@ -428,6 +407,7 @@
 </script>
 </body>
 </html>
+
 
 
 
