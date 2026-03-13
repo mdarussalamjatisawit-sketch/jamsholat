@@ -7,175 +7,134 @@
     <style>
         /* CSS DASAR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-       body { 
-            /* Menggunakan nama file yang sesuai */
+        
+        body { 
             background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
-            
-            /* KUNCI: Ubah dari cover menjadi 100% 100% agar gambar dipaksa full */
             background-size: 100% 100%; 
-            
             color: white; 
-            height: 100vh; 
+            min-height: 100vh; 
             width: 100vw; 
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
             margin: 0;
-       }
+        }
 
         /* HEADER KAPSUL */
-        .header-section { text-align: center; padding: 15px 0 5px 0; }
-        /* --- GANTI BAGIAN HEADER-WRAPPER & HEADER-TEXT DENGAN INI --- */
+        .header-section { text-align: center; padding: 10px 0; }
         
         .header-wrapper {
             display: inline-block;
             background: #000000;
-            padding: 5px 60px;
+            padding: 5px 5%; /* Menggunakan % agar fleksibel */
             border-radius: 50px;
             border: 3px solid #D4AF37;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-            /* Animasi muncul perlahan saat TV dinyalakan */
             animation: muncul-halus 2s ease-out forwards;
         }
 
-        /* --- GANTI BAGIAN INI UNTUK FONT EMAS MEWAH --- */
         .header-text { 
-            /* Gunakan font yang tebal agar efek emasnya terlihat jelas */
             font-family: 'Arial Black', Gadget, sans-serif; 
             font-size: 3.5rem; 
             font-weight: 900; 
             text-transform: uppercase; 
             letter-spacing: 3px;
-            
-            /* EFEK GRADASI EMAS METALIK */
-            background: linear-gradient(
-                to bottom, 
-                #BF953F 0%, 
-                #FCF6BA 25%, 
-                #B38728 50%, 
-                #FBF5B7 75%, 
-                #AA771C 100%
-            );
+            background: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-
-            /* EFEK BAYANGAN TIMBUL (Sesuai gambar contoh) */
             filter: drop-shadow(3px 3px 2px rgba(0,0,0,1));
-
-            /* ANIMASI PIJAR LEMBUT */
             animation: animasi-pijar-gold 3s ease-in-out infinite;
         }
 
-        /* Tambahkan juga animasi ini di dalam <style> jika belum ada */
-        @keyframes animasi-pijar-gold {
-            0% { filter: drop-shadow(3px 3px 2px #000) brightness(1); }
-            50% { filter: drop-shadow(3px 3px 2px #000) brightness(1.2) drop-shadow(0 0 10px #ffd700); }
-            100% { filter: drop-shadow(3px 3px 2px #000) brightness(1); }
+        /* RUNNING TEXT */
+        .marquee-container { 
+            margin: 10px auto; 
+            width: 90%; 
+            background: rgba(0, 0, 0, 0.7); 
+            overflow: hidden; 
+            white-space: nowrap; 
+            padding: 8px 0; 
+            border-radius: 50px; 
+            border: 2px solid #ff00ff; 
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); 
         }
-        /* --- PERBAIKAN RUNNING TEXT BENTUK KAPSUL --- */
-.marquee-container { 
-    margin: 10px auto; /* Memberi jarak atas-bawah dan rata tengah */
-    width: 90%; /* <--- ATUR LEBAR DI SINI (tidak full layar) */
-    background: rgba(0, 0, 0, 0.7); /* Hitam Transparan */
-    overflow: hidden; 
-    white-space: nowrap; 
-    padding: 8px 0; 
-    border-radius: 50px; /* Bentuk Kapsul */
-    border: 2px solid #ff00ff; /* Garis Tepi Pink */
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); /* Efek Pijar Tipis */
-}
 
-.marquee-text { 
-    display: inline-block; 
-    font-size: 1.25rem; 
-    color: #fff; 
-    /* Animasi Jalan Mulus */
-    animation: jalan-mulus 30s linear infinite;
-    will-change: transform;
-}
+        .marquee-text { 
+            display: inline-block; 
+            font-size: 1.2rem; 
+            color: #fff; 
+            animation: jalan-mulus 30s linear infinite;
+            will-change: transform;
+        }
 
-@keyframes jalan-mulus { 
-    from { transform: translate3d(100%, 0, 0); } 
-    to { transform: translate3d(-100%, 0, 0); } 
-}
-
-   /* AREA TENGAH - DIATUR AGAR KOTAK INFO TURUN KE BAWAH */
-        /* AREA TENGAH - FIX JAM BESAR & KOTAK DI BAWAH */
+        /* AREA TENGAH */
         .main-display { 
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            justify-content: flex-end; /* Mendorong semua ke bawah */
+            justify-content: center; 
             align-items: center; 
-            gap: 10px; 
-            padding-bottom: 20px; /* Jarak aman ke jadwal sholat */
-            overflow: hidden; /* Mencegah jam mengecil otomatis */
+            gap: 15px; 
+            padding: 10px;
         }
 
-        
-
-        /* ANGKA JAM WARNA EMAS (Persis Masjid Darussalam) */
         #jam-digital {
-            /* Gunakan font tebal agar warna emasnya kelihatan mengkilap */
             font-family: 'Arial Black', Gadget, sans-serif;
-            font-size: 13rem; /* Sesuaikan besarnya di sini */
+            font-size: 13rem; 
             font-weight: 900;
-            line-height: 1;
-            margin-bottom: 20px;
-            flex-shrink: 0;
-
-            /* EFEK EMAS METALIK (Persis Masjid Darussalam) */
-            background: linear-gradient(
-                to bottom, 
-                #BF953F 0%, 
-                #FCF6BA 25%, 
-                #B38728 50%, 
-                #FBF5B7 75%, 
-                #AA771C 100%
-            );
+            line-height: 0.8;
+            background: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-
+            filter: drop-shadow(5px 5px 5px rgba(0,0,0,1));
+            flex-shrink: 0;
         }
 
-        .dates { display: flex; align-items: center; gap: 30px; font-size: 1.8rem; font-weight: 800; }
-        #tgl-masehi, #tgl-hijriah { background: rgba(0, 0, 0, 0.7); padding: 6px 25px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .dates { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; font-size: 1.5rem; font-weight: 800; }
+        #tgl-masehi, #tgl-hijriah { background: rgba(0, 0, 0, 0.7); padding: 5px 20px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.3); }
         #tgl-hijriah { color: #B1FB17 !important; }
 
-        .info-container { display: flex; gap: 30px; width: 96%; justify-content: center; }
-        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; max-width: 480px; }
-        .card-h { background: #2e7d32; color: #ffd700; padding: 6px; font-weight: bold; text-align: center; font-size: 1.1rem; }
+        .info-container { display: flex; flex-wrap: wrap; gap: 15px; width: 95%; justify-content: center; }
+        .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; min-width: 280px; max-width: 450px; }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 6px; font-weight: bold; text-align: center; font-size: 1rem; }
         .card-b { padding: 5px 15px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.05rem; padding: 4px 0; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1rem; padding: 4px 0; }
 
         /* JADWAL SHOLAT */
         .prayer-section {
-            display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;
-            padding: 10px 10px 15px 10px; background: rgba(0, 40, 0, 0.95);
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 5px;
+            padding: 10px; 
+            background: rgba(0, 40, 0, 0.95);
             border-top: 4px solid #ffd700;
         }
-        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 8px 5px; text-align: center; }
-        .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; }
-        .p-time { font-size: 2.6rem; font-weight: 900; line-height: 1; }
+        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 5px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 0.9rem; font-weight: bold; }
+        .p-time { font-size: 2.2rem; font-weight: 900; line-height: 1; }
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; box-shadow: 0 0 15px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* --- MODAL ADZAN FULL LAYAR (FIXED) --- */
-        #mode-sholat { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            background: #000 !important; 
-            z-index: 999999; /* Sangat tinggi agar menutupi semuanya */
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
+        /* --- RESPONSIVE ADJUSTMENTS (PENTING) --- */
+        @media (max-width: 768px) {
+            .header-text { font-size: 1.8rem; }
+            #jam-digital { font-size: 5rem; }
+            .dates { font-size: 1rem; }
+            .p-time { font-size: 1.5rem; }
+            .prayer-section { grid-template-columns: repeat(3, 1fr); }
+            .main-display { justify-content: center; }
         }
-        .big-text { color: #ffd700; font-size: 22vw; font-weight: 900; text-transform: uppercase; line-height: 0.8; }
+
+        @keyframes animasi-pijar-gold {
+            0%, 100% { filter: drop-shadow(3px 3px 2px #000) brightness(1); }
+            50% { filter: drop-shadow(3px 3px 2px #000) brightness(1.2) drop-shadow(0 0 10px #ffd700); }
+        }
+        @keyframes jalan-mulus { from { transform: translate3d(100%, 0, 0); } to { transform: translate3d(-100%, 0, 0); } }
+        @keyframes muncul-halus { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* MODAL ADZAN */
+        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000 !important; z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .big-text { color: #ffd700; font-size: 20vw; font-weight: 900; text-transform: uppercase; line-height: 0.8; }
         .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; font-weight: bold; }
         .blink-custom { animation: blink-logic 2s linear infinite; }
         @keyframes blink-logic { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
@@ -183,7 +142,7 @@
 </head>
 <body>
 
-<div id="ui-normal" style="height: 100vh; display: flex; flex-direction: column;">
+<div id="ui-normal" style="min-height: 100vh; display: flex; flex-direction: column;">
     <div class="header-section">
         <div class="header-wrapper">
             <div class="header-text">MASJID DARUSSALAM</div>
@@ -194,9 +153,7 @@
     </div>
 
     <div class="main-display">
-      <div class="jam-wrapper">
-    <div id="jam-digital">00:00:00</div>
-      </div>
+        <div id="jam-digital">00:00:00</div>
         <div class="dates">
             <div id="tgl-masehi">--</div>
             <div id="tgl-hijriah">--</div>
@@ -342,4 +299,3 @@
 </script>
 </body>
 </html>
-
