@@ -222,12 +222,32 @@
         @keyframes jalan-mulus { from { transform: translate3d(100%, 0, 0); } to { transform: translate3d(-100%, 0, 0); } }
         @keyframes muncul-halus { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* MODAL ADZAN */
-        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000 !important; z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .big-text { color: #ffd700; font-size: 20vw; font-weight: 900; text-transform: uppercase; line-height: 0.8; }
-        .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; font-weight: bold; }
-        .blink-custom { animation: blink-logic 2s linear infinite; }
-        @keyframes blink-logic { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        /* MODE ADZAN & IQOMAH */
+        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; text-align: center; justify-content: center; align-items: center; flex-direction: column; }
+        
+        /* Teks Utama (Nama Sholat / Angka Iqomah) */
+        .big-text { 
+            font-family: 'Arial Black', sans-serif;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 18vw; 
+            margin: 0;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6)) drop-shadow(5px 5px 5px #000);
+            animation: animasi-pijar-gold 2s infinite alternate;
+        }
+
+        /* Teks Pendukung (Menuju Iqomah) */
+        .sub-text { 
+            font-weight: bold;
+            color: #D4AF37; /* Warna Emas Solid */
+            font-size: 4vw; 
+            margin-top: -20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            filter: drop-shadow(2px 2px 2px #000);
+        }
     </style>
 </head>
 <body>
