@@ -106,24 +106,18 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
 
-            /* TEKNIK GARIS TEPI LUAR (OUTLINE) HIJAU STABILO */
-            /* Kita buat bayangan ke 8 arah supaya membentuk garis luar yang rapi */
-            text-shadow: 
-                2px 2px 0px #CCFF00, 
-               -2px -2px 0px #CCFF00, 
-                2px -2px 0px #CCFF00, 
-               -2px 2px 0px #CCFF00,
-                3px 0px 0px #CCFF00,
-               -3px 0px 0px #CCFF00,
-                0px 3px 0px #CCFF00,
-                0px -3px 0px #CCFF00;
-
-            /* EFEK TIMBUL 3D & GLOW HALUS */
-            filter: drop-shadow(5px 5px 3px rgba(0,0,0,0.8));
+            /* TRIK GARIS LUAR: Pakai filter drop-shadow berlapis */
+            /* Ini akan menjaga bagian tengah tetap emas bersih */
+            filter: 
+                drop-shadow(2px 0 0 #CCFF00) 
+                drop-shadow(-2px 0 0 #CCFF00) 
+                drop-shadow(0 2px 0 #CCFF00) 
+                drop-shadow(0 -2px 0 #CCFF00)
+                drop-shadow(4px 4px 4px rgba(0,0,0,0.8)); /* Bayangan hitam agar timbul */
             
             flex-shrink: 0;
+            display: inline-block;
         }
-        
 
        /* 1. Atur container utamanya dulu */
         .dates { 
