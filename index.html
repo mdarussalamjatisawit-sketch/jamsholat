@@ -8,23 +8,16 @@
         /* CSS DASAR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
-             body { 
-            /* Menggunakan nama file yang sesuai */
+        body { 
             background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
-            
-            /* KUNCI: Ubah dari cover menjadi 100% 100% agar gambar dipaksa full */
             background-size: 100% 100%; 
-
             color: white; 
             height: 100vh; 
             width: 100vw; 
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
-            margin: 0;
-       }
-
-
+        }
 
         /* HEADER KAPSUL */
         .header-section { text-align: center; padding: 10px 0; }
@@ -32,7 +25,7 @@
         .header-wrapper {
             display: inline-block;
             background: #000000;
-            padding: 5px 5%; /* Menggunakan % agar fleksibel */
+            padding: 5px 40px;
             border-radius: 50px;
             border: 3px solid #D4AF37;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
@@ -41,10 +34,10 @@
 
         .header-text { 
             font-family: 'Arial Black', Gadget, sans-serif; 
-            font-size: 3.5rem; 
+            font-size: clamp(1.5rem, 5vw, 3.5rem); 
             font-weight: 900; 
             text-transform: uppercase; 
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             background: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -52,34 +45,22 @@
             animation: animasi-pijar-gold 3s ease-in-out infinite;
         }
 
-        /* RUNNING TEXT */
-        /* --- EDIT RUNNING TEXT DI SINI --- */
-.marquee-container { 
-    margin: 10px auto; /* 1. MERUBAH LEBAR BOX alamat*/    
-    width: 60%; /* Ubah persentasenya: 100% (full layar), 80% (lebih pendek) */
-    
-    background: rgba(0, 0, 0, 0.7); 
-    overflow: hidden; 
-    white-space: nowrap; 
-    padding: 8px 0; 
-    border-radius: 50px; 
-    
-    /* 2. MERUBAH WARNA OUTLINE */
-    /* Ganti #D4AF37 dengan warna pilihan (sekarang saya set EMAS) */
-    border: 3px solid #D4AF37; 
-    
-    /* 3. MERUBAH WARNA PIJAR (GLOW) */
-    /* Sesuaikan warnanya agar senada dengan outline */
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
-}
+        /* RUNNING TEXT BERGANTI HALUS */
+        .marquee-container { 
+            margin: 10px auto; 
+            width: clamp(80%, 60%, 90%); 
+            background: rgba(0, 0, 0, 0.7); 
+            padding: 8px 20px; 
+            border-radius: 50px; 
+            border: 3px solid #D4AF37; 
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
+            text-align: center;
+        }
+
         .marquee-text { 
-            display: block; 
-            width: 100%;
-            text-align: center; /* Supaya teks di tengah kotak */
-            font-size: 1.3rem; 
-            color: #FFFFFF;/*merubah warna tulisan*/
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem); 
+            color: #FFFFFF;
             font-weight: bold;
-            /* Efek Muncul Halus */
             transition: opacity 1s ease-in-out; 
             opacity: 1;
         }
@@ -91,181 +72,123 @@
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            gap: 15px; 
+            gap: 20px; 
             padding: 10px;
         }
 
         #jam-digital {
             font-family: 'Arial Black', Gadget, sans-serif;
-            font-size: 13rem; 
+            font-size: clamp(4rem, 18vw, 13rem); 
             font-weight: 900;
             line-height: 0.8;
-            
-            /* WARNA EMAS (Isi Angka) */
             background: linear-gradient(to bottom, #f7e695 0%, #d4af37 40%, #b8860b 50%, #8a6d3b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-
-            /* TRIK GARIS LUAR: Pakai filter drop-shadow berlapis */
-            /* Ini akan menjaga bagian tengah tetap emas bersih */
+            /* Outline Hijau Stabilo Rapi Luar Saja */
             filter: 
-                drop-shadow(2px 0 0 #ffd700) 
-                drop-shadow(-2px 0 0 #ffd700) 
-                drop-shadow(0 2px 0 #ffd700) 
-                drop-shadow(0 -2px 0 #ffd700)
-                drop-shadow(4px 4px 4px rgba(0,0,0,0.8)); /* Bayangan hitam agar timbul */
-            
-            flex-shrink: 0;
-            display: inline-block;
+                drop-shadow(2px 0 0 #CCFF00) 
+                drop-shadow(-2px 0 0 #CCFF00) 
+                drop-shadow(0 2px 0 #CCFF00) 
+                drop-shadow(0 -2px 0 #CCFF00)
+                drop-shadow(5px 5px 5px rgba(0,0,0,0.8));
         }
 
-       /* 1. Atur container utamanya dulu */
+        /* TANGGAL */
         .dates { 
             display: flex; 
             flex-wrap: wrap; 
             justify-content: center; 
             gap: 15px; 
-            font-size: 1.5rem; 
-            font-weight: 800; 
+            width: 100%;
         }
 
-        /* 2. Atur Tanggal Masehi dan geser ke KIRI */
-        #tgl-masehi { 
+        #tgl-masehi, #tgl-hijriah { 
             background: rgba(0, 0, 0, 0.7); 
-            padding: 5px 20px; 
+            padding: 8px 25px; 
             border-radius: 50px; 
-            border: 3px solid #D4AF37; /* Tebal 3px, Warna Emas */ 
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);/* --- TAMBAHKAN EFEK GLOW (PIJAR) --- */
-            color: #FFFFFF;/* WARNA TULISAN MASEHI */
-            transform: translateX(-200px)translateY(15px);/* translateX(300px) untuk menggeser ke kiri dan kanan translateY(15px) untuk menggeser kotak ke atas dan bawah*/
-            font-size: 1.5rem; 
+            border: 3px solid #D4AF37; 
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            font-size: clamp(0.9rem, 3vw, 1.5rem); 
             font-weight: 800;
+            text-align: center;
         }
+        #tgl-masehi { color: #FFFFFF; }
+        #tgl-hijriah { color: #CCFF00; }
 
-        /* 3. Atur Tanggal Hijriah dan geser ke KANAN */
-        #tgl-hijriah { 
-            background: rgba(0, 0, 0, 0.7); 
-            padding: 5px 20px; 
-            border-radius: 50px; 
-            border: 3px solid #D4AF37; /* Tebal 3px, Warna Emas */
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);/* --- TAMBAHKAN EFEK GLOW (PIJAR) --- */
-            color: #CCFF00;/* WARNA TULISAN hijriyah */
-            transform: translateX(-200px)translateY(15px);/* translateX(300px) untuk menggeser ke kiri dan kanan translateY(15px) untuk menggeser kotak ke atas dan bawah*/
-            font-size: 1.5rem; 
-            font-weight: 800;
-            
-            
-            /* translateX(300px) untuk menggeser ke kiri dan kanan translateY(15px) untuk menggeser kotak ke atas dan bawah*/
-            transform: translateX(250px)translateY(15px);
-        }
-.info-container { 
+        /* INFO BOX */
+        .info-container { 
             display: flex; 
-            gap: 30px; 
-            width: 50%; /*ukuran box keuangan dan imam*/
+            gap: 20px; 
+            width: 90%; 
+            max-width: 1000px;
             justify-content: center; 
         }
 
         .card { 
             background: rgba(0, 0, 0, 0.85); 
-            border: 2px solid #D4AF37; /* Warna Emas */
+            border: 2px solid #D4AF37; 
             border-radius: 12px; 
             flex: 1; 
-            max-width: 480px; 
             overflow: hidden;
         }
 
         .card-h { 
-            background: #000; /* Header Hitam sesuai request sebelumnya */
+            background: #000; 
             color: #D4AF37; 
-            padding: 6px; 
+            padding: 8px; 
             font-weight: bold; 
             text-align: center; 
-            font-size: 1.1rem; 
+            font-size: clamp(0.8rem, 2vw, 1.1rem); 
             border-bottom: 2px solid #D4AF37;
         }
 
-        .card-b { padding: 5px 15px; }
+        .card-b { padding: 10px 15px; }
 
         .row { 
             display: flex; 
             justify-content: space-between; 
             border-bottom: 1px solid #444; 
-            font-size: 1.05rem; 
-            padding: 4px 0; 
+            font-size: clamp(0.8rem, 2vw, 1.05rem); 
+            padding: 5px 0; 
         }
 
-        /* =========================================
-           KONTROL GESER BOX (MANUAL)
-           ========================================= */
-
-        /* BOX 1 (KEUANGAN - KIRI) */
-        .card:nth-child(1) {
-            /* translate(Kiri/Kanan , Atas/Bawah) */
-            /* Minus (-) pertama = Kiri | Minus (-) kedua = Atas */
-            transform: translate(-180px, 25px); 
-        }
-
-        /* BOX 2 (PENCERAMAH - KANAN) */
-        .card:nth-child(2) {
-            /* Positif (+) pertama = Kanan | Minus (-) kedua = Atas */
-            transform: translate(250px, 25px); 
-        }
         /* JADWAL SHOLAT */
         .prayer-section {
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-            gap: 5px;
-            padding: 10px; 
-           background: rgba(69, 70, 69, 0.308);
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 8px;
+            padding: 15px; 
+            background: rgba(0,0,0,0.6);
             border-top: 4px solid #ffd700;
         }
-        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 5px; text-align: center; }
-        .p-name { color: #ffd700; font-size: 0.9rem; font-weight: bold; }
-        .p-time { font-size: 2.2rem; font-weight: 900; line-height: 1; }
+        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 10px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 0.8rem; font-weight: bold; }
+        .p-time { font-size: clamp(1.2rem, 4vw, 2.5rem); font-weight: 900; line-height: 1; }
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; box-shadow: 0 0 15px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* --- RESPONSIVE ADJUSTMENTS (PENTING) --- */
-        @media (max-width: 768px) {
-            .header-text { font-size: 1.8rem; }
-            #jam-digital { font-size: 5rem; }
-            .dates { font-size: 1rem; }
-            .p-time { font-size: 1.5rem; }
+        /* RESPONSIVE HP POTRET */
+        @media (max-width: 600px) {
+            .info-container { flex-direction: column; width: 100%; }
             .prayer-section { grid-template-columns: repeat(3, 1fr); }
-            .main-display { justify-content: center; }
+            .dates { flex-direction: column; align-items: center; }
+            #tgl-masehi, #tgl-hijriah { width: 90%; }
+            .main-display { gap: 10px; }
         }
 
+        /* ANIMASI */
         @keyframes animasi-pijar-gold {
             0%, 100% { filter: drop-shadow(3px 3px 2px #000) brightness(1); }
             50% { filter: drop-shadow(3px 3px 2px #000) brightness(1.2) drop-shadow(0 0 10px #ffd700); }
         }
-        @keyframes jalan-mulus { from { transform: translate3d(100%, 0, 0); } to { transform: translate3d(-100%, 0, 0); } }
         @keyframes muncul-halus { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* MODAL ADZAN - FOKUS WARNA EMAS GLOW */
-        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000!important; z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        
-        .big-text { 
-            /* Warna Emas Gradasi seperti Jam Digital */
-            background: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 20vw; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            line-height: 0.8;
-            /* Efek Pijar (Glow) */
-            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.7)) drop-shadow(5px 5px 5px #000);
-        }
-
-        .sub-text { color: #D4AF37; font-size: 4vw; margin: 20px 0; font-weight: bold; filter: drop-shadow(2px 2px 2px #000); }
-        
-        /* Animasi Kedip Sesuai Permintaan */
+        /* MODAL ADZAN */
+        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .big-text { background: linear-gradient(to bottom, #BF953F, #FCF6BA, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 18vw; font-weight: 900; filter: drop-shadow(0 0 20px rgba(212,175,55,0.7)); }
+        .sub-text { color: #D4AF37; font-size: 5vw; margin: 20px 0; font-weight: bold; }
         .blink-custom { animation: blink-logic 3s infinite; }
-        @keyframes blink-logic { 
-            0%, 66.6% { opacity: 1; } /* Nyala 2 detik */
-            66.7%, 100% { opacity: 0; } /* Mati 1 detik */
-        }
+        @keyframes blink-logic { 0%, 66.6% { opacity: 1; } 66.7%, 100% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -276,7 +199,7 @@
             <div class="header-text">MASJID DARUSSALAM</div>
         </div>
         <div class="marquee-container">
-    <div id="text-berita" class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman</div>
+            <div id="text-berita" class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman</div>
         </div>
     </div>
 
@@ -323,10 +246,7 @@
 </div>
 
 <script>
-    const DURASI_ADZAN = 10; 
-    const DURASI_IQOMAH = 10; 
-    const DURASI_SHOLAT = 10; 
-
+    const DURASI_ADZAN = 10; const DURASI_IQOMAH = 10; const DURASI_SHOLAT = 10; 
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     let jadwal = {}; let timer; let modeAktif = false;
 
@@ -380,8 +300,7 @@
 
     function mulaiModeSholat(tipe, nama, detik) {
         modeAktif = true;
-        const ui = document.getElementById('mode-sholat');
-        ui.style.display = 'flex';
+        document.getElementById('mode-sholat').style.display = 'flex';
         let sisa = detik;
         clearInterval(timer);
         timer = setInterval(() => {
@@ -413,38 +332,27 @@
             if (sisa < 0) {
                 if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
                 else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
-                else { 
-                    ui.style.display = 'none'; 
-                    modeAktif = false; 
-                    clearInterval(timer); 
-                }
+                else { document.getElementById('mode-sholat').style.display = 'none'; modeAktif = false; clearInterval(timer); }
             }
         }, 1000);
     }
-const daftarTeks = [
-        "Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman",
-        "Tanggal & Jadwal SHOLAT Mengacu KHGT Muhammadiyah"
-    ];
-    let indeksTeks = 0;
 
+    const daftarTeks = ["Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman", "Tanggal & Jadwal SHOLAT Mengacu KHGT Muhammadiyah"];
+    let indeksTeks = 0;
     function gantiTeksBerita() {
-        const elemenTeks = document.getElementById('text-berita');
-        if (elemenTeks) {
-            elemenTeks.style.opacity = 0; // Memudar hilang
+        const el = document.getElementById('text-berita');
+        if (el) {
+            el.style.opacity = 0;
             setTimeout(() => {
                 indeksTeks = (indeksTeks + 1) % daftarTeks.length;
-                elemenTeks.innerText = daftarTeks[indeksTeks];
-                elemenTeks.style.opacity = 1; // Memudar muncul
+                el.innerText = daftarTeks[indeksTeks];
+                el.style.opacity = 1;
             }, 1000); 
         }
     }
-    setInterval(gantiTeksBerita, 7000); // Ganti setiap 7 detik
+    setInterval(gantiTeksBerita, 7000);
     setInterval(sistemWaktu, 1000);
     muatData(); setInterval(muatData, 600000);
 </script>
 </body>
 </html>
-
-
-
-
