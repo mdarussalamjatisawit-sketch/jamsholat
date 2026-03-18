@@ -3,72 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TV Masjid DarUSSALAM - Adzan Iqomah Sholat</title>
+    <title>TV Masjid DarUSSALAM - Fixed</title>
     <style>
-        /* CSS DASAR */
+        /* CSS DASAR & ANTI-POTONG */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #000; color: white; height: 100vh; width: 100vw; overflow: hidden; }
+        body { 
+            background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
+            background-size: cover; color: white; height: 100vh; width: 100vw; overflow: hidden; display: flex; flex-direction: column;
+        }
 
-        /* AREA UTAMA (Sama seperti sebelumnya) */
-        #ui-normal { display: flex; flex-direction: column; height: 100vh; background: url('Foto masjid darussalam.png') no-repeat center center; background-size: cover; }
+        /* 1. ANIMASI HEADER (KEMBALI KE AWAL: KELUAR DARI KANAN SATU-SATU) */
+        .top-container { width: 100%; text-align: center; padding-top: 5px; flex-shrink: 0; }
+        .header-wrapper { display: inline-block; background: rgba(0,0,0,0.9); padding: 2px 25px; border-radius: 50px; border: 2px solid #D4AF37; }
+        .header-text { font-family: 'Arial Black', sans-serif; font-size: clamp(1rem, 4vw, 2.2rem); font-weight: 900; text-transform: uppercase; overflow: hidden; }
+        .header-text span { 
+            display: inline-block; opacity: 0; transform: translateX(50px); 
+            animation: muncul-kanan 0.5s forwards; 
+            filter: drop-shadow(0 0 5px #ffd700);
+        }
+        @keyframes muncul-kanan { to { opacity: 1; transform: translateX(0); } }
+        .hilang { animation: keluar-halus 0.5s forwards !important; }
+        @keyframes keluar-halus { to { opacity: 0; transform: translateY(-10px); } }
+
+        /* 2. BACKGROUND RUNNING TEXT (HITAM) */
+        .marquee-container { 
+            margin: 5px auto; width: 90%; background: #000; height: 32px; 
+            overflow: hidden; border-radius: 50px; border: 1.5px solid #D4AF37; position: relative; 
+        }
+        .marquee-content { 
+            position: absolute; width: 100%; text-align: center; line-height: 30px; 
+            font-weight: bold; font-size: clamp(0.7rem, 2vw, 1rem); opacity: 0; transform: translateY(100%); 
+        }
+        .show-msg { animation: ganti-teks 4s infinite; }
+        @keyframes ganti-teks {
+            0% { transform: translateY(100%); opacity: 0; }
+            12%, 62% { transform: translateY(0); opacity: 1; }
+            75%, 100% { transform: translateY(-100%); opacity: 0; }
+        }
+
+        /* 3. AREA TENGAH (TANGGAL & TABEL KEMBALI) */
+        .middle-container { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 0; padding-bottom: 100px; }
+        #jam-digital { font-family: 'Arial Black', sans-serif; font-size: clamp(3rem, 18vw, 8.5rem); font-weight: 900; line-height: 1; filter: drop-shadow(0 0 10px #ffd700); margin-bottom: 5px; }
         
-        /* SETUP MODAL FULL SCREEN */
-        #mode-sholat { 
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000; z-index: 99999; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center;
+        /* TANGGAL MASEHI & HIJRIAH */
+        .dates { display: flex; gap: 8px; margin-bottom: 10px; }
+        #tgl-masehi, #tgl-hijriah { 
+            background: rgba(0,0,0,0.9); padding: 3px 15px; border-radius: 50px; border: 1.2px solid #D4AF37;
+            font-size: clamp(0.6rem, 2.5vw, 1rem); font-weight: 800;
         }
+        #tgl-hijriah { color: #CCFF00; }
 
-        /* UKURAN HURUF */
-        .txt-sedang { font-size: clamp(1.5rem, 5vw, 3.5rem); font-weight: 600; color: #fff; margin: 10px 0; }
+        /* TABEL KEUANGAN & IMAM */
+        .info-container { display: flex; gap: 8px; width: 95%; max-width: 800px; }
+        .card { background: rgba(0,0,0,0.9); border: 1.2px solid #D4AF37; border-radius: 8px; flex: 1; overflow: hidden; }
+        .card-h { background: #000; color: #D4AF37; padding: 3px; font-weight: bold; text-align: center; font-size: 0.75rem; border-bottom: 1px solid #D4AF37; }
+        .card-b { padding: 5px 10px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: 0.7rem; padding: 2px 0; }
+
+        /* JADWAL SHOLAT BAWAH */
+        .bottom-prayer { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 3px solid #ffd700; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 5px; }
+        .p-box { border: 1px solid #ffd700; text-align: center; padding: 4px 0; border-radius: 5px; background: rgba(50,50,50,0.3); }
+        .sholat-aktif { background: #ffd700 !important; box-shadow: 0 0 10px #ffd700; }
+        .sholat-aktif * { color: #000 !important; font-weight: 900; }
+
+        /* 4. MODAL ADZAN & IQOMAH (FONT MAGHRIB DIPERCIKIL AGAR TIDAK TERPOTONG) */
+        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .txt-sedang { font-size: clamp(1.2rem, 4vw, 3rem); font-weight: 600; color: #fff; margin: 10px 0; }
         .txt-besar { 
-            font-size: clamp(5rem, 25vw, 15rem); 
-            font-weight: 900; 
-            line-height: 0.8; 
-            width: 100%;
-            color: #ffd700;
-            text-transform: uppercase;
+            font-size: clamp(4rem, 20vw, 12rem); /* Ukuran sedikit dikecilkan agar aman */
+            font-weight: 900; line-height: 0.9; width: 95%; color: #ffd700; text-transform: uppercase; 
         }
+        .blink-custom { animation: blink-anim 3s infinite; }
+        @keyframes blink-anim { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
 
-        /* EFEK BLINK (Nyala 2s, Mati 1s = Total 3s) */
-        .blink-custom {
-            animation: blink-anim 3s infinite;
-        }
-        @keyframes blink-anim {
-            0%, 66% { opacity: 1; } /* Nyala 2 detik (66% dari 3s) */
-            67%, 100% { opacity: 0; } /* Mati 1 detik */
-        }
-
-        /* CSS Lainnya untuk UI Normal (Disederhanakan agar fokus ke fitur baru) */
-        .top-container { padding: 10px; text-align: center; }
-        .header-wrapper { display: inline-block; border: 2px solid #D4AF37; padding: 5px 20px; border-radius: 50px; background: rgba(0,0,0,0.8); }
-        .marquee-container { margin: 10px auto; width: 90%; border: 1.5px solid #D4AF37; height: 35px; overflow: hidden; position: relative; border-radius: 20px; }
-        .marquee-content { position: absolute; width: 100%; text-align: center; line-height: 32px; opacity: 0; transform: translateY(100%); transition: 0.5s; font-weight: bold; }
-        .show-msg { opacity: 1; transform: translateY(0); }
-        .middle-container { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-bottom: 110px; }
-        #jam-digital { font-size: 15vw; font-weight: 900; filter: drop-shadow(0 0 10px #ffd700); }
-        .bottom-prayer { position: absolute; bottom: 0; width: 100%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 5px; background: #000; border-top: 3px solid #ffd700; }
-        .p-box { border: 1px solid #ffd700; text-align: center; padding: 5px; border-radius: 5px; }
-        .sholat-aktif { background: #ffd700; color: #000 !important; }
-        .sholat-aktif * { color: #000 !important; }
-
-        @media (max-width: 600px) { .bottom-prayer { grid-template-columns: repeat(3, 1fr); } .middle-container { padding-bottom: 130px; } }
+        @media (max-width: 600px) { .bottom-prayer { grid-template-columns: repeat(3, 1fr); } .middle-container { padding-bottom: 125px; } }
     </style>
 </head>
 <body>
 
 <div id="ui-normal">
     <div class="top-container">
-        <div class="header-wrapper"><h2>MASJID DARUSSALAM</h2></div>
+        <div class="header-wrapper"><div id="header-animasi" class="header-text"></div></div>
         <div class="marquee-container">
             <div id="run-1" class="marquee-content show-msg">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping</div>
             <div id="run-2" class="marquee-content">Jadwal Sholat Mengacu KHGT</div>
         </div>
     </div>
+
     <div class="middle-container">
         <div id="jam-digital">00.00.00</div>
-        <div id="tgl-masehi">--</div>
+        <div class="dates">
+            <div id="tgl-masehi">--</div>
+            <div id="tgl-hijriah">--</div>
+        </div>
+        <div class="info-container">
+            <div class="card">
+                <div class="card-h">KEUANGAN</div>
+                <div class="card-b">
+                    <div class="row"><span>Masuk</span><span id="kas-in">0</span></div>
+                    <div class="row"><span>Keluar</span><span id="kas-out">0</span></div>
+                    <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-h">PETUGAS</div>
+                <div class="card-b">
+                    <div class="row"><span>Subuh</span><span id="im-s">-</span></div>
+                    <div class="row"><span>Jum'at</span><span id="im-j">-</span></div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="bottom-prayer">
         <div class="p-box" id="box-SUBUH"><div>SUBUH</div><b id="sh-subuh">--:--</b></div>
         <div class="p-box" id="box-SYURUQ"><div>SYURUQ</div><b id="sh-terbit">--:--</b></div>
@@ -86,26 +132,35 @@
 </div>
 
 <script>
-    // ==========================================
-    // STEL DURASI DI SINI (DETIK)
-    // ==========================================
-    const DURASI_ADZAN  = 10; // 3 Menit
-    const DURASI_IQOMAH = 10; // 10 Menit
-    const DURASI_SHOLAT = 10; // 10 Menit (Layar Ibadah)
-    // ==========================================
-
+    const DURASI_ADZAN = 10; const DURASI_IQOMAH = 10; const DURASI_SHOLAT = 10;
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     let jadwal = {}; let timerSholat; let modeAktif = false;
 
-    // Running Text 2s tampil, 1s jeda
+    // Animasi Header dari Kanan Satu-Satu
+    function jalankanAnimasiHeader() {
+        const wadah = document.getElementById('header-animasi');
+        const kata = "MASJID DARUSSALAM";
+        wadah.innerHTML = "";   
+        kata.split("").forEach((h, i) => {
+            const span = document.createElement("span");
+            span.innerHTML = h === " " ? "&nbsp;" : h;
+            span.style.animationDelay = `${i * 0.08}s`;
+            wadah.appendChild(span);
+        });
+        setTimeout(() => {
+            wadah.querySelectorAll('span').forEach(s => s.classList.add('hilang'));
+            setTimeout(jalankanAnimasiHeader, 800);            
+        }, 7000);
+    }    
+    jalankanAnimasiHeader();
+
+    // Loop Running Text
     let teksIdx = 1;
     setInterval(() => {
         document.getElementById('run-1').classList.remove('show-msg');
         document.getElementById('run-2').classList.remove('show-msg');
         teksIdx = teksIdx === 1 ? 2 : 1;
-        setTimeout(() => {
-            document.getElementById('run-' + teksIdx).classList.add('show-msg');
-        }, 1000); // Jeda 1 detik
+        setTimeout(() => { document.getElementById('run-' + teksIdx).classList.add('show-msg'); }, 1000);
     }, 4000);
 
     async function muatData() {
@@ -114,6 +169,7 @@
             const text = await res.text();
             const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
             const b2 = rows[2];
+            document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + b2[0];
             jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
             document.getElementById('sh-subuh').innerText = jadwal.SUBUH;
             document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
@@ -121,28 +177,27 @@
             document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
             document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB;
             document.getElementById('sh-isya').innerText = jadwal.ISYA;
-        } catch (e) { console.error("Gagal muat jadwal"); }
+            document.getElementById('kas-in').innerText = b2[8];
+            document.getElementById('kas-out').innerText = b2[9];
+            document.getElementById('kas-saldo').innerText = b2[10];
+            document.getElementById('im-s').innerText = b2[12];
+            document.getElementById('im-j').innerText = b2[13];
+        } catch (e) { console.log("CSV Error"); }
     }
 
     function sistemWaktu() {
         const now = new Date();
         const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
         document.getElementById('jam-digital').innerText = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0') + "." + now.getSeconds().toString().padStart(2,'0');
-        document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' });
 
-        // Highlight jadwal yang sedang berjalan
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let aktif = "";
-        for (let i = 0; i < urutan.length; i++) {
-            if (jamMenit >= jadwal[urutan[i]]) aktif = urutan[i];
-        }
+        for (let i = 0; i < urutan.length; i++) { if (jamMenit >= jadwal[urutan[i]]) aktif = urutan[i]; }
         if (!aktif) aktif = "ISYA";
 
-        urutan.forEach(s => {
-            document.getElementById('box-' + s).className = (s === aktif) ? 'p-box sholat-aktif' : 'p-box';
-        });
+        urutan.forEach(s => { document.getElementById('box-' + s).className = (s === aktif) ? 'p-box sholat-aktif' : 'p-box'; });
 
-        // Trigger masuk waktu Adzan
         if (jadwal[aktif] === jamMenit && !modeAktif && aktif !== "SYURUQ" && now.getSeconds() < 2) {
             mulaiModeSholat("ADZAN", aktif, DURASI_ADZAN);
         }
@@ -154,48 +209,29 @@
         const mAtas = document.getElementById('msg-atas');
         const mUtama = document.getElementById('msg-utama');
         const mBawah = document.getElementById('msg-bawah');
-        
         modal.style.display = 'flex';
         let sisa = detikSisa;
-
         clearInterval(timerSholat);
         timerSholat = setInterval(() => {
             if (tipe === "ADZAN") {
-                mAtas.innerText = "SAAT ADZAN"; // Statis Sedang
-                mAtas.className = "txt-sedang";
-                mUtama.innerText = nama; // Besar Blink
-                mUtama.className = "txt-besar blink-custom";
-                mBawah.innerText = "TENANG DAN MENDENGARKAN"; // Statis Sedang
-                mBawah.className = "txt-sedang";
-            } 
-            else if (tipe === "IQOMAH") {
-                mAtas.innerText = "SAAT IQOMAH"; // Sedang Blink
-                mAtas.className = "txt-sedang blink-custom";
-                let m = Math.floor(sisa / 60);
-                let s = sisa % 60;
-                mUtama.innerText = m + ":" + (s < 10 ? '0' + s : s); // Besar Statis
-                mUtama.className = "txt-besar";
-                mBawah.innerText = "DIRIKAN SHOLAT SUNAH"; // Statis Sedang
-                mBawah.className = "txt-sedang";
-            } 
-            else if (tipe === "SHOLAT") {
-                mAtas.innerText = "DIRIKAN"; // Statis Sedang
-                mAtas.className = "txt-sedang";
-                mUtama.innerText = nama; // Besar Blink
-                mUtama.className = "txt-besar blink-custom";
-                mBawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU"; // Statis Sedang
-                mBawah.className = "txt-sedang";
+                mAtas.innerText = "SAAT ADZAN"; mAtas.className = "txt-sedang";
+                mUtama.innerText = nama; mUtama.className = "txt-besar blink-custom";
+                mBawah.innerText = "TENANG DAN MENDENGARKAN"; mBawah.className = "txt-sedang";
+            } else if (tipe === "IQOMAH") {
+                mAtas.innerText = "SAAT IQOMAH"; mAtas.className = "txt-sedang blink-custom";
+                let m = Math.floor(sisa/60), s = sisa%60;
+                mUtama.innerText = m + ":" + (s < 10 ? '0' + s : s); mUtama.className = "txt-besar";
+                mBawah.innerText = "DIRIKAN SHOLAT SUNAH"; mBawah.className = "txt-sedang";
+            } else if (tipe === "SHOLAT") {
+                mAtas.innerText = "DIRIKAN"; mAtas.className = "txt-sedang";
+                mUtama.innerText = nama; mUtama.className = "txt-besar blink-custom";
+                mBawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU"; mBawah.className = "txt-sedang";
             }
-
             sisa--;
             if (sisa < 0) {
                 if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
                 else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
-                else {
-                    modal.style.display = 'none';
-                    modeAktif = false;
-                    clearInterval(timerSholat);
-                }
+                else { modal.style.display = 'none'; modeAktif = false; clearInterval(timerSholat); }
             }
         }, 1000);
     }
