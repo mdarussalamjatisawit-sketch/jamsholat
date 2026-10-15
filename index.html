@@ -152,13 +152,14 @@
             text-transform: uppercase; 
             letter-spacing: 1px;
         }
-        .card-keuangan { width: 38%; }
-        .card-agenda { width: 58%; }
+        .card-keuangan { width: 48%; }
+        .card-agenda { width: 50%; }
+        
         .card-b-custom {
             background: rgba(255, 255, 255, 0.88);
             color: #000;
             flex: 1;
-            padding: 10px;
+            padding: 8px 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -166,23 +167,32 @@
         .tbl-keuangan {
             width: 100%;
             border-collapse: collapse;
-            font-size: clamp(0.85rem, 1.9vw, 1.15rem);
+            font-size: clamp(0.7rem, 1.4vw, 0.95rem);
             font-weight: 800;
+            white-space: nowrap;
         }
         .tbl-keuangan td {
-            padding: 6px 8px;
+            padding: 5px 8px;
             border-bottom: 1px solid rgba(0,0,0,0.15);
+        }
+        .tbl-keuangan td:nth-child(1) {
+            width: 48%;
+            text-align: left;
+        }
+        .tbl-keuangan td:nth-child(2) {
+            width: 52%;
+            text-align: right;
         }
         
         .tbl-keuangan tr.total-row td {
-            font-size: clamp(0.95rem, 2.1vw, 1.25rem);
+            font-size: clamp(0.78rem, 1.55vw, 1.05rem);
             color: #000000 !important;
             font-weight: 900;
             background-color: #ffd700 !important;
             border-top: 2px solid #000;
             border-bottom: none;
-            padding-top: 8px;
-            padding-bottom: 8px;
+            padding-top: 6px;
+            padding-bottom: 6px;
         }
         .tbl-agenda { 
             width: 100%; 
@@ -315,7 +325,7 @@
                 justify-content: flex-start !important;
             }
             .tbl-keuangan {
-                font-size: 0.9rem !important;
+                font-size: 0.85rem !important;
             }
             .tbl-agenda {
                 font-size: 0.8rem !important;
@@ -363,20 +373,24 @@
             <div class="card-b-custom">
                 <table class="tbl-keuangan">
                     <tr>
-                        <td style="text-align: left;">PER TANGGAL</td>
-                        <td style="text-align: right;" id="kas-tgl">-</td>
+                        <td>PER TANGGAL</td>
+                        <td id="kas-tgl">-</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left;">PEMASUKAN</td>
-                        <td style="text-align: right;" id="kas-in">Rp0</td>
+                        <td>SALDO BULAN LALU</td>
+                        <td id="kas-saldo-lalu">Rp0</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left;">PENGELUARAN</td>
-                        <td style="text-align: right;" id="kas-out">Rp0</td>
+                        <td>PEMASUKAN BULAN INI</td>
+                        <td id="kas-in">Rp0</td>
+                    </tr>
+                    <tr>
+                        <td>PENGELUARAN BULAN INI</td>
+                        <td id="kas-out">Rp0</td>
                     </tr>
                     <tr class="total-row">
-                        <td style="text-align: left;">SALDO AKHIR</td>
-                        <td style="text-align: right;" id="kas-saldo">Rp0</td>
+                        <td>SALDO AKHIR</td>
+                        <td id="kas-saldo">Rp0</td>
                     </tr>
                 </table>
             </div>
@@ -425,11 +439,12 @@
     
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
+    const urlKasGViz = 'https://docs.google.com/spreadsheets/d/1_-b0f0Cn49yX65dbRw7FT5zwFl_YILycYbLMZzpspSk/gviz/tq?tqx=out:csv&sheet=KAS';
+
     let jadwal = { "SUBUH": "04:39", "SYURUQ": "05:45", "ZUHUR": "11:45", "ASHAR": "15:07", "MAGHRIB": "17:41", "ISYA": "18:52" }; 
     let timerSholat; let modeAktif = false;
     let daftarAgenda = [];
 
-    // PARSER CSV
     function parseCSV(text) {
         let p = '', c = '', r = [];
         let q = false;
@@ -452,7 +467,14 @@
         return r;
     }
 
-    // ANIMASI HEADER
+    // Fungsi helper untuk membersihkan format angka Indonesia (menghilangkan titik ribuan)
+    function parseNumber(val) {
+        if (!val) return 0;
+        let clean = val.toString().replace(/Rp/g, '').replace(/\./g, '').replace(/,/g, '.').trim();
+        let num = parseFloat(clean);
+        return isNaN(num) ? 0 : num;
+    }
+
     function jalankanAnimasiHeader() {
         const wadah = document.getElementById('header-animasi');
         const kata = "MASJID DARUSSALAM"; wadah.innerHTML = "";   
@@ -469,7 +491,6 @@
     }    
     jalankanAnimasiHeader();
 
-    // ROTASI RUNNING TEXT
     let teksIdx = 1;
     setInterval(() => {
         document.getElementById('run-1').classList.remove('show-msg');
@@ -478,8 +499,11 @@
         setTimeout(() => { document.getElementById('run-' + teksIdx).classList.add('show-msg'); }, 1000);
     }, 4000);
 
-    // MENGAMBIL DATA DARI CSV SPREADSHEET
     async function muatData() {
+        const sekarangSys = new Date();
+        const tglHariIni = `sekarangSys.getDate().toString().padStart(2,'0')/{(sekarangSys.getMonth()+1).toString().padStart(2,'0')}/${sekarangSys.getFullYear()}`;
+        document.getElementById('kas-tgl').innerText = tglHariIni;
+
         try {
             const res = await fetch(urlCSV + '&t=' + Date.now());
             const text = await res.text();
@@ -487,8 +511,6 @@
             
             if (rows.length >= 2) {
                 const b2 = rows[1]; 
-                
-                // 1. AMBIL SEMUA ELEMENT FORMAT JAM (JADWAL SHOLAT)
                 const jamDitemukan = [];
                 const regexJam = /^\d{1,2}[:.]\d{2}$/;
                 b2.forEach(cell => {
@@ -515,31 +537,76 @@
                 document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
                 document.getElementById('sh-isya').innerText    = jadwal.ISYA;
 
-                // 2. PARSING TANGGAL HIJRIAH
                 let teksHijriah = "";
                 b2.forEach(cell => {
                     let cVal = (cell || "").trim();
-                    if ((cVal.includes("Safar") || cVal.includes("H") || cVal.includes("144")) && !regexJam.test(cVal) && !cVal.includes("/")) {
+                    if ((cVal.includes("Safar") || cVal.includes("H") || cVal.includes("144") || cVal.includes("Jumadil")) && !regexJam.test(cVal) && !cVal.includes("/")) {
                         teksHijriah += " " + cVal;
                     }
                 });
                 if (teksHijriah.trim()) {
                     document.getElementById('tgl-hijriah').innerText = teksHijriah.trim();
                 }
-
-                // 3. KEUANGAN (Membaca Kolom I, J, K, L dari CSV secara eksplisit)
-                if (b2.length >= 12) {
-                    let tglKas = (b2[8] || "-").trim();
-                    let inKas  = (b2[9] || "0").trim();
-                    let outKas = (b2[10] || "0").trim();
-                    let salKas = (b2[11] || "0").trim();
-                    document.getElementById('kas-tgl').innerText   = tglKas;
-                    document.getElementById('kas-in').innerText    = inKas.toLowerCase().startsWith('rp') ? inKas : 'Rp' + inKas;
-                    document.getElementById('kas-out').innerText   = outKas.toLowerCase().startsWith('rp') ? outKas : 'Rp' + outKas;
-                    document.getElementById('kas-saldo').innerText = salKas.toLowerCase().startsWith('rp') ? salKas : 'Rp' + salKas;
-                }
             }
         } catch (e) { console.log("CSV Utama Error", e); }
+
+        // AMBIL DAN HITUNG KEUANGAN DARI SHEET KAS
+        try {
+            const resKas = await fetch(urlKasGViz + '&t=' + Date.now());
+            const textKas = await resKas.text();
+            if (!textKas.includes("<html")) {
+                const rowsKas = parseCSV(textKas);
+                let saldoBulanLalu = 0;
+                let masukBulanIni = 0;
+                let keluarBulanIni = 0;
+                let saldoAkhir = 0;
+
+                const blnSekarang = sekarangSys.getMonth(); 
+                const thnSekarang = sekarangSys.getFullYear(); 
+
+                for (let i = 1; i < rowsKas.length; i++) {
+                    let r = rowsKas[i];
+                    if (r && r.length >= 6) {
+                        let tglStr = (r[1] || "").trim();
+                        let masuk = parseNumber(r[3]);
+                        let keluar = parseNumber(r[4]);
+                        let saldo = parseNumber(r[5]);
+
+                        if (tglStr && tglStr !== "") {
+                            let parts = tglStr.split(/[-/]/);
+                            if (parts.length >= 3) {
+                                let y = parseInt(parts[0].length === 4 ? parts[0] : parts[2]);
+                                let m = parseInt(parts[1]) - 1;
+                                let d = parseInt(parts[0].length === 4 ? parts[2] : parts[0]);
+
+                                if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+                                    if (y === thnSekarang && m === blnSekarang) {
+                                        if (!isNaN(masuk)) masukBulanIni += masuk;
+                                        if (!isNaN(keluar)) keluarBulanIni += keluar;
+                                    } else {
+                                        let tglTrans = new Date(y, m, d);
+                                        if (tglTrans < new Date(thnSekarang, blnSekarang, 1)) {
+                                            if (!isNaN(saldo) && saldo > 0) saldoBulanLalu = saldo;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (!isNaN(saldo) && saldo > 0) saldoAkhir = saldo;
+                    }
+                }
+
+                if (saldoBulanLalu === 0 && saldoAkhir > 0) {
+                    saldoBulanLalu = Math.max(0, saldoAkhir - masukBulanIni + keluarBulanIni);
+                }
+
+                const formatRp = (val) => 'Rp' + Math.round(val).toLocaleString('id-ID');
+                document.getElementById('kas-saldo-lalu').innerText = formatRp(saldoBulanLalu);
+                document.getElementById('kas-in').innerText = formatRp(masukBulanIni);
+                document.getElementById('kas-out').innerText = formatRp(keluarBulanIni);
+                document.getElementById('kas-saldo').innerText = formatRp(saldoAkhir);
+            }
+        } catch (e) { console.log("CSV Kas Error", e); }
 
         try {
             const resAgenda = await fetch(urlAgendaCSV + '&t=' + Date.now());
@@ -575,7 +642,7 @@
         const hh = (pJam[0] || "00").padStart(2, '0');
         const mm = (pJam[1] || "00").padStart(2, '0');
         const ss = (pJam[2] || "00").padStart(2, '0');
-        return new Date(`${y}-${m}-${d}T${hh}:${mm}:${ss}`);
+        return new Date(`y-{m}-dT{hh}:mm:{ss}`);
     }
 
     function perbaruiTabelAgenda() {
@@ -598,7 +665,7 @@
             const tr = document.createElement('tr');
             if (index === idxHighlight) tr.className = 'agenda-active';
             const pTgl = item.tgl.split('/');
-            const tglTampil = pTgl.length >= 2 ? `${pTgl[0]}/${pTgl[1]}` : item.tgl;
+            const tglTampil = pTgl.length >= 2 ? `pTgl[0]/{pTgl[1]}` : item.tgl;
             const jamTampil = item.jam.replace(/\./g, ':').substring(0, 5);
             tr.innerHTML = `
                 <td>${tglTampil}</td>
@@ -703,3 +770,5 @@
 </script>
 </body>
 </html>
+
+
