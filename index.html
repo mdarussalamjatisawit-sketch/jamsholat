@@ -501,7 +501,7 @@
 
     async function muatData() {
         const sekarangSys = new Date();
-        const tglHariIni = `sekarangSys.getDate().toString().padStart(2,'0')/{(sekarangSys.getMonth()+1).toString().padStart(2,'0')}/${sekarangSys.getFullYear()}`;
+        const tglHariIni = `${sekarangSys.getDate().toString().padStart(2,'0')}/${(sekarangSys.getMonth()+1).toString().padStart(2,'0')}/${sekarangSys.getFullYear()}`;
         document.getElementById('kas-tgl').innerText = tglHariIni;
 
         try {
@@ -642,7 +642,7 @@
         const hh = (pJam[0] || "00").padStart(2, '0');
         const mm = (pJam[1] || "00").padStart(2, '0');
         const ss = (pJam[2] || "00").padStart(2, '0');
-        return new Date(`y-{m}-dT{hh}:mm:{ss}`);
+        return new Date(`${y}-${m}-${d}T${hh}:${mm}:${ss}`);
     }
 
     function perbaruiTabelAgenda() {
@@ -665,7 +665,7 @@
             const tr = document.createElement('tr');
             if (index === idxHighlight) tr.className = 'agenda-active';
             const pTgl = item.tgl.split('/');
-            const tglTampil = pTgl.length >= 2 ? `pTgl[0]/{pTgl[1]}` : item.tgl;
+            const tglTampil = pTgl.length >= 2 ? `${pTgl[0]}/${pTgl[1]}` : item.tgl;
             const jamTampil = item.jam.replace(/\./g, ':').substring(0, 5);
             tr.innerHTML = `
                 <td>${tglTampil}</td>
@@ -770,5 +770,3 @@
 </script>
 </body>
 </html>
-
-
